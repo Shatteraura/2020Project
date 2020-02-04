@@ -1,12 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
-public enum TState { gameButton, exitButton, noButton }
+public enum TStateEnum { gameButton, exitButton, noButton }
 
 public class MenuButtons_class : MonoBehaviour
 {
-    TState tState;
+    TStateEnum tState;
 
     // Start is called before the first frame update
     void Start()
@@ -22,15 +23,15 @@ public class MenuButtons_class : MonoBehaviour
 
     void buttonPress()
     {
-        if (tState == TState.gameButton)
+        if (tState == TStateEnum.gameButton)
         {
             if (Input.GetMouseButtonDown(0))
             {
-
+                SceneManager.LoadScene("Game", LoadSceneMode.Single);
             }
         }
 
-        if (tState == TState.exitButton)
+        if (tState == TStateEnum.exitButton)
         {
             if (Input.GetMouseButtonDown(0))
             {
