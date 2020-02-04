@@ -12,8 +12,13 @@ public class CombatManager_class : MonoBehaviour
 
     public int playerHealth = 5;
     public int computerHealth = 5;
+
+    public int playerNodeLock = 0;
+    public int computerNodeLock = 0;
+
     public int bonusNumber = 0;
     public int bonusNumberLocation = 0;
+    public int bonusNumberDice = 0;
 
     public bool reverseState = false;
     public bool singleLock = false;
@@ -30,6 +35,7 @@ public class CombatManager_class : MonoBehaviour
     {
         turnLogic();
         bonusNumberLogic();
+        nodeButtonLogic();
         nodeRelationLogic();
     }
 
@@ -40,7 +46,7 @@ public class CombatManager_class : MonoBehaviour
         {
             playerNode = playerNodeEnum.noNode;
             computerNode = computerNodeEnum.noNode;
-            bonusNumberLocation = Random.Range(1, 100);
+            bonusNumberDice = Random.Range(1, 100);
             singleLock = false;
         }
     }
@@ -48,187 +54,305 @@ public class CombatManager_class : MonoBehaviour
     //Dictates where the bonus number appears, if at all
     void bonusNumberLogic()
     {
+        if (bonusNumberDice < 40)
+        {
+            bonusNumberLocation = 0;
+        }
+
+        if (bonusNumberDice >= 40 && bonusNumberDice < 55)
+        {
+            bonusNumberLocation = 1;
+        }
+
+        if (bonusNumberDice >= 55 && bonusNumberDice < 70)
+        {
+            bonusNumberLocation = 2;
+        }
+
+        if (bonusNumberDice >= 70 && bonusNumberDice < 85)
+        {
+            bonusNumberLocation = 3;
+        }
+
+        if (bonusNumberDice >= 85 && bonusNumberDice <= 100)
+        {
+            bonusNumberLocation = 4;
+        }
+    }
+
+    //Dictates what buttons can be clicked based on the game rules
+    void nodeButtonLogic()
+    {
 
     }
 
     //The logic that states what beats what
     void nodeRelationLogic()
     {
+        //If the game logic is normal
         if (reverseState == false)
         {
-            //Versus Logic
             if (playerNode == playerNodeEnum.node1 && singleLock == false)
             {
-                if (computerNode == computerNodeEnum.node2 || computerNode == computerNodeEnum.node3)
+                playerNodeLock = 1;
+
+                switch (computerNode)
                 {
-                    computerHealth -= 1 - bonusNumber;
-                    singleLock = true;
+                    case computerNodeEnum.node1:
+                        reverseState = true;
+                        computerNodeLock = 1;
+                        break;
+
+                    case computerNodeEnum.node2:
+                        computerHealth -= 1 - bonusNumber;
+                        computerNodeLock = 2;
+                        break;
+
+                    case computerNodeEnum.node3:
+                        computerHealth -= 1 - bonusNumber;
+                        computerNodeLock = 3;
+                        break;
+
+                    case computerNodeEnum.node4:
+                        playerHealth -= 1 - bonusNumber;
+                        computerNodeLock = 4;
+                        break;
+                    default:
+                        return;
                 }
 
-                if (computerNode == computerNodeEnum.node4)
-                {
-                    playerHealth -= 1 - bonusNumber;
-                    singleLock = true;
-                }
-
-                if (computerNode == computerNodeEnum.node1 && singleLock == false)
-                {
-                    reverseState = true;
-                    singleLock = true;
-                }
+                singleLock = true;
             }
+
 
             if (playerNode == playerNodeEnum.node2 && singleLock == false)
             {
-                if (computerNode == computerNodeEnum.node3)
+                playerNodeLock = 2;
+
+                switch (computerNode)
                 {
-                    computerHealth -= 1 - bonusNumber;
-                    singleLock = true;
+                    case computerNodeEnum.node1:
+                        playerHealth -= 1 - bonusNumber;
+                        computerNodeLock = 1;
+                        break;
+
+                    case computerNodeEnum.node2:
+                        reverseState = true;
+                        computerNodeLock = 2;
+                        break;
+
+                    case computerNodeEnum.node3:
+                        computerHealth -= 1 - bonusNumber;
+                        computerNodeLock = 3;
+                        break;
+
+                    case computerNodeEnum.node4:
+                        playerHealth -= 1 - bonusNumber;
+                        computerNodeLock = 4;
+                        break;
+                    default:
+                        return;
                 }
 
-                if (computerNode == computerNodeEnum.node1 || computerNode == computerNodeEnum.node4)
-                {
-                    playerHealth -= 1 - bonusNumber;
-                    singleLock = true;
-                }
-
-                if (computerNode == computerNodeEnum.node2 && singleLock == false)
-                {
-                    reverseState = true;
-                    singleLock = true;
-                }
+                singleLock = true;
             }
 
             if (playerNode == playerNodeEnum.node3 && singleLock == false)
             {
-                if (computerNode == computerNodeEnum.node4)
+                playerNodeLock = 3;
+
+                switch (computerNode)
                 {
-                    computerHealth -= 1 - bonusNumber;
-                    singleLock = true;
+                    case computerNodeEnum.node1:
+                        playerHealth -= 1 - bonusNumber;
+                        computerNodeLock = 1;
+                        break;
+
+                    case computerNodeEnum.node2:
+                        playerHealth -= 1 - bonusNumber;
+                        computerNodeLock = 2;
+                        break;
+
+                    case computerNodeEnum.node3:
+                        reverseState = true;
+                        computerNodeLock = 3;
+                        break;
+
+                    case computerNodeEnum.node4:
+                        computerHealth -= 1 - bonusNumber;
+                        computerNodeLock = 4;
+                        break;
+                    default:
+                        return;
                 }
 
-                if (computerNode == computerNodeEnum.node2 || computerNode == computerNodeEnum.node1)
-                {
-                    playerHealth -= 1 - bonusNumber;
-                    singleLock = true;
-                }
-
-                if (computerNode == computerNodeEnum.node3 && singleLock == false)
-                {
-                    reverseState = true;
-                    singleLock = true;
-                }
+                singleLock = true;
             }
 
             if (playerNode == playerNodeEnum.node4 && singleLock == false)
             {
-                if (computerNode == computerNodeEnum.node1 || computerNode == computerNodeEnum.node2)
+                playerNodeLock = 4;
+
+                switch (computerNode)
                 {
-                    computerHealth -= 1 - bonusNumber;
-                    singleLock = true;
+                    case computerNodeEnum.node1:
+                        computerHealth -= 1 - bonusNumber;
+                        computerNodeLock = 1;
+                        break;
+
+                    case computerNodeEnum.node2:
+                        computerHealth -= 1 - bonusNumber;
+                        computerNodeLock = 2;
+                        break;
+
+                    case computerNodeEnum.node3:
+                        playerHealth -= 1 - bonusNumber;
+                        computerNodeLock = 3;
+                        break;
+
+                    case computerNodeEnum.node4:
+                        reverseState = true;
+                        computerNodeLock = 4;
+                        break;
+                    default:
+                        return;
                 }
 
-                if (computerNode == computerNodeEnum.node3)
-                {
-                    playerHealth -= 1 - bonusNumber;
-                    singleLock = true;
-                }
-
-                if (computerNode == computerNodeEnum.node4 && singleLock == false)
-                {
-                    reverseState = true;
-                    singleLock = true;
-                }
+                singleLock = true;
             }
         }
 
 
 
+        //If the game logic is reversed 
         if (reverseState == true)
         {
-            //Reversed Versus Logic
             if (playerNode == playerNodeEnum.node1 && singleLock == false)
             {
-                if (computerNode == computerNodeEnum.node2 || computerNode == computerNodeEnum.node3)
+                playerNodeLock = 1;
+
+                switch (computerNode)
                 {
-                    playerHealth -= 1 - bonusNumber;
-                    singleLock = true;
+                    case computerNodeEnum.node1:
+                        reverseState = false;
+                        computerNodeLock = 1;
+                        break;
+
+                    case computerNodeEnum.node2:
+                        playerHealth -= 1 - bonusNumber;
+                        computerNodeLock = 2;
+                        break;
+
+                    case computerNodeEnum.node3:
+                        playerHealth -= 1 - bonusNumber;
+                        computerNodeLock = 3;
+                        break;
+
+                    case computerNodeEnum.node4:
+                        computerHealth -= 1 - bonusNumber;
+                        computerNodeLock = 4;
+                        break;
+                    default:
+                        return;
                 }
 
-                if (computerNode == computerNodeEnum.node4)
-                {
-                    computerHealth -= 1 - bonusNumber;
-                    singleLock = true;
-                }
-
-                if (computerNode == computerNodeEnum.node1 && singleLock == false)
-                {
-                    reverseState = false;
-                    singleLock = true;
-                }
+                singleLock = true;
             }
 
             if (playerNode == playerNodeEnum.node2 && singleLock == false)
             {
-                if (computerNode == computerNodeEnum.node3)
+                playerNodeLock = 2;
+
+                switch (computerNode)
                 {
-                    playerHealth -= 1 - bonusNumber;
-                    singleLock = true;
+                    case computerNodeEnum.node1:
+                        computerHealth -= 1 - bonusNumber;
+                        computerNodeLock = 1;
+                        break;
+
+                    case computerNodeEnum.node2:
+                        reverseState = false;
+                        computerNodeLock = 2;
+                        break;
+
+                    case computerNodeEnum.node3:
+                        playerHealth -= 1 - bonusNumber;
+                        computerNodeLock = 3;
+                        break;
+
+                    case computerNodeEnum.node4:
+                        computerHealth -= 1 - bonusNumber;
+                        computerNodeLock = 4;
+                        break;
+                    default:
+                        return;
                 }
 
-                if (computerNode == computerNodeEnum.node1 || computerNode == computerNodeEnum.node4)
-                {
-                    computerHealth -= 1 - bonusNumber;
-                    singleLock = true;
-                }
-
-                if (computerNode == computerNodeEnum.node2 && singleLock == false)
-                {
-                    reverseState = false;
-                    singleLock = true;
-                }
+                singleLock = true;
             }
 
             if (playerNode == playerNodeEnum.node3 && singleLock == false)
             {
-                if (computerNode == computerNodeEnum.node4)
+                playerNodeLock = 3;
+
+                switch (computerNode)
                 {
-                    playerHealth -= 1 - bonusNumber;
-                    singleLock = true;
+                    case computerNodeEnum.node1:
+                        computerHealth -= 1 - bonusNumber;
+                        computerNodeLock = 1;
+                        break;
+
+                    case computerNodeEnum.node2:
+                        computerHealth -= 1 - bonusNumber;
+                        computerNodeLock = 2;
+                        break;
+
+                    case computerNodeEnum.node3:
+                        reverseState = false;
+                        computerNodeLock = 3;
+                        break;
+
+                    case computerNodeEnum.node4:
+                        playerHealth -= 1 - bonusNumber;
+                        computerNodeLock = 4;
+                        break;
+                    default:
+                        return;
                 }
 
-                if (computerNode == computerNodeEnum.node2 || computerNode == computerNodeEnum.node1)
-                {
-                    computerHealth -= 1 - bonusNumber;
-                    singleLock = true;
-                }
-
-                if (computerNode == computerNodeEnum.node3 && singleLock == false)
-                {
-                    reverseState = false;
-                    singleLock = true;
-                }
+                singleLock = true;
             }
 
             if (playerNode == playerNodeEnum.node4 && singleLock == false)
             {
-                if (computerNode == computerNodeEnum.node1 || computerNode == computerNodeEnum.node2)
+                playerNodeLock = 4;
+
+                switch (computerNode)
                 {
-                    playerHealth -= 1 - bonusNumber;
-                    singleLock = true;
+                    case computerNodeEnum.node1:
+                        playerHealth -= 1 - bonusNumber;
+                        computerNodeLock = 1;
+                        break;
+
+                    case computerNodeEnum.node2:
+                        playerHealth -= 1 - bonusNumber;
+                        computerNodeLock = 2;
+                        break;
+
+                    case computerNodeEnum.node3:
+                        computerHealth -= 1 - bonusNumber;
+                        computerNodeLock = 3;
+                        break;
+
+                    case computerNodeEnum.node4:
+                        reverseState = false;
+                        computerNodeLock = 4;
+                        break;
+                    default:
+                        return;
                 }
 
-                if (computerNode == computerNodeEnum.node3)
-                {
-                    computerHealth -= 1 - bonusNumber;
-                    singleLock = true;
-                }
-
-                if (computerNode == computerNodeEnum.node4 && singleLock == false)
-                {
-                    reverseState = false;
-                    singleLock = true;
-                }
+                singleLock = true;
             }
         }
     }
