@@ -13,6 +13,8 @@ public class CombatManager_class : MonoBehaviour
     public int playerHealth = 5;
     public int computerHealth = 5;
 
+    public int currentButton;
+
     public int playerNodeLock = 0;
     public int computerNodeLock = 0;
 
@@ -83,7 +85,25 @@ public class CombatManager_class : MonoBehaviour
     //Dictates what buttons can be clicked based on the game rules
     void nodeButtonLogic()
     {
+        if (Input.GetMouseButtonDown(0) && currentButton == 1 && playerNodeLock != 1)
+        {
+            playerNode = playerNodeEnum.node1;
+        }
 
+        if (Input.GetMouseButtonDown(0) && currentButton == 2 && playerNodeLock != 2)
+        {
+            playerNode = playerNodeEnum.node2;
+        }
+
+        if (Input.GetMouseButtonDown(0) && currentButton == 3 && playerNodeLock != 3)
+        {
+            playerNode = playerNodeEnum.node3;
+        }
+
+        if (Input.GetMouseButtonDown(0) && currentButton == 4 && playerNodeLock != 4)
+        {
+            playerNode = playerNodeEnum.node4;
+        }
     }
 
     //The logic that states what beats what
@@ -92,6 +112,7 @@ public class CombatManager_class : MonoBehaviour
         //If the game logic is normal
         if (reverseState == false)
         {
+
             if (playerNode == playerNodeEnum.node1 && singleLock == false)
             {
                 playerNodeLock = 1;
