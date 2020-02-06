@@ -18,12 +18,15 @@ public class CombatManager_class : MonoBehaviour
     public int playerNodeLock = 0;
     public int computerNodeLock = 0;
 
+    public int comDice;
+
     public int bonusNumber = 0;
     public int bonusNumberLocation = 0;
     public int bonusNumberDice = 0;
 
     public bool reverseState = false;
     public bool singleLock = false;
+    public bool singleLockCom = false;
 
 
     // Start is called before the first frame update
@@ -39,17 +42,20 @@ public class CombatManager_class : MonoBehaviour
         bonusNumberLogic();
         nodeButtonLogic();
         nodeRelationLogic();
+        computerPlayerLogic();
     }
 
     //Handles single values and turn over
     void turnLogic()
     {
-        if (singleLock == true)
+        if (singleLock == true && singleLockCom == true)
         {
             playerNode = playerNodeEnum.noNode;
             computerNode = computerNodeEnum.noNode;
             bonusNumberDice = Random.Range(1, 100);
+            comDice = 0;
             singleLock = false;
+            singleLockCom = false;
         }
     }
 
@@ -375,6 +381,37 @@ public class CombatManager_class : MonoBehaviour
 
                 singleLock = true;
             }
+        }
+    }
+
+    //Governs the actions of the computer player
+    void computerPlayerLogic()
+    {
+        if (computerNodeLock == 0 && singleLockCom == false)
+        {
+            comDice = Random.Range(1, 5);
+            singleLockCom = true;
+        }
+
+
+        if (comDice == 1)
+        {
+            computerNode = computerNodeEnum.node1;
+        }
+
+        if (comDice == 2)
+        {
+            computerNode = computerNodeEnum.node2;
+        }
+
+        if (comDice == 3)
+        {
+            computerNode = computerNodeEnum.node1;
+        }
+
+        if (comDice == 4)
+        {
+            computerNode = computerNodeEnum.node1;
         }
     }
 }
