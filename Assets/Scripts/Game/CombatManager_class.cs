@@ -393,6 +393,54 @@ public class CombatManager_class : MonoBehaviour
             singleLockCom = true;
         }
 
+        if (computerNodeLock == 1 && singleLockCom == false)
+        {
+            comDice = Random.Range(1, 4);
+
+            if (comDice >= 1)
+            {
+                comDice++;
+            }
+
+            singleLockCom = true;
+        }
+
+        if (computerNodeLock == 2 && singleLockCom == false)
+        {
+            comDice = Random.Range(1, 4);
+
+            if (comDice >= 2)
+            {
+                comDice++;
+            }
+            
+           singleLockCom = true; 
+        }
+
+        if (computerNodeLock == 3 && singleLockCom == false)
+        {
+            comDice = Random.Range(1, 4);
+
+            if (comDice >= 3)
+            {
+                comDice++;
+            }
+
+            singleLockCom = true;
+        }
+
+        if (computerNodeLock == 4 && singleLockCom == false)
+        {
+            comDice = Random.Range(1, 4);
+
+            if (comDice >= 4)
+            {
+                comDice++;
+            }
+
+            singleLockCom = true;
+        }
+
 
         if (comDice == 1)
         {
@@ -406,12 +454,12 @@ public class CombatManager_class : MonoBehaviour
 
         if (comDice == 3)
         {
-            computerNode = computerNodeEnum.node1;
+            computerNode = computerNodeEnum.node3;
         }
 
         if (comDice == 4)
         {
-            computerNode = computerNodeEnum.node1;
+            computerNode = computerNodeEnum.node4;
         }
     }
 }
