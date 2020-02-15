@@ -9,6 +9,8 @@ public class LifeScript_class : MonoBehaviour
     public int lifeNumPlayer;
     public int lifeNumCom;
 
+    Vector3 hiddenPos = new Vector3(100, 0, 0);
+
     // Start is called before the first frame update
     void Start()
     {
@@ -22,13 +24,22 @@ public class LifeScript_class : MonoBehaviour
         comLives();
     }
 
+
+    //Governs Hiding The Lives When They Are Lost
     void playerLives()
     {
+        if (combatManagerRef.GetComponent<CombatManager_class>().playerHealth < lifeNumPlayer)
+        {
+            this.transform.position = hiddenPos;
+        }
 
     }
 
     void comLives()
     {
-
+        if (combatManagerRef.GetComponent<CombatManager_class>().computerHealth < lifeNumCom)
+        {
+            this.transform.position = hiddenPos;
+        }
     }
 }

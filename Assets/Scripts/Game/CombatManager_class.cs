@@ -65,26 +65,31 @@ public class CombatManager_class : MonoBehaviour
         if (bonusNumberDice < 40)
         {
             bonusNumberLocation = 0;
+            bonusNumber = 0;
         }
 
         if (bonusNumberDice >= 40 && bonusNumberDice < 55)
         {
             bonusNumberLocation = 1;
+            bonusNumber = -1;
         }
 
         if (bonusNumberDice >= 55 && bonusNumberDice < 70)
         {
             bonusNumberLocation = 2;
+            bonusNumber = -1;
         }
 
         if (bonusNumberDice >= 70 && bonusNumberDice < 85)
         {
             bonusNumberLocation = 3;
+            bonusNumber = -1;
         }
 
         if (bonusNumberDice >= 85 && bonusNumberDice <= 100)
         {
             bonusNumberLocation = 4;
+            bonusNumber = -1;
         }
     }
 
