@@ -28,6 +28,11 @@ public class CombatManager_class : MonoBehaviour
     public bool singleLock = false;
     public bool singleLockCom = false;
 
+    public Vector3 button1Pos;
+    public Vector3 button2Pos;
+    public Vector3 button3Pos;
+    public Vector3 button4Pos;
+
 
     // Start is called before the first frame update
     void Start()
@@ -117,10 +122,10 @@ public class CombatManager_class : MonoBehaviour
         }
     }
 
-    //The logic that states what beats what
+    //The logic that activates when a node is clicked
     void nodeRelationLogic()
     {
-        //If the game logic is normal
+        //If the game logic is not reversed
         if (reverseState == false)
         {
 
