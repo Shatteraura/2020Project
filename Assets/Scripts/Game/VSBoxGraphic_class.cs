@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum vsColourEnum { greenOne, greenTwo, redOne, redTwo }
+
 public class VSBoxGraphic_class : MonoBehaviour
 {
-    public int vsBoxNumber;
+    public vsColourEnum vsColour;
     public CombatManager_class mRef;
 
     // Start is called before the first frame update
@@ -22,161 +24,162 @@ public class VSBoxGraphic_class : MonoBehaviour
     //Logic for highlighting the buttons to show what beats what, 1 and 2 are green 3 and 4 are red
     void vsBoxPositions()
     {
-
-        if (mRef.currentButton == 0)
-        {
-            this.transform.position = new Vector3(100, 100, 1);
-        }
-
-
         if (mRef.reverseState == false)
         {
-            if (mRef.currentButton == 1)
+            switch (mRef.currentButton)
             {
-                if (vsBoxNumber == 1)
-                {
-                    this.transform.position = mRef.button2Pos;
-                }
+                case 0:
+                    this.transform.position = new Vector3(100, 100, 1);
+                    break;
 
-                if (vsBoxNumber == 2)
-                {
-                    this.transform.position = mRef.button3Pos;
-                }
+                case 1:
+                    switch (vsColour)
+                    {
+                        case vsColourEnum.greenOne:
+                            this.transform.position = mRef.button2Pos;
+                            break;
 
-                if (vsBoxNumber == 3)
-                {
-                    this.transform.position = mRef.button4Pos;
-                }
-            }
+                        case vsColourEnum.greenTwo:
+                            this.transform.position = mRef.button3Pos;
+                            break;
 
-            if (mRef.currentButton == 2)
-            {
-                if (vsBoxNumber == 1)
-                {
-                    this.transform.position = mRef.button3Pos;
-                }
+                        case vsColourEnum.redOne:
+                            this.transform.position = mRef.button4Pos;
+                            break;
+                    }
+                    break;
 
-                if (vsBoxNumber == 3)
-                {
-                    this.transform.position = mRef.button1Pos;
-                }
+                case 2:
+                    switch (vsColour)
+                    {
+                        case vsColourEnum.greenOne:
+                            this.transform.position = mRef.button3Pos;
+                            break;
 
-                if (vsBoxNumber == 4)
-                {
-                    this.transform.position = mRef.button4Pos;
-                }
-            }
+                        case vsColourEnum.redOne:
+                            this.transform.position = mRef.button1Pos;
+                            break;
 
-            if (mRef.currentButton == 3)
-            {
-                if (vsBoxNumber == 1)
-                {
-                    this.transform.position = mRef.button4Pos;
-                }
+                        case vsColourEnum.redTwo:
+                            this.transform.position = mRef.button4Pos;
+                            break;
+                    }
+                    break;
 
-                if (vsBoxNumber == 3)
-                {
-                    this.transform.position = mRef.button1Pos;
-                }
+                case 3:
+                    switch (vsColour)
+                    {
+                        case vsColourEnum.greenOne:
+                            this.transform.position = mRef.button4Pos;
+                            break;
 
-                if (vsBoxNumber == 4)
-                {
-                    this.transform.position = mRef.button2Pos;
-                }
-            }
+                        case vsColourEnum.redOne:
+                            this.transform.position = mRef.button2Pos;
+                            break;
 
-            if (mRef.currentButton == 4)
-            {
-                if (vsBoxNumber == 1)
-                {
-                    this.transform.position = mRef.button1Pos;
-                }
+                        case vsColourEnum.redTwo:
+                            this.transform.position = mRef.button1Pos;
+                            break;
+                    }
+                    break;
 
-                if (vsBoxNumber == 2)
-                {
-                    this.transform.position = mRef.button2Pos;
-                }
+                case 4:
+                    switch (vsColour)
+                    {
+                        case vsColourEnum.greenOne:
+                            this.transform.position = mRef.button2Pos;
+                            break;
 
-                if (vsBoxNumber == 3)
-                {
-                    this.transform.position = mRef.button3Pos;
-                }
+                        case vsColourEnum.greenTwo:
+                            this.transform.position = mRef.button1Pos;
+                            break;
+
+                        case vsColourEnum.redOne:
+                            this.transform.position = mRef.button3Pos;
+                            break;
+                    }
+                    break;
+
             }
         }
 
         if (mRef.reverseState == true)
         {
-            if (mRef.currentButton == 1)
+            switch (mRef.currentButton)
             {
-                if (vsBoxNumber == 3)
-                {
-                    this.transform.position = mRef.button2Pos;
-                }
+                case 0:
+                    this.transform.position = new Vector3(100, 100, 1);
+                    break;
 
-                if (vsBoxNumber == 4)
-                {
-                    this.transform.position = mRef.button3Pos;
-                }
+                case 1:
+                    switch (vsColour)
+                    {
+                        case vsColourEnum.redOne:
+                            this.transform.position = mRef.button2Pos;
+                            break;
 
-                if (vsBoxNumber == 1)
-                {
-                    this.transform.position = mRef.button4Pos;
-                }
-            }
+                        case vsColourEnum.redTwo:
+                            this.transform.position = mRef.button3Pos;
+                            break;
 
-            if (mRef.currentButton == 2)
-            {
-                if (vsBoxNumber == 3)
-                {
-                    this.transform.position = mRef.button3Pos;
-                }
+                        case vsColourEnum.greenOne:
+                            this.transform.position = mRef.button4Pos;
+                            break;
+                    }
+                    break;
 
-                if (vsBoxNumber == 1)
-                {
-                    this.transform.position = mRef.button1Pos;
-                }
+                case 2:
+                    switch (vsColour)
+                    {
+                        case vsColourEnum.redOne:
+                            this.transform.position = mRef.button3Pos;
+                            break;
 
-                if (vsBoxNumber == 2)
-                {
-                    this.transform.position = mRef.button4Pos;
-                }
-            }
+                        case vsColourEnum.greenOne:
+                            this.transform.position = mRef.button1Pos;
+                            break;
 
-            if (mRef.currentButton == 3)
-            {
-                if (vsBoxNumber == 3)
-                {
-                    this.transform.position = mRef.button4Pos;
-                }
+                        case vsColourEnum.greenTwo:
+                            this.transform.position = mRef.button4Pos;
+                            break;
+                    }
+                    break;
 
-                if (vsBoxNumber == 1)
-                {
-                    this.transform.position = mRef.button1Pos;
-                }
+                case 3:
+                    switch (vsColour)
+                    {
+                        case vsColourEnum.redOne:
+                            this.transform.position = mRef.button4Pos;
+                            break;
 
-                if (vsBoxNumber == 2)
-                {
-                    this.transform.position = mRef.button2Pos;
-                }
-            }
+                        case vsColourEnum.greenOne:
+                            this.transform.position = mRef.button2Pos;
+                            break;
 
-            if (mRef.currentButton == 4)
-            {
-                if (vsBoxNumber == 3)
-                {
-                    this.transform.position = mRef.button1Pos;
-                }
+                        case vsColourEnum.greenTwo:
+                            this.transform.position = mRef.button1Pos;
+                            break;
+                    }
+                    break;
 
-                if (vsBoxNumber == 4)
-                {
-                    this.transform.position = mRef.button2Pos;
-                }
+                case 4:
+                    switch (vsColour)
+                    {
+                        case vsColourEnum.redOne:
+                            this.transform.position = mRef.button2Pos;
+                            break;
 
-                if (vsBoxNumber == 1)
-                {
-                    this.transform.position = mRef.button3Pos;
-                }
+                        case vsColourEnum.redTwo:
+                            this.transform.position = mRef.button1Pos;
+                            break;
+
+                        case vsColourEnum.greenOne:
+                            this.transform.position = mRef.button3Pos;
+                            break;
+                    }
+                    break;
             }
         }
+
     }
 }

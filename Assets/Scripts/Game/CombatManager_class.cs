@@ -50,7 +50,7 @@ public class CombatManager_class : MonoBehaviour
         computerPlayerLogic();
     }
 
-    //Handles single values and turn over
+    //Handles single values and End Turn
     void turnLogic()
     {
         if (singleLock == true && singleLockCom == true)
@@ -73,59 +73,60 @@ public class CombatManager_class : MonoBehaviour
             bonusNumber = 0;
         }
 
-        if (bonusNumberDice >= 40 && bonusNumberDice < 55)
+        else if (bonusNumberDice < 55)
         {
             bonusNumberLocation = 1;
             bonusNumber = -1;
         }
 
-        if (bonusNumberDice >= 55 && bonusNumberDice < 70)
+        else if (bonusNumberDice < 70)
         {
             bonusNumberLocation = 2;
             bonusNumber = -1;
         }
 
-        if (bonusNumberDice >= 70 && bonusNumberDice < 85)
+        else if (bonusNumberDice < 85)
         {
             bonusNumberLocation = 3;
             bonusNumber = -1;
         }
 
-        if (bonusNumberDice >= 85 && bonusNumberDice <= 100)
+        else if (bonusNumberDice <= 100)
         {
             bonusNumberLocation = 4;
             bonusNumber = -1;
         }
     }
 
-    //Dictates what buttons can be clicked based on the game rules
+    //Facilitates the clicking of the node buttons
     void nodeButtonLogic()
     {
-        if (Input.GetMouseButtonDown(0) && currentButton == 1 && playerNodeLock != 1)
+        if (Input.GetMouseButtonDown(0))
         {
-            playerNode = playerNodeEnum.node1;
-        }
+            switch (currentButton)
+            {
+                case 1:
+                    playerNode = playerNodeEnum.node1;
+                    break;
 
-        if (Input.GetMouseButtonDown(0) && currentButton == 2 && playerNodeLock != 2)
-        {
-            playerNode = playerNodeEnum.node2;
-        }
+                case 2:
+                    playerNode = playerNodeEnum.node2;
+                    break;
 
-        if (Input.GetMouseButtonDown(0) && currentButton == 3 && playerNodeLock != 3)
-        {
-            playerNode = playerNodeEnum.node3;
-        }
+                case 3:
+                    playerNode = playerNodeEnum.node3;
+                    break;
 
-        if (Input.GetMouseButtonDown(0) && currentButton == 4 && playerNodeLock != 4)
-        {
-            playerNode = playerNodeEnum.node4;
+                case 4:
+                    playerNode = playerNodeEnum.node4;
+                    break;
+            }
         }
     }
 
-    //The logic that activates when a node is clicked
+    //The logic that activates when a Node is clicked
     void nodeRelationLogic()
     {
-        //If the game logic is not reversed
         if (reverseState == false)
         {
 
@@ -261,7 +262,7 @@ public class CombatManager_class : MonoBehaviour
 
 
 
-        //If the game logic is reversed 
+        //Node functionality when the node outvomes are reversed
         if (reverseState == true)
         {
             if (playerNode == playerNodeEnum.node1 && singleLock == false)
@@ -394,82 +395,82 @@ public class CombatManager_class : MonoBehaviour
         }
     }
 
-    //Governs the actions of the computer player
+    //Picks a Node for the Computer Player
     void computerPlayerLogic()
     {
-        if (computerNodeLock == 0 && singleLockCom == false)
+        if (singleLockCom == false)
         {
-            comDice = Random.Range(1, 5);
-            singleLockCom = true;
-        }
-
-        if (computerNodeLock == 1 && singleLockCom == false)
-        {
-            comDice = Random.Range(1, 4);
-
-            if (comDice >= 1)
+            switch (computerNodeLock)
             {
-                comDice++;
+                case 0:
+                    comDice = Random.Range(1, 5);
+                    singleLockCom = true;
+                    break;
+
+                case 1:
+                    comDice = Random.Range(1, 4);
+
+                    if (comDice >= 1)
+                    {
+                        comDice++;
+                    }
+                    singleLockCom = true;
+                    break;
+
+                case 2:
+                    comDice = Random.Range(1, 4);
+
+                    if (comDice >= 2)
+                    {
+                        comDice++;
+                    }
+
+                    singleLockCom = true;
+                    break;
+
+                case 3:
+                    comDice = Random.Range(1, 4);
+
+                    if (comDice >= 3)
+                    {
+                        comDice++;
+                    }
+
+                    singleLockCom = true;
+                    break;
+
+                case 4:
+                    comDice = Random.Range(1, 4);
+
+                    if (comDice >= 4)
+                    {
+                        comDice++;
+                    }
+
+                    singleLockCom = true;
+                    break;
             }
 
-            singleLockCom = true;
         }
 
-        if (computerNodeLock == 2 && singleLockCom == false)
+        //Once the computer makes a desision this sets the choice
+        switch (comDice)
         {
-            comDice = Random.Range(1, 4);
+            case 1:
+                computerNode = computerNodeEnum.node1;
+                break;
 
-            if (comDice >= 2)
-            {
-                comDice++;
-            }
-            
-           singleLockCom = true; 
-        }
+            case 2:
+                computerNode = computerNodeEnum.node2;
+                break;
 
-        if (computerNodeLock == 3 && singleLockCom == false)
-        {
-            comDice = Random.Range(1, 4);
+            case 3:
+                computerNode = computerNodeEnum.node3;
+                break;
 
-            if (comDice >= 3)
-            {
-                comDice++;
-            }
-
-            singleLockCom = true;
-        }
-
-        if (computerNodeLock == 4 && singleLockCom == false)
-        {
-            comDice = Random.Range(1, 4);
-
-            if (comDice >= 4)
-            {
-                comDice++;
-            }
-
-            singleLockCom = true;
-        }
-
-
-        if (comDice == 1)
-        {
-            computerNode = computerNodeEnum.node1;
-        }
-
-        if (comDice == 2)
-        {
-            computerNode = computerNodeEnum.node2;
-        }
-
-        if (comDice == 3)
-        {
-            computerNode = computerNodeEnum.node3;
-        }
-
-        if (comDice == 4)
-        {
-            computerNode = computerNodeEnum.node4;
+            case 4:
+                computerNode = computerNodeEnum.node4;
+                break;
         }
     }
 }
