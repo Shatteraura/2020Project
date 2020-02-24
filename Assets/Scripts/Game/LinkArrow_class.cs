@@ -22,6 +22,16 @@ public class LinkArrow_class : MonoBehaviour
     void Update()
     {
         vsArrowPos();
+        //vsArrowHide();
+    }
+
+    void vsArrowHide()
+    {
+        if (mRef.singleLock == true)
+        {
+            this.transform.position = new Vector3(100, 100, 1);
+            colourChange.color = Color.white;
+        }
     }
 
     //Governs the arrows position and colour

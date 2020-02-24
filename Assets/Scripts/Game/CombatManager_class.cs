@@ -59,6 +59,7 @@ public class CombatManager_class : MonoBehaviour
             computerNode = computerNodeEnum.noNode;
             bonusNumberDice = Random.Range(1, 100);
             comDice = 0;
+            currentButton = 0;
             singleLock = false;
             singleLockCom = false;
         }
