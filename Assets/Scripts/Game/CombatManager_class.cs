@@ -34,6 +34,7 @@ public class CombatManager_class : MonoBehaviour
     public Vector3 button2Pos;
     public Vector3 button3Pos;
     public Vector3 button4Pos;
+    public Vector3 button5Pos;
 
 
     // Start is called before the first frame update

@@ -1486,13 +1486,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerNode: 0
   computerNode: 0
+  buttonMode: 0
+  computerMode: 0
   playerHealth: 5
   computerHealth: 5
   currentButton: 0
   playerNodeLock: 0
-  computerNodeLock: 0
   comDice: 0
-  bonusNumber: 0
+  playerBonus: 0
+  comBonus: 0
   reverseState: 0
   singleLock: 0
   singleLockCom: 0
@@ -1500,6 +1502,7 @@ MonoBehaviour:
   button2Pos: {x: 0, y: 0, z: 0}
   button3Pos: {x: 0, y: 0, z: 0}
   button4Pos: {x: 0, y: 0, z: 0}
+  button5Pos: {x: 0, y: 0, z: 0}
 --- !u!1 &1059118948
 GameObject:
   m_ObjectHideFlags: 0
@@ -2958,6 +2961,8 @@ GameObject:
   m_Component:
   - component: {fileID: 2144973850}
   - component: {fileID: 2144973849}
+  - component: {fileID: 2144973851}
+  - component: {fileID: 2144973852}
   m_Layer: 0
   m_Name: Mode Switch Button
   m_TagString: Untagged
@@ -3022,9 +3027,50 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2144973848}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.9, y: -2.8, z: -33.289062}
+  m_LocalPosition: {x: -1.9, y: -2.8, z: 0}
   m_LocalScale: {x: 4, y: 4, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 29
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2144973851
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2144973848}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4b2ec9172107ff74ab5c87b72446bdf7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  combatManagerRef: {fileID: 1033037572}
+  selectRef: {fileID: 772437211}
+  buttonNum: 5
+--- !u!61 &2144973852
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2144973848}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0.049999997, y: 0.049999997, z: 0.049999997, w: 0.049999997}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 0.16, y: 0.16}
+    newSize: {x: 0.16, y: 0.16}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 0.16, y: 0.16}
+  m_EdgeRadius: 0

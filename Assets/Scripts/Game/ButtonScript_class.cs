@@ -27,6 +27,10 @@ public class ButtonScript_class : MonoBehaviour
         {
             combatManagerRef.GetComponent<CombatManager_class>().button4Pos = new Vector3(this.transform.position.x, this.transform.position.y, 1);
         }
+        if (buttonNum == 5)
+        {
+            combatManagerRef.GetComponent<CombatManager_class>().button5Pos = new Vector3(this.transform.position.x, this.transform.position.y, 1);
+        }
     }
 
     // Update is called once per frame
@@ -56,6 +60,16 @@ public class ButtonScript_class : MonoBehaviour
         {
             selectRef.buttonPos = new Vector3(100, 100, 1);
         }
+
+        if (buttonNum == 5 && combatManagerRef.GetComponent<CombatManager_class>().buttonMode == buttonModeEnum.attackMode)
+        {
+            combatManagerRef.GetComponent<CombatManager_class>().buttonMode = buttonModeEnum.defenceMode;
+        }
+
+        else if (buttonNum == 5 && combatManagerRef.GetComponent<CombatManager_class>().buttonMode == buttonModeEnum.defenceMode)
+        {
+            combatManagerRef.GetComponent<CombatManager_class>().buttonMode = buttonModeEnum.attackMode;
+        }
     }
 
     private void OnMouseEnter()
@@ -83,6 +97,11 @@ public class ButtonScript_class : MonoBehaviour
             combatManagerRef.GetComponent<CombatManager_class>().currentButton = 4;
             selectRef.buttonPos = new Vector3(this.transform.position.x, this.transform.position.y, 1);
         }
+
+        if (buttonNum == 5)
+        {
+            combatManagerRef.GetComponent<CombatManager_class>().currentButton = 5;
+        }
     }
 
     private void OnMouseExit()
@@ -109,6 +128,11 @@ public class ButtonScript_class : MonoBehaviour
         {
             combatManagerRef.GetComponent<CombatManager_class>().currentButton = 0;
             selectRef.buttonPos = new Vector3(100, 100, 1);
+        }
+
+        if (buttonNum == 5)
+        {
+            combatManagerRef.GetComponent<CombatManager_class>().currentButton = 0;
         }
     }
 }
