@@ -11,25 +11,27 @@ public class ButtonScript_class : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        if (buttonNum == 1)
+        switch (buttonNum)
         {
-            combatManagerRef.GetComponent<CombatManager_class>().button1Pos = new Vector3(this.transform.position.x, this.transform.position.y, 1);
-        }
-        if (buttonNum == 2)
-        {
-            combatManagerRef.GetComponent<CombatManager_class>().button2Pos = new Vector3(this.transform.position.x, this.transform.position.y, 1);
-        }
-        if (buttonNum == 3)
-        {
-            combatManagerRef.GetComponent<CombatManager_class>().button3Pos = new Vector3(this.transform.position.x, this.transform.position.y, 1);
-        }
-        if (buttonNum == 4)
-        {
-            combatManagerRef.GetComponent<CombatManager_class>().button4Pos = new Vector3(this.transform.position.x, this.transform.position.y, 1);
-        }
-        if (buttonNum == 5)
-        {
-            combatManagerRef.GetComponent<CombatManager_class>().button5Pos = new Vector3(this.transform.position.x, this.transform.position.y, 1);
+            case 1:
+                combatManagerRef.GetComponent<CombatManager_class>().button1Pos = new Vector3(this.transform.position.x, this.transform.position.y, 1);
+                break;
+
+            case 2:
+                combatManagerRef.GetComponent<CombatManager_class>().button2Pos = new Vector3(this.transform.position.x, this.transform.position.y, 2);
+                break;
+
+            case 3:
+                combatManagerRef.GetComponent<CombatManager_class>().button3Pos = new Vector3(this.transform.position.x, this.transform.position.y, 3);
+                break;
+
+            case 4:
+                combatManagerRef.GetComponent<CombatManager_class>().button4Pos = new Vector3(this.transform.position.x, this.transform.position.y, 4);
+                break;
+
+            case 5:
+                combatManagerRef.GetComponent<CombatManager_class>().button5Pos = new Vector3(this.transform.position.x, this.transform.position.y, 5);
+                break;
         }
     }
 
@@ -41,24 +43,24 @@ public class ButtonScript_class : MonoBehaviour
 
     private void OnMouseDown()
     {
-        if (buttonNum == 1)
-        {
-            selectRef.buttonPos = new Vector3(100, 100, 1);
-        }
 
-        if (buttonNum == 2)
+        switch (buttonNum)
         {
-            selectRef.buttonPos = new Vector3(100, 100, 1);
-        }
+            case 1:
+                selectRef.buttonPos = new Vector3(100, 100, 1);
+                break;
 
-        if (buttonNum == 3)
-        {
-            selectRef.buttonPos = new Vector3(100, 100, 1);
-        }
+            case 2:
+                selectRef.buttonPos = new Vector3(100, 100, 1);
+                break;
 
-        if (buttonNum == 4)
-        {
-            selectRef.buttonPos = new Vector3(100, 100, 1);
+            case 3:
+                selectRef.buttonPos = new Vector3(100, 100, 1);
+                break;
+
+            case 4:
+                selectRef.buttonPos = new Vector3(100, 100, 1);
+                break;
         }
 
         if (buttonNum == 5 && combatManagerRef.GetComponent<CombatManager_class>().buttonMode == buttonModeEnum.attackMode)
@@ -74,65 +76,74 @@ public class ButtonScript_class : MonoBehaviour
 
     private void OnMouseEnter()
     {
-        if (buttonNum == 1 && combatManagerRef.GetComponent<CombatManager_class>().playerNodeLock != 1)
+        switch (buttonNum)
         {
-            combatManagerRef.GetComponent<CombatManager_class>().currentButton = 1;
-            selectRef.buttonPos = new Vector3(this.transform.position.x, this.transform.position.y, 1);
-        }
+            case 1:
+                if (combatManagerRef.GetComponent<CombatManager_class>().playerNodeLock != 1)
+                {
+                    combatManagerRef.GetComponent<CombatManager_class>().currentButton = 1;
+                    selectRef.buttonPos = new Vector3(this.transform.position.x, this.transform.position.y, 1);
+                }
+                break;
 
-        if (buttonNum == 2 && combatManagerRef.GetComponent<CombatManager_class>().playerNodeLock != 2)
-        {
-            combatManagerRef.GetComponent<CombatManager_class>().currentButton = 2;
-            selectRef.buttonPos = new Vector3(this.transform.position.x, this.transform.position.y, 1);
-        }
+            case 2:
+                if (combatManagerRef.GetComponent<CombatManager_class>().playerNodeLock != 2)
+                {
+                    combatManagerRef.GetComponent<CombatManager_class>().currentButton = 2;
+                    selectRef.buttonPos = new Vector3(this.transform.position.x, this.transform.position.y, 1);
+                }
+                break;
 
-        if (buttonNum == 3 && combatManagerRef.GetComponent<CombatManager_class>().playerNodeLock != 3)
-        {
-            combatManagerRef.GetComponent<CombatManager_class>().currentButton = 3;
-            selectRef.buttonPos = new Vector3(this.transform.position.x, this.transform.position.y, 1);
-        }
+            case 3:
+                if (combatManagerRef.GetComponent<CombatManager_class>().playerNodeLock != 3)
+                {
+                    combatManagerRef.GetComponent<CombatManager_class>().currentButton = 3;
+                    selectRef.buttonPos = new Vector3(this.transform.position.x, this.transform.position.y, 1);
+                }
+                break;
 
-        if (buttonNum == 4 && combatManagerRef.GetComponent<CombatManager_class>().playerNodeLock != 4)
-        {
-            combatManagerRef.GetComponent<CombatManager_class>().currentButton = 4;
-            selectRef.buttonPos = new Vector3(this.transform.position.x, this.transform.position.y, 1);
-        }
+            case 4:
+                if (combatManagerRef.GetComponent<CombatManager_class>().playerNodeLock != 4)
+                {
+                    combatManagerRef.GetComponent<CombatManager_class>().currentButton = 4;
+                    selectRef.buttonPos = new Vector3(this.transform.position.x, this.transform.position.y, 1);
+                }
+                break;
 
-        if (buttonNum == 5)
-        {
-            combatManagerRef.GetComponent<CombatManager_class>().currentButton = 5;
+            case 5:
+                combatManagerRef.GetComponent<CombatManager_class>().currentButton = 5;
+                selectRef.buttonPos = new Vector3(this.transform.position.x, this.transform.position.y, 1);
+                break;
         }
     }
 
     private void OnMouseExit()
     {
-        if (buttonNum == 1)
+        switch (buttonNum)
         {
-            combatManagerRef.GetComponent<CombatManager_class>().currentButton = 0;
-            selectRef.buttonPos = new Vector3(100, 100, 1);
-        }
+            case 1:
+                combatManagerRef.GetComponent<CombatManager_class>().currentButton = 0;
+                selectRef.buttonPos = new Vector3(100, 100, 1);
+                break;
 
-        if (buttonNum == 2)
-        {
-            combatManagerRef.GetComponent<CombatManager_class>().currentButton = 0;
-            selectRef.buttonPos = new Vector3(100, 100, 1);
-        }
+            case 2:
+                combatManagerRef.GetComponent<CombatManager_class>().currentButton = 0;
+                selectRef.buttonPos = new Vector3(100, 100, 1);
+                break;
 
-        if (buttonNum == 3)
-        {
-            combatManagerRef.GetComponent<CombatManager_class>().currentButton = 0;
-            selectRef.buttonPos = new Vector3(100, 100, 1);
-        }
+            case 3:
+                combatManagerRef.GetComponent<CombatManager_class>().currentButton = 0;
+                selectRef.buttonPos = new Vector3(100, 100, 1);
+                break;
 
-        if (buttonNum == 4)
-        {
-            combatManagerRef.GetComponent<CombatManager_class>().currentButton = 0;
-            selectRef.buttonPos = new Vector3(100, 100, 1);
-        }
+            case 4:
+                combatManagerRef.GetComponent<CombatManager_class>().currentButton = 0;
+                selectRef.buttonPos = new Vector3(100, 100, 1);
+                break;
 
-        if (buttonNum == 5)
-        {
-            combatManagerRef.GetComponent<CombatManager_class>().currentButton = 0;
+            case 5:
+                combatManagerRef.GetComponent<CombatManager_class>().currentButton = 0;
+                break;
         }
     }
 }
