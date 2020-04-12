@@ -1,34 +1,44 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public enum playerNodeEnum { noNode, node1, node2, node3, node4 }
 public enum computerNodeEnum { noNode, node1, node2, node3, node4 }
 public enum buttonModeEnum { attackMode, defenceMode }
-public enum computerModeEnum { attackMode, defenceMode }
 
 public class CombatManager_class : MonoBehaviour
 {
     public playerNodeEnum playerNode;
     public computerNodeEnum computerNode;
     public buttonModeEnum buttonMode;
-    public computerModeEnum computerMode;
 
     public int playerHealth = 5;
     public int computerHealth = 5;
 
     public int currentButton;
+    public int comPrev;
 
     public int playerNodeLock = 0;
+    public int comNodeLock = 0;
 
     public int comDice;
+    public int comDefDice;
 
     public int playerBonus = 0;
     public int comBonus = 0;
 
+    //public int endTurnTimer;
+
+    public bool comDef = false;
+
     public bool reverseState = false;
+
     public bool singleLock = false;
     public bool singleLockCom = false;
+
+    public Text PNodeTxt;
+    public Text CNodeText;
 
     public Vector3 button1Pos;
     public Vector3 button2Pos;
@@ -51,6 +61,7 @@ public class CombatManager_class : MonoBehaviour
         nodeButtonLogic();
         nodeLogic();
         computerPlayerLogic();
+        textDisplay();
     }
 
     //Handles single values and End Turn
@@ -59,20 +70,62 @@ public class CombatManager_class : MonoBehaviour
         if (singleLock == true && singleLockCom == true)
         {
             playerNode = playerNodeEnum.noNode;
-            computerNode = computerNodeEnum.noNode;
-            comDice = 0;
             currentButton = 0;
+            comDef = false;
             singleLock = false;
             singleLockCom = false;
         }
     }
 
-    //Rework In Progress, The bonus number is generated on a successful defence
+    //The bonus number is generated on a successful defence, this prevents it from getting too high
     void playerBonusLogic()
     {
         if (playerBonus > 1)
         {
             playerBonus = 0;
+        }
+    }
+
+    void textDisplay()
+    {
+        //Current Player Node
+        switch (currentButton)
+        {
+            case 1:
+                PNodeTxt.text = "High";
+                break;
+
+            case 2:
+                PNodeTxt.text = "Low";
+                break;
+
+            case 3:
+                PNodeTxt.text = "Side";
+                break;
+
+            case 4:
+                PNodeTxt.text = "Mid";
+                break;
+        }
+
+        //Last Used Node by the computer!
+        switch (comPrev)
+        {
+            case 1:
+                CNodeText.text = "High";
+                break;
+
+            case 2:
+                CNodeText.text = "Low";
+                break;
+
+            case 3:
+                CNodeText.text = "Side";
+                break;
+
+            case 4:
+                CNodeText.text = "Mid";
+                break;
         }
     }
 
@@ -99,6 +152,7 @@ public class CombatManager_class : MonoBehaviour
                     playerNode = playerNodeEnum.node4;
                     break;
             }
+            playerNodeLock = (int)playerNode;
         }
     }
 
@@ -135,513 +189,678 @@ public class CombatManager_class : MonoBehaviour
             }
     }
 
-    //Logic for normal attacks
+    //Logic for normal attacks - Checks to see if the computer is defending or not
     void attackLogic()
     {
-        if (playerNode == playerNodeEnum.node1)
+        switch (comDef)
         {
-            playerNodeLock = 1;
+            case false:
+                if (playerNode == playerNodeEnum.node1)
+                {
+                    switch (computerNode)
+                    {
+                        case computerNodeEnum.node1:
+                            reverseState = true;
+                            break;
 
-            switch (computerNode)
-            {
-                case computerNodeEnum.node1:
-                    reverseState = true;
-                    break;
+                        case computerNodeEnum.node2:
+                            computerHealth -= 1 + playerBonus;
+                            break;
 
-                case computerNodeEnum.node2:
-                    computerHealth -= 1 - playerBonus;
-                    break;
+                        case computerNodeEnum.node3:
+                            computerHealth -= 1 + playerBonus;
+                            break;
 
-                case computerNodeEnum.node3:
-                    computerHealth -= 1 - playerBonus;
-                    break;
+                        case computerNodeEnum.node4:
+                            playerHealth -= 1 + comBonus;
+                            break;
+                    }
+                    singleLock = true;
+                }
 
-                case computerNodeEnum.node4:
-                    playerHealth -= 1 - comBonus;
-                    break;
-            }
+                if (playerNode == playerNodeEnum.node2)
+                {
+                    switch (computerNode)
+                    {
+                        case computerNodeEnum.node1:
+                            playerHealth -= 1 + comBonus;
+                            break;
 
-            singleLock = true;
-        }
+                        case computerNodeEnum.node2:
+                            reverseState = true;
+                            break;
+
+                        case computerNodeEnum.node3:
+                            computerHealth -= 1 + playerBonus;
+                            break;
+
+                        case computerNodeEnum.node4:
+                            playerHealth -= 1 + comBonus;
+                            break;
+                    }
+                    singleLock = true;
+                }
+
+                if (playerNode == playerNodeEnum.node3)
+                {
+                    switch (computerNode)
+                    {
+                        case computerNodeEnum.node1:
+                            playerHealth -= 1 + comBonus;
+                            break;
+
+                        case computerNodeEnum.node2:
+                            playerHealth -= 1 + comBonus;
+                            break;
+
+                        case computerNodeEnum.node3:
+                            reverseState = true;
+                            break;
+
+                        case computerNodeEnum.node4:
+                            computerHealth -= 1 + playerBonus;
+                            break;
+                    }
+                    singleLock = true;
+                }
+
+                if (playerNode == playerNodeEnum.node4)
+                {
+
+                    switch (computerNode)
+                    {
+                        case computerNodeEnum.node1:
+                            computerHealth -= 1 + playerBonus;
+                            break;
+
+                        case computerNodeEnum.node2:
+                            computerHealth -= 1 + playerBonus;
+                            break;
+
+                        case computerNodeEnum.node3:
+                            playerHealth -= 1 + comBonus;
+                            break;
+
+                        case computerNodeEnum.node4:
+                            reverseState = true;
+                            break;
+                    }
+                    singleLock = true;
+                }
+                break;
+
+                //Computer is defending
+            case true:
+                if (playerNode == playerNodeEnum.node1)
+                {
+                    switch (computerNode)
+                    {
+                        case computerNodeEnum.node1:
+                            reverseState = true;
+                            break;
+
+                        case computerNodeEnum.node2:
+                            comBonus += 1;
+                            break;
+
+                        case computerNodeEnum.node3:
+                            break;
+
+                        case computerNodeEnum.node4:
+                            computerHealth -= playerBonus;
+                            break;
+                    }
+                    singleLock = true;
+                }
 
 
-        if (playerNode == playerNodeEnum.node2)
-        {
-            playerNodeLock = 2;
+                if (playerNode == playerNodeEnum.node2)
+                {
+                    switch (computerNode)
+                    {
+                        case computerNodeEnum.node1:
+                            computerHealth -= playerBonus;
+                            break;
 
-            switch (computerNode)
-            {
-                case computerNodeEnum.node1:
-                    playerHealth -= 1 - comBonus;
-                    break;
+                        case computerNodeEnum.node2:
+                            reverseState = true;
+                            break;
 
-                case computerNodeEnum.node2:
-                    reverseState = true;
-                    break;
+                        case computerNodeEnum.node3:
+                            comBonus += 1;
+                            break;
 
-                case computerNodeEnum.node3:
-                    computerHealth -= 1 - playerBonus;
-                    break;
+                        case computerNodeEnum.node4:
+                            break;
+                    }
+                    singleLock = true;
+                }
 
-                case computerNodeEnum.node4:
-                    playerHealth -= 1 - comBonus;
-                    break;
-            }
+                if (playerNode == playerNodeEnum.node3)
+                {
+                    switch (computerNode)
+                    {
+                        case computerNodeEnum.node1:
+                            break;
 
-            singleLock = true;
-        }
+                        case computerNodeEnum.node2:
+                            computerHealth -= playerBonus;
+                            break;
 
-        if (playerNode == playerNodeEnum.node3)
-        {
-            playerNodeLock = 3;
+                        case computerNodeEnum.node3:
+                            reverseState = true;
+                            break;
 
-            switch (computerNode)
-            {
-                case computerNodeEnum.node1:
-                    playerHealth -= 1 - comBonus;
-                    break;
+                        case computerNodeEnum.node4:
+                            comBonus += 1;
+                            break;
+                    }
+                    singleLock = true;
+                }
 
-                case computerNodeEnum.node2:
-                    playerHealth -= 1 - comBonus;
-                    break;
+                if (playerNode == playerNodeEnum.node4)
+                {
+                    switch (computerNode)
+                    {
+                        case computerNodeEnum.node1:
+                            comBonus += 1;
+                            break;
 
-                case computerNodeEnum.node3:
-                    reverseState = true;
-                    break;
+                        case computerNodeEnum.node2:
+                            break;
 
-                case computerNodeEnum.node4:
-                    computerHealth -= 1 - playerBonus;
-                    break;
-            }
+                        case computerNodeEnum.node3:
+                            computerHealth -= playerBonus;
+                            break;
 
-            singleLock = true;
-        }
-
-        if (playerNode == playerNodeEnum.node4)
-        {
-            playerNodeLock = 4;
-
-            switch (computerNode)
-            {
-                case computerNodeEnum.node1:
-                    computerHealth -= 1 - playerBonus;
-                    break;
-
-                case computerNodeEnum.node2:
-                    computerHealth -= 1 - playerBonus;
-                    break;
-
-                case computerNodeEnum.node3:
-                    playerHealth -= 1 - comBonus;
-                    break;
-
-                case computerNodeEnum.node4:
-                    reverseState = true;
-                    break;
-            }
-
-            singleLock = true;
+                        case computerNodeEnum.node4:
+                            reverseState = true;
+                            break;
+                    }
+                    singleLock = true;
+                }
+                break;
         }
     }
 
-    //Logic for reversed attacks
+    //Logic for reversed attacks - Checks to see if the computer is defending or not
     void reverseAttackLogic()
     {
-        if (playerNode == playerNodeEnum.node1)
+        switch (comDef)
         {
-            playerNodeLock = 1;
+            case false:
+                if (playerNode == playerNodeEnum.node1)
+                {
+                    switch (computerNode)
+                    {
+                        case computerNodeEnum.node1:
+                            reverseState = false;
+                            break;
 
-            switch (computerNode)
-            {
-                case computerNodeEnum.node1:
-                    reverseState = false;
-                    break;
+                        case computerNodeEnum.node2:
+                            playerHealth -= 1 + comBonus;
+                            break;
 
-                case computerNodeEnum.node2:
-                    playerHealth -= 1 - comBonus;
-                    break;
+                        case computerNodeEnum.node3:
+                            playerHealth -= 1 + comBonus;
+                            break;
 
-                case computerNodeEnum.node3:
-                    playerHealth -= 1 - comBonus;
-                    break;
+                        case computerNodeEnum.node4:
+                            computerHealth -= 1 + playerBonus;
+                            break;
+                    }
+                    singleLock = true;
+                }
 
-                case computerNodeEnum.node4:
-                    computerHealth -= 1 - playerBonus;
-                    break;
-            }
+                if (playerNode == playerNodeEnum.node2)
+                {
+                    switch (computerNode)
+                    {
+                        case computerNodeEnum.node1:
+                            computerHealth -= 1 + playerBonus;
+                            break;
 
-            singleLock = true;
-        }
+                        case computerNodeEnum.node2:
+                            reverseState = false;
+                            break;
 
-        if (playerNode == playerNodeEnum.node2)
-        {
-            playerNodeLock = 2;
+                        case computerNodeEnum.node3:
+                            playerHealth -= 1 + comBonus;
+                            break;
 
-            switch (computerNode)
-            {
-                case computerNodeEnum.node1:
-                    computerHealth -= 1 - playerBonus;
-                    break;
+                        case computerNodeEnum.node4:
+                            computerHealth -= 1 + playerBonus;
+                            break;
+                    }
+                    singleLock = true;
+                }
 
-                case computerNodeEnum.node2:
-                    reverseState = false;
-                    break;
+                if (playerNode == playerNodeEnum.node3)
+                {
+                    switch (computerNode)
+                    {
+                        case computerNodeEnum.node1:
+                            computerHealth -= 1 + playerBonus;
+                            break;
 
-                case computerNodeEnum.node3:
-                    playerHealth -= 1 - comBonus;
-                    break;
+                        case computerNodeEnum.node2:
+                            computerHealth -= 1 + playerBonus;
+                            break;
 
-                case computerNodeEnum.node4:
-                    computerHealth -= 1 - playerBonus;
-                    break;
-            }
+                        case computerNodeEnum.node3:
+                            reverseState = false;
+                            break;
 
-            singleLock = true;
-        }
+                        case computerNodeEnum.node4:
+                            playerHealth -= 1 + comBonus;
+                            break;
+                    }
+                    singleLock = true;
+                }
 
-        if (playerNode == playerNodeEnum.node3)
-        {
-            playerNodeLock = 3;
+                if (playerNode == playerNodeEnum.node4)
+                {
+                    switch (computerNode)
+                    {
+                        case computerNodeEnum.node1:
+                            playerHealth -= 1 + comBonus;
+                            break;
 
-            switch (computerNode)
-            {
-                case computerNodeEnum.node1:
-                    computerHealth -= 1 - playerBonus;
-                    break;
+                        case computerNodeEnum.node2:
+                            playerHealth -= 1 + comBonus;
+                            break;
 
-                case computerNodeEnum.node2:
-                    computerHealth -= 1 - playerBonus;
-                    break;
+                        case computerNodeEnum.node3:
+                            computerHealth -= 1 + playerBonus;
+                            break;
 
-                case computerNodeEnum.node3:
-                    reverseState = false;
-                    break;
+                        case computerNodeEnum.node4:
+                            reverseState = false;
+                            break;
+                    }
+                    singleLock = true;
+                }
+                break;
 
-                case computerNodeEnum.node4:
-                    playerHealth -= 1 - comBonus;
-                    break;
-            }
+                //Computer is Defending
+            case true:
+                if (playerNode == playerNodeEnum.node1)
+                {
+                    switch (computerNode)
+                    {
+                        case computerNodeEnum.node1:
+                            reverseState = true;
+                            break;
 
-            singleLock = true;
-        }
+                        case computerNodeEnum.node2:
+                            computerHealth -= playerBonus;
+                            break;
 
-        if (playerNode == playerNodeEnum.node4)
-        {
-            playerNodeLock = 4;
+                        case computerNodeEnum.node3:
+                            break;
 
-            switch (computerNode)
-            {
-                case computerNodeEnum.node1:
-                    playerHealth -= 1 - comBonus;
-                    break;
+                        case computerNodeEnum.node4:
+                            comBonus += 1;
+                            break;
+                    }
+                    singleLock = true;
+                }
 
-                case computerNodeEnum.node2:
-                    playerHealth -= 1 - comBonus;
-                    break;
+                if (playerNode == playerNodeEnum.node2)
+                {
+                    switch (computerNode)
+                    {
+                        case computerNodeEnum.node1:
+                            comBonus += 1;
+                            break;
 
-                case computerNodeEnum.node3:
-                    computerHealth -= 1 - playerBonus;
-                    break;
+                        case computerNodeEnum.node2:
+                            reverseState = true;
+                            break;
 
-                case computerNodeEnum.node4:
-                    reverseState = false;
-                    break;
-            }
+                        case computerNodeEnum.node3:
+                            computerHealth -= playerBonus;
+                            break;
 
-            singleLock = true;
+                        case computerNodeEnum.node4:
+                            break;
+                    }
+                    singleLock = true;
+                }
+
+                if (playerNode == playerNodeEnum.node3)
+                {
+                    switch (computerNode)
+                    {
+                        case computerNodeEnum.node1:
+                            break;
+
+                        case computerNodeEnum.node2:
+                            comBonus += 1;
+                            break;
+
+                        case computerNodeEnum.node3:
+                            reverseState = true;
+                            break;
+
+                        case computerNodeEnum.node4:
+                            computerHealth -= playerBonus;
+                            break;
+                    }
+                    singleLock = true;
+                }
+
+                if (playerNode == playerNodeEnum.node4)
+                {
+                    switch (computerNode)
+                    {
+                        case computerNodeEnum.node1:
+                            computerHealth -= playerBonus;
+                            break;
+
+                        case computerNodeEnum.node2:
+                            break;
+
+                        case computerNodeEnum.node3:
+                            comBonus += 1;
+                            break;
+
+                        case computerNodeEnum.node4:
+                            reverseState = true;
+                            break;
+                    }
+                    singleLock = true;
+                }
+                break;
         }
     }
 
     //Normal Defence Logic
     void defenceLogic()
     {
-        if (playerNode == playerNodeEnum.node1)
+        switch (comDef)
         {
-            playerNodeLock = 1;
+            case false:
+                if (playerNode == playerNodeEnum.node1)
+                {
+                    switch (computerNode)
+                    {
+                        case computerNodeEnum.node1:
+                            reverseState = true;
+                            break;
 
-            switch (computerNode)
-            {
-                case computerNodeEnum.node1:
-                    reverseState = true;
-                    break;
+                        case computerNodeEnum.node2:
+                            playerBonus += 1;
+                            break;
 
-                case computerNodeEnum.node2:
-                    playerBonus += 1;
-                    break;
+                        case computerNodeEnum.node3:
+                            break;
 
-                case computerNodeEnum.node3:
-                    break;
-
-                case computerNodeEnum.node4:
-                    playerHealth -= 1 - comBonus;
-                    break;
-            }
-
-            singleLock = true;
-        }
+                        case computerNodeEnum.node4:
+                            playerHealth -= comBonus;
+                            break;
+                    }
+                    singleLock = true;
+                }
 
 
-        if (playerNode == playerNodeEnum.node2)
-        {
-            playerNodeLock = 2;
+                if (playerNode == playerNodeEnum.node2)
+                {
+                    switch (computerNode)
+                    {
+                        case computerNodeEnum.node1:
+                            playerHealth -= comBonus;
+                            break;
 
-            switch (computerNode)
-            {
-                case computerNodeEnum.node1:
-                    playerHealth -= 1 - comBonus;
-                    break;
+                        case computerNodeEnum.node2:
+                            reverseState = true;
+                            break;
 
-                case computerNodeEnum.node2:
-                    reverseState = true;
-                    break;
+                        case computerNodeEnum.node3:
+                            playerBonus += 1;
+                            break;
 
-                case computerNodeEnum.node3:
-                    playerBonus += 1;
-                    break;
+                        case computerNodeEnum.node4:
+                            break;
+                    }
+                    singleLock = true;
+                }
 
-                case computerNodeEnum.node4:
-                    playerHealth -= comBonus;
-                    break;
-            }
+                if (playerNode == playerNodeEnum.node3)
+                {
+                    switch (computerNode)
+                    {
+                        case computerNodeEnum.node1:
+                            break;
 
-            singleLock = true;
-        }
+                        case computerNodeEnum.node2:
+                            playerHealth -= comBonus;
+                            break;
 
-        if (playerNode == playerNodeEnum.node3)
-        {
-            playerNodeLock = 3;
+                        case computerNodeEnum.node3:
+                            reverseState = true;
+                            break;
 
-            switch (computerNode)
-            {
-                case computerNodeEnum.node1:
-                    playerHealth -= comBonus;
-                    break;
+                        case computerNodeEnum.node4:
+                            playerBonus += 1;
+                            break;
+                    }
+                    singleLock = true;
+                }
 
-                case computerNodeEnum.node2:
-                    playerHealth -= 1 - comBonus;
-                    break;
+                if (playerNode == playerNodeEnum.node4)
+                {
+                    switch (computerNode)
+                    {
+                        case computerNodeEnum.node1:
+                            playerBonus += 1;
+                            break;
 
-                case computerNodeEnum.node3:
-                    reverseState = true;
-                    break;
+                        case computerNodeEnum.node2:
+                            break;
 
-                case computerNodeEnum.node4:
-                    playerBonus += 1;
-                    break;
-            }
+                        case computerNodeEnum.node3:
+                            playerHealth -= comBonus;
+                            break;
 
-            singleLock = true;
-        }
+                        case computerNodeEnum.node4:
+                            reverseState = true;
+                            break;
+                    }
+                    singleLock = true;
+                }
+                break;
 
-        if (playerNode == playerNodeEnum.node4)
-        {
-            playerNodeLock = 4;
-
-            switch (computerNode)
-            {
-                case computerNodeEnum.node1:
-                    playerBonus += 1;
-                    break;
-
-                case computerNodeEnum.node2:
-                    break;
-
-                case computerNodeEnum.node3:
-                    playerHealth -= 1 - comBonus;
-                    break;
-
-                case computerNodeEnum.node4:
-                    reverseState = true;
-                    break;
-            }
-
-            singleLock = true;
+            case true:
+                singleLock = true;
+                break;
         }
     }
 
     //Reversed Defence logic
     void reverseDefenceLogic()
     {
-        if (playerNode == playerNodeEnum.node1)
+        switch (comDef)
         {
-            playerNodeLock = 1;
+            case false:
+                if (playerNode == playerNodeEnum.node1)
+                {
+                    switch (computerNode)
+                    {
+                        case computerNodeEnum.node1:
+                            reverseState = true;
+                            break;
 
-            switch (computerNode)
-            {
-                case computerNodeEnum.node1:
-                    reverseState = true;
-                    break;
+                        case computerNodeEnum.node2:
+                            playerHealth -= comBonus;
+                            break;
 
-                case computerNodeEnum.node2:
-                    playerHealth -= 1 - comBonus;
-                    break;
+                        case computerNodeEnum.node3:
+                            break;
 
-                case computerNodeEnum.node3:
-                    playerHealth -= comBonus;
-                    break;
-
-                case computerNodeEnum.node4:
-                    playerBonus += 1;
-                    break;
-            }
-
-            singleLock = true;
-        }
+                        case computerNodeEnum.node4:
+                            playerBonus += 1;
+                            break;
+                    }
+                    singleLock = true;
+                }
 
 
-        if (playerNode == playerNodeEnum.node2)
-        {
-            playerNodeLock = 2;
+                if (playerNode == playerNodeEnum.node2)
+                {
+                    switch (computerNode)
+                    {
+                        case computerNodeEnum.node1:
+                            playerBonus += 1;
+                            break;
 
-            switch (computerNode)
-            {
-                case computerNodeEnum.node1:
-                    playerBonus += 1;
-                    break;
+                        case computerNodeEnum.node2:
+                            reverseState = true;
+                            break;
 
-                case computerNodeEnum.node2:
-                    reverseState = true;
-                    break;
+                        case computerNodeEnum.node3:
+                            playerHealth -= comBonus;
+                            break;
 
-                case computerNodeEnum.node3:
-                    playerHealth -= 1 - comBonus;
-                    break;
+                        case computerNodeEnum.node4:
+                            break;
+                    }
+                    singleLock = true;
+                }
 
-                case computerNodeEnum.node4:
-                    break;
-            }
+                if (playerNode == playerNodeEnum.node3)
+                {
+                    switch (computerNode)
+                    {
+                        case computerNodeEnum.node1:
+                            break;
 
-            singleLock = true;
-        }
+                        case computerNodeEnum.node2:
+                            playerBonus += 1;
+                            break;
 
-        if (playerNode == playerNodeEnum.node3)
-        {
-            playerNodeLock = 3;
+                        case computerNodeEnum.node3:
+                            reverseState = true;
+                            break;
 
-            switch (computerNode)
-            {
-                case computerNodeEnum.node1:
-                    break;
+                        case computerNodeEnum.node4:
+                            playerHealth -= comBonus;
+                            break;
+                    }
+                    singleLock = true;
+                }
 
-                case computerNodeEnum.node2:
-                    playerBonus += 1;
-                    break;
+                if (playerNode == playerNodeEnum.node4)
+                {
+                    switch (computerNode)
+                    {
+                        case computerNodeEnum.node1:
+                            playerHealth -= comBonus;
+                            break;
 
-                case computerNodeEnum.node3:
-                    reverseState = true;
-                    break;
+                        case computerNodeEnum.node2:
+                            break;
 
-                case computerNodeEnum.node4:
-                    playerHealth -= 1 - comBonus;
-                    break;
-            }
+                        case computerNodeEnum.node3:
+                            playerBonus += 1;
+                            break;
 
-            singleLock = true;
-        }
+                        case computerNodeEnum.node4:
+                            reverseState = true;
+                            break;
+                    }
+                    singleLock = true;
+                }
+                break;
 
-        if (playerNode == playerNodeEnum.node4)
-        {
-            playerNodeLock = 4;
-
-            switch (computerNode)
-            {
-                case computerNodeEnum.node1:
-                    playerHealth -= 1 - comBonus;
-                    break;
-
-                case computerNodeEnum.node2:
-                    playerHealth -= comBonus;
-                    break;
-
-                case computerNodeEnum.node3:
-                    playerBonus += 1;
-                    break;
-
-                case computerNodeEnum.node4:
-                    reverseState = true;
-                    break;
-            }
-
-            singleLock = true;
+            case true:
+                singleLock = true;
+                break;
         }
     }
 
-    //Picks a Node for the Computer Player
+    //Picks a Node for the Computer Player and Governs Swtiching to Defence Mode
     void computerPlayerLogic()
     {
         if (singleLockCom == false)
         {
+
+            comDefDice = Random.Range(1, 5);
+
+            if (comDefDice > 3)
+            {
+                comDef = false;
+            }
+
+            else if (comDefDice <= 3)
+            {
+                comDef = true;
+            }
+
             switch (computerNode)
             {
                 case computerNodeEnum.noNode:
                     comDice = Random.Range(1, 5);
-                    singleLockCom = true;
                     break;
 
                 case computerNodeEnum.node1:
                     comDice = Random.Range(1, 4);
 
-                    if (comDice >= 1)
+                    if (comDice == 1)
                     {
                         comDice++;
                     }
-                    singleLockCom = true;
                     break;
 
                 case computerNodeEnum.node2:
                     comDice = Random.Range(1, 4);
 
-                    if (comDice >= 2)
+                    if (comDice == 2)
                     {
                         comDice++;
                     }
-
-                    singleLockCom = true;
                     break;
 
                 case computerNodeEnum.node3:
                     comDice = Random.Range(1, 4);
 
-                    if (comDice >= 3)
+                    if (comDice == 3)
                     {
                         comDice++;
                     }
-
-                    singleLockCom = true;
                     break;
 
                 case computerNodeEnum.node4:
                     comDice = Random.Range(1, 4);
+                    break;
+            }
+            singleLockCom = true;
 
-                    if (comDice >= 4)
-                    {
-                        comDice++;
-                    }
+            //Once the computer makes a desision this sets the choice
+            switch (comDice)
+            {
+                case 1:
+                    computerNode = computerNodeEnum.node1;
+                    comPrev = 1;
+                    break;
 
-                    singleLockCom = true;
+                case 2:
+                    computerNode = computerNodeEnum.node2;
+                    comPrev = 2;
+                    break;
+
+                case 3:
+                    computerNode = computerNodeEnum.node3;
+                    comPrev = 3;
+                    break;
+
+                case 4:
+                    computerNode = computerNodeEnum.node4;
+                    comPrev = 4;
                     break;
             }
 
         }
-
-        //Once the computer makes a desision this sets the choice
-        switch (comDice)
-        {
-            case 1:
-                computerNode = computerNodeEnum.node1;
-                break;
-
-            case 2:
-                computerNode = computerNodeEnum.node2;
-                break;
-
-            case 3:
-                computerNode = computerNodeEnum.node3;
-                break;
-
-            case 4:
-                computerNode = computerNodeEnum.node4;
-                break;
-        }
+        
     }
 }

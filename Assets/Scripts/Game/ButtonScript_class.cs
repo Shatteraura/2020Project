@@ -7,7 +7,11 @@ public class ButtonScript_class : MonoBehaviour
     public GameObject combatManagerRef;
     public Player_class playerRef;
     public SelectBoxScript_class selectRef;
+
     public int buttonNum;
+    public bool attack = true;
+    public Sprite attackSprite;
+    public Sprite defendSprite;
 
     // Start is called before the first frame update
     void Start()
@@ -32,6 +36,7 @@ public class ButtonScript_class : MonoBehaviour
 
             case 5:
                 combatManagerRef.GetComponent<CombatManager_class>().button5Pos = new Vector3(this.transform.position.x, this.transform.position.y, 1);
+                this.GetComponent<SpriteRenderer>().sprite = defendSprite;
                 break;
         }
     }
@@ -42,6 +47,7 @@ public class ButtonScript_class : MonoBehaviour
         
     }
 
+    //Clicking the buttons sends the selection box offscreen, also governs changing the attack/defend sprite
     private void OnMouseDown()
     {
 
@@ -61,6 +67,19 @@ public class ButtonScript_class : MonoBehaviour
 
             case 4:
                 selectRef.buttonPos = new Vector3(100, 100, 1);
+                break;
+
+            case 5:
+                if (attack == true)
+                {
+                    attack = false;
+                    this.GetComponent<SpriteRenderer>().sprite = attackSprite;
+                }
+                else if (attack == false)
+                {
+                    attack = true;
+                    this.GetComponent<SpriteRenderer>().sprite = defendSprite;
+                }
                 break;
         }
 
@@ -150,6 +169,7 @@ public class ButtonScript_class : MonoBehaviour
 
             case 5:
                 combatManagerRef.GetComponent<CombatManager_class>().currentButton = 0;
+                selectRef.buttonPos = new Vector3(100, 100, 1);
                 break;
         }
     }
