@@ -13,6 +13,8 @@ public class CombatManager_class : MonoBehaviour
     public computerNodeEnum computerNode;
     public buttonModeEnum buttonMode;
 
+    public ComputerPlayer_class comRef;
+
     public int playerHealth = 5;
     public int computerHealth = 5;
 
@@ -46,6 +48,12 @@ public class CombatManager_class : MonoBehaviour
     public Vector3 button4Pos;
     public Vector3 button5Pos;
 
+    public Vector3 left;
+    public Vector3 right;
+    public Vector3 bottom;
+    public Vector3 top;
+    public Vector3 middle;
+
 
     // Start is called before the first frame update
     void Start()
@@ -58,7 +66,6 @@ public class CombatManager_class : MonoBehaviour
     {
         turnLogic();
         playerBonusLogic();
-        nodeButtonLogic();
         nodeLogic();
         computerPlayerLogic();
         textDisplay();
@@ -92,19 +99,51 @@ public class CombatManager_class : MonoBehaviour
         switch (currentButton)
         {
             case 1:
-                PNodeTxt.text = "High";
+                if (buttonMode == buttonModeEnum.attackMode)
+                {
+                    PNodeTxt.text = "High Attack";
+                }
+
+                else
+                {
+                    PNodeTxt.text = "Defend High";
+                }
                 break;
 
             case 2:
-                PNodeTxt.text = "Low";
+                if (buttonMode == buttonModeEnum.attackMode)
+                {
+                    PNodeTxt.text = "Low Attack";
+                }
+
+                else
+                {
+                    PNodeTxt.text = "Defend Low";
+                }
                 break;
 
             case 3:
-                PNodeTxt.text = "Side";
+                if (buttonMode == buttonModeEnum.attackMode)
+                {
+                    PNodeTxt.text = "Side Attack";
+                }
+
+                else
+                {
+                    PNodeTxt.text = "Defend Side";
+                }
                 break;
 
             case 4:
-                PNodeTxt.text = "Mid";
+                if (buttonMode == buttonModeEnum.attackMode)
+                {
+                    PNodeTxt.text = "Mid Attack";
+                }
+
+                else
+                {
+                    PNodeTxt.text = "Defend Mid";
+                }
                 break;
         }
 
@@ -112,47 +151,56 @@ public class CombatManager_class : MonoBehaviour
         switch (comPrev)
         {
             case 1:
-                CNodeText.text = "High";
+                comRef.comUpdateSprite(0);
+                if (comDef == false)
+                {
+                    CNodeText.text = "High Attack";
+                }
+
+                else
+                {
+                    CNodeText.text = "Defend High";
+                }
                 break;
 
             case 2:
-                CNodeText.text = "Low";
+                comRef.comUpdateSprite(1);
+                if (comDef == false)
+                {
+                    CNodeText.text = "Low Attack";
+                }
+
+                else
+                {
+                    CNodeText.text = "Defend Low";
+                }
                 break;
 
             case 3:
-                CNodeText.text = "Side";
+                comRef.comUpdateSprite(2);
+                if (comDef == false)
+                {
+                    CNodeText.text = "Side Attack";
+                }
+
+                else
+                {
+                    CNodeText.text = "Defend Side";
+                }
                 break;
 
             case 4:
-                CNodeText.text = "Mid";
+                comRef.comUpdateSprite(3);
+                if (comDef == false)
+                {
+                    CNodeText.text = "Mid Attack";
+                }
+
+                else
+                {
+                    CNodeText.text = "Defend Mid";
+                }
                 break;
-        }
-    }
-
-    //Facilitates the clicking of the node buttons
-    void nodeButtonLogic()
-    {
-        if (Input.GetMouseButtonDown(0))
-        {
-            switch (currentButton)
-            {
-                case 1:
-                    playerNode = playerNodeEnum.node1;
-                    break;
-
-                case 2:
-                    playerNode = playerNodeEnum.node2;
-                    break;
-
-                case 3:
-                    playerNode = playerNodeEnum.node3;
-                    break;
-
-                case 4:
-                    playerNode = playerNodeEnum.node4;
-                    break;
-            }
-            playerNodeLock = (int)playerNode;
         }
     }
 
@@ -672,7 +720,10 @@ public class CombatManager_class : MonoBehaviour
                 break;
 
             case true:
-                singleLock = true;
+                if (playerNode != playerNodeEnum.noNode)
+                {
+                    singleLock = true;
+                }
                 break;
         }
     }
@@ -774,7 +825,10 @@ public class CombatManager_class : MonoBehaviour
                 break;
 
             case true:
-                singleLock = true;
+                if (playerNode != playerNodeEnum.noNode)
+                {
+                    singleLock = true;
+                }
                 break;
         }
     }

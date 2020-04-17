@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum arrowEnum { east, west, north, south, NE, SE, SW, NW }
+public enum arrowEnum { left, right, up, down, cross }
 
 public class LinkArrow_class : MonoBehaviour
 {
@@ -14,24 +14,40 @@ public class LinkArrow_class : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        this.transform.position = new Vector3(100, 100, 1);
         colourChange = GetComponent<SpriteRenderer>();
+        arrowVector();
+    }
+
+    void arrowVector()
+    {
+        switch (arrowType)
+        {
+            case arrowEnum.left:
+                mRef.bottom = this.transform.position;
+                break;
+
+            case arrowEnum.right:
+                mRef.top = this.transform.position;
+                break;
+
+            case arrowEnum.up:
+                mRef.left = this.transform.position;
+                break;
+
+            case arrowEnum.down:
+                mRef.right = this.transform.position;
+                break;
+
+            case arrowEnum.cross:
+                mRef.middle = this.transform.position;
+                break;
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
         vsArrowPos();
-        //vsArrowHide();
-    }
-
-    void vsArrowHide()
-    {
-        if (mRef.singleLock == true)
-        {
-            this.transform.position = new Vector3(100, 100, 1);
-            colourChange.color = Color.white;
-        }
     }
 
     //Governs the arrows position and colour
@@ -43,25 +59,33 @@ public class LinkArrow_class : MonoBehaviour
             switch (mRef.currentButton)
             {
                 case 0:
-                    this.transform.position = new Vector3(100, 100, 1);
+                    this.transform.position = new Vector3(100, 100, 0);
                     colourChange.color = Color.white;
                     break;
 
                 case 1:
                     switch (arrowType)
                     {
-                        case arrowEnum.east:
-                            this.transform.position = new Vector3(-6, -1.5f, 1);
+                        case arrowEnum.right:
+                            this.transform.position = mRef.top;
                             colourChange.color = Color.green;
                             break;
 
-                        case arrowEnum.SE:
-                            this.transform.position = new Vector3(-6, -3, 1);
-                            colourChange.color = Color.green;
+                        case arrowEnum.cross:
+                            this.transform.position = mRef.middle;
+                            this.transform.rotation = new Quaternion(0, 0, 0, 0);
+                            if (mRef.buttonMode == buttonModeEnum.attackMode)
+                            {
+                                colourChange.color = Color.green;
+                            }
+                            else
+                            {
+                                colourChange.color = Color.grey;
+                            }
                             break;
 
-                        case arrowEnum.north:
-                            this.transform.position = new Vector3(-7.5f, -3, 1);
+                        case arrowEnum.up:
+                            this.transform.position = mRef.left;
                             colourChange.color = Color.red;
                             break;
                     }
@@ -70,59 +94,85 @@ public class LinkArrow_class : MonoBehaviour
                 case 2:
                     switch (arrowType)
                     {
-                        case arrowEnum.south:
-                            this.transform.position = new Vector3(-4.5f, -3, 1);
+                        case arrowEnum.right:
+                            this.transform.position = mRef.top;
+                            colourChange.color = Color.red;
+                            break;
+
+                        case arrowEnum.cross:
+                            this.transform.position = mRef.middle;
+                            this.transform.rotation = new Quaternion(90,0,0,0);
+                            if (mRef.buttonMode == buttonModeEnum.attackMode)
+                            {
+                                colourChange.color = Color.red;
+                            }
+                            else
+                            {
+                                colourChange.color = Color.grey;
+                            }
+                            break;
+
+                        case arrowEnum.down:
+                            this.transform.position = mRef.right;
                             colourChange.color = Color.green;
                             break;
 
-                        case arrowEnum.NE:
-                            this.transform.position = new Vector3(-6, -3, 1);
-                            colourChange.color = Color.red;
-                            break;
-
-                        case arrowEnum.east:
-                            this.transform.position = new Vector3(-6, -1.5f, 1);
-                            colourChange.color = Color.red;
-                            break;
                     }
                     break;
 
                 case 3:
                     switch (arrowType)
                     {
-                        case arrowEnum.west:
-                            this.transform.position = new Vector3(-6f, -4.5f, 1);
+                        case arrowEnum.left:
+                            this.transform.position = mRef.bottom;
                             colourChange.color = Color.green;
                             break;
 
-                        case arrowEnum.SE:
-                            this.transform.position = new Vector3(-6, -3, 1);
+                        case arrowEnum.cross:
+                            this.transform.position = mRef.middle;
+                            this.transform.rotation = new Quaternion(0, 0, 0, 0);
+                            if (mRef.buttonMode == buttonModeEnum.attackMode)
+                            {
+                                colourChange.color = Color.red;
+                            }
+                            else
+                            {
+                                colourChange.color = Color.grey;
+                            }
+                            break;
+
+                        case arrowEnum.down:
+                            this.transform.position = mRef.right;
                             colourChange.color = Color.red;
                             break;
 
-                        case arrowEnum.south:
-                            this.transform.position = new Vector3(-4.5f, -3, 1);
-                            colourChange.color = Color.red;
-                            break;
                     }
                     break;
 
                 case 4:
                     switch (arrowType)
                     {
-                        case arrowEnum.north:
-                            this.transform.position = new Vector3(-7.5f, -3, 1);
-                            colourChange.color = Color.green;
-                            break;
-
-                        case arrowEnum.NE:
-                            this.transform.position = new Vector3(-6, -3, 1);
-                            colourChange.color = Color.green;
-                            break;
-
-                        case arrowEnum.west:
-                            this.transform.position = new Vector3(-6, -4.5f, 1);
+                        case arrowEnum.left:
+                            this.transform.position = mRef.bottom;
                             colourChange.color = Color.red;
+                            break;
+
+                        case arrowEnum.cross:
+                            this.transform.position = mRef.middle;
+                            this.transform.rotation = new Quaternion(90, 0, 0, 0);
+                            if (mRef.buttonMode == buttonModeEnum.attackMode)
+                            {
+                                colourChange.color = Color.green;
+                            }
+                            else
+                            {
+                                colourChange.color = Color.grey;
+                            }
+                            break;
+
+                        case arrowEnum.up:
+                            this.transform.position = mRef.left;
+                            colourChange.color = Color.green;
                             break;
                     }
                     break;
@@ -136,25 +186,33 @@ public class LinkArrow_class : MonoBehaviour
             switch (mRef.currentButton)
             {
                 case 0:
-                    this.transform.position = new Vector3(100, 100, 1);
+                    this.transform.position = new Vector3(100, 100, 0);
                     colourChange.color = Color.white;
                     break;
 
                 case 1:
                     switch (arrowType)
                     {
-                        case arrowEnum.west:
-                            this.transform.position = new Vector3(-6, -1.5f, 1);
+                        case arrowEnum.left:
+                            this.transform.position = mRef.top;
                             colourChange.color = Color.red;
                             break;
 
-                        case arrowEnum.NW:
-                            this.transform.position = new Vector3(-6, -3, 1);
-                            colourChange.color = Color.red;
+                        case arrowEnum.cross:
+                            this.transform.position = mRef.middle;
+                            this.transform.rotation = new Quaternion(90, 90, 0, 0);
+                            if (mRef.buttonMode == buttonModeEnum.attackMode)
+                            {
+                                colourChange.color = Color.red;
+                            }
+                            else
+                            {
+                                colourChange.color = Color.grey;
+                            }
                             break;
 
-                        case arrowEnum.south:
-                            this.transform.position = new Vector3(-7.5f, -3, 1);
+                        case arrowEnum.down:
+                            this.transform.position = mRef.left;
                             colourChange.color = Color.green;
                             break;
                     }
@@ -163,19 +221,27 @@ public class LinkArrow_class : MonoBehaviour
                 case 2:
                     switch (arrowType)
                     {
-                        case arrowEnum.north:
-                            this.transform.position = new Vector3(-4.5f, -3, 1);
+                        case arrowEnum.left:
+                            this.transform.position = mRef.top;
+                            colourChange.color = Color.green;
+                            break;
+
+                        case arrowEnum.cross:
+                            this.transform.position = mRef.middle;
+                            this.transform.rotation = new Quaternion(0, 90, 0, 0);
+                            if (mRef.buttonMode == buttonModeEnum.attackMode)
+                            {
+                                colourChange.color = Color.green;
+                            }
+                            else
+                            {
+                                colourChange.color = Color.grey;
+                            }
+                            break;
+
+                        case arrowEnum.up:
+                            this.transform.position = mRef.right;
                             colourChange.color = Color.red;
-                            break;
-
-                        case arrowEnum.SW:
-                            this.transform.position = new Vector3(-6, -3, 1);
-                            colourChange.color = Color.green;
-                            break;
-
-                        case arrowEnum.west:
-                            this.transform.position = new Vector3(-6, -1.5f, 1);
-                            colourChange.color = Color.green;
                             break;
                     }
                     break;
@@ -183,18 +249,26 @@ public class LinkArrow_class : MonoBehaviour
                 case 3:
                     switch (arrowType)
                     {
-                        case arrowEnum.east:
-                            this.transform.position = new Vector3(-6f, -4.5f, 1);
+                        case arrowEnum.right:
+                            this.transform.position = mRef.bottom;
                             colourChange.color = Color.red;
                             break;
 
-                        case arrowEnum.NW:
-                            this.transform.position = new Vector3(-6, -3, 1);
-                            colourChange.color = Color.green;
+                        case arrowEnum.cross:
+                            this.transform.position = mRef.middle;
+                            this.transform.rotation = new Quaternion(90, 90, 0, 0);
+                            if (mRef.buttonMode == buttonModeEnum.attackMode)
+                            {
+                                colourChange.color = Color.green;
+                            }
+                            else
+                            {
+                                colourChange.color = Color.grey;
+                            }
                             break;
 
-                        case arrowEnum.north:
-                            this.transform.position = new Vector3(-4.5f, -3, 1);
+                        case arrowEnum.up:
+                            this.transform.position = mRef.right;
                             colourChange.color = Color.green;
                             break;
                     }
@@ -203,19 +277,27 @@ public class LinkArrow_class : MonoBehaviour
                 case 4:
                     switch (arrowType)
                     {
-                        case arrowEnum.south:
-                            this.transform.position = new Vector3(-7.5f, -3, 1);
-                            colourChange.color = Color.red;
-                            break;
-
-                        case arrowEnum.SW:
-                            this.transform.position = new Vector3(-6, -3, 1);
-                            colourChange.color = Color.red;
-                            break;
-
-                        case arrowEnum.east:
-                            this.transform.position = new Vector3(-6, -4.5f, 1);
+                        case arrowEnum.right:
+                            this.transform.position = mRef.bottom;
                             colourChange.color = Color.green;
+                            break;
+
+                        case arrowEnum.cross:
+                            this.transform.position = mRef.middle;
+                            this.transform.rotation = new Quaternion(0, 90, 0, 0);
+                            if (mRef.buttonMode == buttonModeEnum.attackMode)
+                            {
+                                colourChange.color = Color.red;
+                            }
+                            else
+                            {
+                                colourChange.color = Color.grey;
+                            }
+                            break;
+
+                        case arrowEnum.down:
+                            this.transform.position = mRef.left;
+                            colourChange.color = Color.red;
                             break;
                     }
                     break;

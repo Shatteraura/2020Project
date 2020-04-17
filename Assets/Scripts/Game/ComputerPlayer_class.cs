@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum comSpriteEnum { Mid, High, Side, Low, EnumEnd }
+public enum comSpriteEnum { High, Low, Side, Mid, EnumEnd }
 
 public class ComputerPlayer_class : MonoBehaviour
 {
@@ -20,5 +20,10 @@ public class ComputerPlayer_class : MonoBehaviour
     void Update()
     {
         
+    }
+
+    public void comUpdateSprite(int spriteNum)
+    {
+        this.GetComponent<SpriteRenderer>().sprite = comSprites[spriteNum];
     }
 }
