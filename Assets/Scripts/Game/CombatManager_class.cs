@@ -41,6 +41,8 @@ public class CombatManager_class : MonoBehaviour
 
     public Text PNodeTxt;
     public Text CNodeText;
+    public Text modeButtonText;
+    public Text cLockText;
 
     public Vector3 button1Pos;
     public Vector3 button2Pos;

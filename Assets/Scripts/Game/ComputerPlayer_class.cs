@@ -22,6 +22,7 @@ public class ComputerPlayer_class : MonoBehaviour
         
     }
 
+    //Called From Combat Manager
     public void comUpdateSprite(int spriteNum)
     {
         this.GetComponent<SpriteRenderer>().sprite = comSprites[spriteNum];
