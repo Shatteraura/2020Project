@@ -30,7 +30,7 @@ public class CombatManager_class : MonoBehaviour
     public int playerBonus = 0;
     public int comBonus = 0;
 
-    //public int endTurnTimer;
+    public int endTurnTimer = 300;
 
     public bool comDef = false;
 
@@ -67,22 +67,56 @@ public class CombatManager_class : MonoBehaviour
     void Update()
     {
         turnLogic();
+        turnTimeout();
         playerBonusLogic();
         nodeLogic();
         computerPlayerLogic();
         textDisplay();
+        
     }
 
-    //Handles single values and End Turn
+    //Resets single values at the end of a turn
     void turnLogic()
     {
-        if (singleLock == true && singleLockCom == true)
+        if (singleLock == true && singleLockCom == true && endTurnTimer <= 0)
         {
             playerNode = playerNodeEnum.noNode;
+            endTurnTimer = 300;
             currentButton = 0;
             comDef = false;
             singleLock = false;
             singleLockCom = false;
+            CNodeText.text = "";
+        }
+    }
+
+    //Governs actions taking place duing the turn timer also shows what the computer decided to do
+    void turnTimeout()
+    {
+        if (singleLock == true && singleLockCom == true && endTurnTimer > 0)
+        {
+            endTurnTimer--;
+            comTextDisplay();
+            comNodeLock = comPrev;
+
+            switch (comNodeLock)
+            {
+                case 1:
+                    cLockText.text = "High";
+                    break;
+
+                case 2:
+                    cLockText.text = "Low";
+                    break;
+
+                case 3:
+                    cLockText.text = "Side";
+                    break;
+
+                case 4:
+                    cLockText.text = "Mid";
+                    break;
+            }            
         }
     }
 
@@ -149,7 +183,11 @@ public class CombatManager_class : MonoBehaviour
                 break;
         }
 
-        //Last Used Node by the computer!
+    }
+
+    void comTextDisplay ()
+    {
+        //Node in use by the computer --- During turn timer
         switch (comPrev)
         {
             case 1:
@@ -841,14 +879,14 @@ public class CombatManager_class : MonoBehaviour
         if (singleLockCom == false)
         {
 
-            comDefDice = Random.Range(1, 5);
+            comDefDice = Random.Range(1, 10);
 
-            if (comDefDice > 3)
+            if (comDefDice < 3)
             {
                 comDef = false;
             }
 
-            else if (comDefDice <= 3)
+            else if (comDefDice >= 3)
             {
                 comDef = true;
             }
