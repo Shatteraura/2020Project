@@ -60,6 +60,7 @@ public class LinkArrow_class : MonoBehaviour
             {
                 case 0:
                     this.transform.position = new Vector3(100, 100, 0);
+                    this.transform.rotation = this.transform.rotation = new Quaternion(0, 0, 0, 0);
                     colourChange.color = Color.white;
                     break;
 
@@ -68,7 +69,16 @@ public class LinkArrow_class : MonoBehaviour
                     {
                         case arrowEnum.right:
                             this.transform.position = mRef.top;
-                            colourChange.color = Color.green;
+                            if (mRef.buttonMode == buttonModeEnum.attackMode)
+                            {
+                                colourChange.color = Color.green;
+                                this.transform.rotation = this.transform.rotation = new Quaternion(0, 0, 0, 0);
+                            }
+                            else
+                            {
+                                colourChange.color = Color.blue;
+                                this.transform.rotation = this.transform.rotation = new Quaternion(0, 0, 180, 0);
+                            }
                             break;
 
                         case arrowEnum.cross:
@@ -114,7 +124,16 @@ public class LinkArrow_class : MonoBehaviour
 
                         case arrowEnum.down:
                             this.transform.position = mRef.right;
-                            colourChange.color = Color.green;
+                            if (mRef.buttonMode == buttonModeEnum.attackMode)
+                            {
+                                colourChange.color = Color.green;
+                                this.transform.rotation = this.transform.rotation = new Quaternion(0, 0, 0, 0);
+                            }
+                            else
+                            {
+                                colourChange.color = Color.blue;
+                                this.transform.rotation = this.transform.rotation = new Quaternion(0, 0, 180, 0);
+                            }
                             break;
 
                     }
@@ -125,7 +144,16 @@ public class LinkArrow_class : MonoBehaviour
                     {
                         case arrowEnum.left:
                             this.transform.position = mRef.bottom;
-                            colourChange.color = Color.green;
+                            if (mRef.buttonMode == buttonModeEnum.attackMode)
+                            {
+                                colourChange.color = Color.green;
+                                this.transform.rotation = this.transform.rotation = new Quaternion(0, 0, 0, 0);
+                            }
+                            else
+                            {
+                                colourChange.color = Color.blue;
+                                this.transform.rotation = this.transform.rotation = new Quaternion(0, 0, 180, 0);
+                            }
                             break;
 
                         case arrowEnum.cross:
@@ -172,7 +200,16 @@ public class LinkArrow_class : MonoBehaviour
 
                         case arrowEnum.up:
                             this.transform.position = mRef.left;
-                            colourChange.color = Color.green;
+                            if (mRef.buttonMode == buttonModeEnum.attackMode)
+                            {
+                                colourChange.color = Color.green;
+                                this.transform.rotation = this.transform.rotation = new Quaternion(0, 0, 0, 0);
+                            }
+                            else
+                            {
+                                colourChange.color = Color.blue;
+                                this.transform.rotation = this.transform.rotation = new Quaternion(0, 0, 180, 0);
+                            }
                             break;
                     }
                     break;
@@ -187,6 +224,7 @@ public class LinkArrow_class : MonoBehaviour
             {
                 case 0:
                     this.transform.position = new Vector3(100, 100, 0);
+                    this.transform.rotation = this.transform.rotation = new Quaternion(0, 0, 0, 0);
                     colourChange.color = Color.white;
                     break;
 
@@ -213,7 +251,16 @@ public class LinkArrow_class : MonoBehaviour
 
                         case arrowEnum.down:
                             this.transform.position = mRef.left;
-                            colourChange.color = Color.green;
+                            if (mRef.buttonMode == buttonModeEnum.attackMode)
+                            {
+                                colourChange.color = Color.green;
+                                this.transform.rotation = this.transform.rotation = new Quaternion(0, 0, 0, 0);
+                            }
+                            else
+                            {
+                                colourChange.color = Color.blue;
+                                this.transform.rotation = this.transform.rotation = new Quaternion(0, 0, 180, 0);
+                            }
                             break;
                     }
                     break;
@@ -223,7 +270,16 @@ public class LinkArrow_class : MonoBehaviour
                     {
                         case arrowEnum.left:
                             this.transform.position = mRef.top;
-                            colourChange.color = Color.green;
+                            if (mRef.buttonMode == buttonModeEnum.attackMode)
+                            {
+                                colourChange.color = Color.green;
+                                this.transform.rotation = this.transform.rotation = new Quaternion(0, 0, 0, 0);
+                            }
+                            else
+                            {
+                                colourChange.color = Color.blue;
+                                this.transform.rotation = this.transform.rotation = new Quaternion(0, 0, 180, 0);
+                            }
                             break;
 
                         case arrowEnum.cross:
@@ -269,7 +325,16 @@ public class LinkArrow_class : MonoBehaviour
 
                         case arrowEnum.up:
                             this.transform.position = mRef.right;
-                            colourChange.color = Color.green;
+                            if (mRef.buttonMode == buttonModeEnum.attackMode)
+                            {
+                                colourChange.color = Color.green;
+                                this.transform.rotation = this.transform.rotation = new Quaternion(0, 0, 0, 0);
+                            }
+                            else
+                            {
+                                colourChange.color = Color.blue;
+                                this.transform.rotation = this.transform.rotation = new Quaternion(0, 0, 180, 0);
+                            }
                             break;
                     }
                     break;
@@ -279,7 +344,16 @@ public class LinkArrow_class : MonoBehaviour
                     {
                         case arrowEnum.right:
                             this.transform.position = mRef.bottom;
-                            colourChange.color = Color.green;
+                            if (mRef.buttonMode == buttonModeEnum.attackMode)
+                            {
+                                colourChange.color = Color.green;
+                                this.transform.rotation = this.transform.rotation = new Quaternion(0, 0, 0, 0);
+                            }
+                            else
+                            {
+                                colourChange.color = Color.blue;
+                                this.transform.rotation = this.transform.rotation = new Quaternion(0, 0, 180, 0);
+                            }
                             break;
 
                         case arrowEnum.cross:

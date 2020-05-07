@@ -14,7 +14,8 @@ public class ModeSwitch_class : MonoBehaviour
     void Start()
     {
         combatManagerRef.GetComponent<CombatManager_class>().button5Pos = new Vector3(this.transform.position.x, this.transform.position.y, 1);
-        this.GetComponent<SpriteRenderer>().sprite = defendSprite;
+        this.GetComponent<SpriteRenderer>().sprite = attackSprite;
+        combatManagerRef.GetComponent<CombatManager_class>().modeButtonText.text = "Attack Mode";
     }
 
     // Update is called once per frame
@@ -33,13 +34,15 @@ public class ModeSwitch_class : MonoBehaviour
         if (combatManagerRef.GetComponent<CombatManager_class>().buttonMode == buttonModeEnum.attackMode)
         {
             combatManagerRef.GetComponent<CombatManager_class>().buttonMode = buttonModeEnum.defenceMode;
-            this.GetComponent<SpriteRenderer>().sprite = attackSprite;
+            combatManagerRef.GetComponent<CombatManager_class>().modeButtonText.text = "Defence Mode";
+            this.GetComponent<SpriteRenderer>().sprite = defendSprite;
         }
 
         else if (combatManagerRef.GetComponent<CombatManager_class>().buttonMode == buttonModeEnum.defenceMode)
         {
             combatManagerRef.GetComponent<CombatManager_class>().buttonMode = buttonModeEnum.attackMode;
-            this.GetComponent<SpriteRenderer>().sprite = defendSprite;
+            combatManagerRef.GetComponent<CombatManager_class>().modeButtonText.text = "Attack Mode";
+            this.GetComponent<SpriteRenderer>().sprite = attackSprite;
         }
     }
 

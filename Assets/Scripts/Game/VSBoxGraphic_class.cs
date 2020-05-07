@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum vsColourEnum { greenOne, greenTwo, redOne, redTwo }
+public enum vsColourEnum { greenOne, greenTwo, redOne, redTwo, blueOne }
 
 public class VSBoxGraphic_class : MonoBehaviour
 {
@@ -35,8 +35,18 @@ public class VSBoxGraphic_class : MonoBehaviour
                 case 1:
                     switch (vsColour)
                     {
-                        case vsColourEnum.greenOne:
-                            this.transform.position = mRef.button2Pos;
+                        case vsColourEnum.greenOne:                           
+                            if (mRef.buttonMode == buttonModeEnum.attackMode)
+                            {
+                                this.transform.position = mRef.button2Pos;
+                            }
+                            break;
+
+                        case vsColourEnum.blueOne:
+                            if (mRef.buttonMode == buttonModeEnum.defenceMode)
+                            {
+                                this.transform.position = mRef.button2Pos;
+                            }
                             break;
 
                         case vsColourEnum.greenTwo:
@@ -61,7 +71,17 @@ public class VSBoxGraphic_class : MonoBehaviour
                     switch (vsColour)
                     {
                         case vsColourEnum.greenOne:
-                            this.transform.position = mRef.button3Pos;
+                            if (mRef.buttonMode == buttonModeEnum.attackMode)
+                            {
+                                this.transform.position = mRef.button3Pos;
+                            }
+                            break;
+
+                        case vsColourEnum.blueOne:
+                            if (mRef.buttonMode == buttonModeEnum.defenceMode)
+                            {
+                                this.transform.position = mRef.button3Pos;
+                            }
                             break;
 
                         case vsColourEnum.redOne:
@@ -86,7 +106,17 @@ public class VSBoxGraphic_class : MonoBehaviour
                     switch (vsColour)
                     {
                         case vsColourEnum.greenOne:
-                            this.transform.position = mRef.button4Pos;
+                            if (mRef.buttonMode == buttonModeEnum.attackMode)
+                            {
+                                this.transform.position = mRef.button4Pos;
+                            }
+                            break;
+
+                        case vsColourEnum.blueOne:
+                            if (mRef.buttonMode == buttonModeEnum.defenceMode)
+                            {
+                                this.transform.position = mRef.button4Pos;
+                            }
                             break;
 
                         case vsColourEnum.redOne:
@@ -124,7 +154,17 @@ public class VSBoxGraphic_class : MonoBehaviour
                             break;
 
                         case vsColourEnum.greenTwo:
-                            this.transform.position = mRef.button1Pos;
+                            if (mRef.buttonMode == buttonModeEnum.attackMode)
+                            {
+                                this.transform.position = mRef.button1Pos;
+                            }
+                            break;
+
+                        case vsColourEnum.blueOne:
+                            if (mRef.buttonMode == buttonModeEnum.defenceMode)
+                            {
+                                this.transform.position = mRef.button1Pos;
+                            }
                             break;
 
                         case vsColourEnum.redOne:
@@ -164,7 +204,17 @@ public class VSBoxGraphic_class : MonoBehaviour
                             break;
 
                         case vsColourEnum.greenOne:
-                            this.transform.position = mRef.button4Pos;
+                            if (mRef.buttonMode == buttonModeEnum.attackMode)
+                            {
+                                this.transform.position = mRef.button4Pos;
+                            }
+                            break;
+
+                        case vsColourEnum.blueOne:
+                            if (mRef.buttonMode == buttonModeEnum.defenceMode)
+                            {
+                                this.transform.position = mRef.button4Pos;
+                            }
                             break;
                     }
                     break;
@@ -177,7 +227,17 @@ public class VSBoxGraphic_class : MonoBehaviour
                             break;
 
                         case vsColourEnum.greenOne:
-                            this.transform.position = mRef.button1Pos;
+                            if (mRef.buttonMode == buttonModeEnum.attackMode)
+                            {
+                                this.transform.position = mRef.button1Pos;
+                            }
+                            break;
+
+                        case vsColourEnum.blueOne:
+                            if (mRef.buttonMode == buttonModeEnum.defenceMode)
+                            {
+                                this.transform.position = mRef.button1Pos;
+                            }
                             break;
 
                         case vsColourEnum.greenTwo:
@@ -202,7 +262,17 @@ public class VSBoxGraphic_class : MonoBehaviour
                             break;
 
                         case vsColourEnum.greenOne:
-                            this.transform.position = mRef.button2Pos;
+                            if (mRef.buttonMode == buttonModeEnum.attackMode)
+                            {
+                                this.transform.position = mRef.button2Pos;
+                            }
+                            break;
+
+                        case vsColourEnum.blueOne:
+                            if (mRef.buttonMode == buttonModeEnum.defenceMode)
+                            {
+                                this.transform.position = mRef.button2Pos;
+                            }
                             break;
 
                         case vsColourEnum.greenTwo:
@@ -239,7 +309,17 @@ public class VSBoxGraphic_class : MonoBehaviour
                             break;
 
                         case vsColourEnum.greenOne:
-                            this.transform.position = mRef.button3Pos;
+                            if (mRef.buttonMode == buttonModeEnum.attackMode)
+                            {
+                                this.transform.position = mRef.button3Pos;
+                            }
+                            break;
+
+                        case vsColourEnum.blueOne:
+                            if (mRef.buttonMode == buttonModeEnum.defenceMode)
+                            {
+                                this.transform.position = mRef.button3Pos;
+                            }
                             break;
                     }
                     break;
