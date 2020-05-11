@@ -2,13 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum buttonTypeEnum { none, high, low, side, mid }
+
 public class ButtonScript_class : MonoBehaviour
 {
     public CombatManager_class mRef;
     public Player_class playerRef;
     public SelectBoxScript_class selectRef;
-
-    public int buttonNum;
+    public buttonTypeEnum buttonType;
 
     public Sprite enemyButton;
     public Sprite normalButton;
@@ -17,21 +18,21 @@ public class ButtonScript_class : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        switch (buttonNum)
+        switch (buttonType)
         {
-            case 1:
+            case buttonTypeEnum.high:
                 mRef.GetComponent<CombatManager_class>().button1Pos = this.transform.position;
                 break;
 
-            case 2:
+            case buttonTypeEnum.low:
                 mRef.GetComponent<CombatManager_class>().button2Pos = this.transform.position;
                 break;
 
-            case 3:
+            case buttonTypeEnum.side:
                 mRef.GetComponent<CombatManager_class>().button3Pos = this.transform.position;
                 break;
 
-            case 4:
+            case buttonTypeEnum.mid:
                 mRef.GetComponent<CombatManager_class>().button4Pos = this.transform.position;
                 break;
         }
@@ -40,101 +41,93 @@ public class ButtonScript_class : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (mRef.singleLock == false)
-        {
-            buttonChange();            
-        }
-        buttonLock();
+        enemyReactions();
     }
 
-    //Changes the button sprites for the 3 other buttons
-    void buttonChange()
+    //Changes the buttons to display the enemy reactions
+    void enemyReactions()
     {
-        if (mRef.GetComponent<CombatManager_class>().currentButton != 0 && mRef.GetComponent<CombatManager_class>().currentButton != buttonNum)
+        switch (mRef.currentButton)
         {
-            this.GetComponent<SpriteRenderer>().sprite = enemyButton;
-        }
-
-        if (mRef.GetComponent<CombatManager_class>().currentButton == 0)
-        {
-            this.GetComponent<SpriteRenderer>().sprite = normalButton;
-        }
-    }
-
-    void buttonLock()
-    {
-        switch (mRef.playerNodeLock)
-        {
-            case 1:
-                if (buttonNum == 1)
+            case 0:
+                if ((int)buttonType != mRef.playerNodeLock)
                 {
-                    this.GetComponent<SpriteRenderer>().sprite = lockedSprites[0];
+                    this.GetComponent<SpriteRenderer>().sprite = normalButton;
                 }
                 else
                 {
-                    this.GetComponent<SpriteRenderer>().sprite = normalButton;
+                    this.GetComponent<SpriteRenderer>().sprite = lockedSprites[0];
+                }
+                break;
+
+            case 1:
+                if (buttonType != buttonTypeEnum.high)
+                {
+                    this.GetComponent<SpriteRenderer>().sprite = enemyButton;
                 }
                 break;
 
             case 2:
-                if (buttonNum == 2)
+                if (buttonType != buttonTypeEnum.low)
                 {
-                    this.GetComponent<SpriteRenderer>().sprite = lockedSprites[0];
-                }
-                else
-                {
-                    this.GetComponent<SpriteRenderer>().sprite = normalButton;
+                    this.GetComponent<SpriteRenderer>().sprite = enemyButton;
                 }
                 break;
 
             case 3:
-                if (buttonNum == 3)
+                if (buttonType != buttonTypeEnum.side)
                 {
-                    this.GetComponent<SpriteRenderer>().sprite = lockedSprites[0];
-                }
-                else
-                {
-                    this.GetComponent<SpriteRenderer>().sprite = normalButton;
+                    this.GetComponent<SpriteRenderer>().sprite = enemyButton;
                 }
                 break;
 
             case 4:
-                if (buttonNum == 4)
+                if (buttonType != buttonTypeEnum.mid)
                 {
-                    this.GetComponent<SpriteRenderer>().sprite = lockedSprites[0];
-                }
-                else
-                {
-                    this.GetComponent<SpriteRenderer>().sprite = normalButton;
+                    this.GetComponent<SpriteRenderer>().sprite = enemyButton;
                 }
                 break;
         }
     }
 
-    //This allows the buttons to be pressed, moving the selection box away and setting the current button in the combat manager
+
+    //When a button is pressed, the combat manager takes note of which one it is, the selection boxes vanish and the button greys out
     private void OnMouseDown()
     {
-        if (mRef.singleLock == false)
+        if (mRef.singleLock == false && mRef.currentButton != 0)
         {
             mRef.GetComponent<CombatManager_class>().playerNode = (playerNodeEnum)mRef.GetComponent<CombatManager_class>().currentButton;
             mRef.GetComponent<CombatManager_class>().playerNodeLock = (int)mRef.GetComponent<CombatManager_class>().playerNode;
+            selectRef.buttonPos = new Vector3(100, 100, 1);
 
-            switch (buttonNum)
+            switch (buttonType)
             {
-                case 1:
-                    selectRef.buttonPos = new Vector3(100, 100, 1);
+                case buttonTypeEnum.high:
+                    if (mRef.GetComponent<CombatManager_class>().playerNodeLock == 1)
+                    {
+                        this.GetComponent<SpriteRenderer>().sprite = lockedSprites[0];
+                    }
                     break;
 
-                case 2:
-                    selectRef.buttonPos = new Vector3(100, 100, 1);
+                case buttonTypeEnum.low:
+                    if (mRef.GetComponent<CombatManager_class>().playerNodeLock == 2)
+                    {
+                        this.GetComponent<SpriteRenderer>().sprite = lockedSprites[0];
+                    }
                     break;
 
-                case 3:
-                    selectRef.buttonPos = new Vector3(100, 100, 1);
+                case buttonTypeEnum.side:
+                    if (mRef.GetComponent<CombatManager_class>().playerNodeLock == 3)
+                    {
+                        this.GetComponent<SpriteRenderer>().sprite = lockedSprites[0];
+                    }
                     break;
 
-                case 4:
-                    selectRef.buttonPos = new Vector3(100, 100, 1);
+                case buttonTypeEnum.mid:
+                    if (mRef.GetComponent<CombatManager_class>().playerNodeLock == 4)
+                    {
+                        this.GetComponent<SpriteRenderer>().sprite = lockedSprites[0];
+                    }
                     break;
             }
         }
@@ -146,9 +139,9 @@ public class ButtonScript_class : MonoBehaviour
 
         if (mRef.singleLock == false)
         {
-            switch (buttonNum)
+            switch (buttonType)
             {
-                case 1:
+                case buttonTypeEnum.high:
                     if (mRef.GetComponent<CombatManager_class>().playerNodeLock != 1)
                     {
                         playerRef.playerUpdateSprite(0);
@@ -157,7 +150,7 @@ public class ButtonScript_class : MonoBehaviour
                     }
                     break;
 
-                case 2:
+                case buttonTypeEnum.low:
                     if (mRef.GetComponent<CombatManager_class>().playerNodeLock != 2)
                     {
                         playerRef.playerUpdateSprite(1);
@@ -166,7 +159,7 @@ public class ButtonScript_class : MonoBehaviour
                     }
                     break;
 
-                case 3:
+                case buttonTypeEnum.side:
                     if (mRef.GetComponent<CombatManager_class>().playerNodeLock != 3)
                     {
                         playerRef.playerUpdateSprite(2);
@@ -175,7 +168,7 @@ public class ButtonScript_class : MonoBehaviour
                     }
                     break;
 
-                case 4:
+                case buttonTypeEnum.mid:
                     if (mRef.GetComponent<CombatManager_class>().playerNodeLock != 4)
                     {
                         playerRef.playerUpdateSprite(3);
@@ -190,27 +183,7 @@ public class ButtonScript_class : MonoBehaviour
     private void OnMouseExit()
     {
         //Mousing Away From The Buttons
-        switch (buttonNum)
-        {
-            case 1:
-                mRef.GetComponent<CombatManager_class>().currentButton = 0;
-                selectRef.buttonPos = new Vector3(100, 100, 1);
-                break;
-
-            case 2:
-                mRef.GetComponent<CombatManager_class>().currentButton = 0;
-                selectRef.buttonPos = new Vector3(100, 100, 1);
-                break;
-
-            case 3:
-                mRef.GetComponent<CombatManager_class>().currentButton = 0;
-                selectRef.buttonPos = new Vector3(100, 100, 1);
-                break;
-
-            case 4:
-                mRef.GetComponent<CombatManager_class>().currentButton = 0;
-                selectRef.buttonPos = new Vector3(100, 100, 1);
-                break;
-        }
+        mRef.GetComponent<CombatManager_class>().currentButton = 0;
+        selectRef.buttonPos = new Vector3(100, 100, 1);
     }
 }

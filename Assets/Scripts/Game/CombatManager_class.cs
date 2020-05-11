@@ -19,6 +19,7 @@ public class CombatManager_class : MonoBehaviour
     public int computerHealth = 5;
 
     public int currentButton;
+
     public int comPrev;
 
     public int playerNodeLock = 0;
