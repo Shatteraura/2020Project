@@ -389,14 +389,15 @@ public class CombatManager_class : MonoBehaviour
                             break;
 
                         case computerNodeEnum.node2:
-                            comBonus += 1;
+                            computerHealth -= playerBonus + 1;
                             break;
 
                         case computerNodeEnum.node3:
+                            computerHealth -= playerBonus;
                             break;
 
                         case computerNodeEnum.node4:
-                            computerHealth -= playerBonus;
+                            comBonus += 1;
                             break;
                     }
                     singleLock = true;
@@ -408,7 +409,7 @@ public class CombatManager_class : MonoBehaviour
                     switch (computerNode)
                     {
                         case computerNodeEnum.node1:
-                            computerHealth -= playerBonus;
+                            comBonus += 1;
                             break;
 
                         case computerNodeEnum.node2:
@@ -416,10 +417,11 @@ public class CombatManager_class : MonoBehaviour
                             break;
 
                         case computerNodeEnum.node3:
-                            comBonus += 1;
+                            computerHealth -= playerBonus + 1;
                             break;
 
                         case computerNodeEnum.node4:
+                            computerHealth -= playerBonus;
                             break;
                     }
                     singleLock = true;
@@ -430,10 +432,11 @@ public class CombatManager_class : MonoBehaviour
                     switch (computerNode)
                     {
                         case computerNodeEnum.node1:
+                            computerHealth -= playerBonus;
                             break;
 
                         case computerNodeEnum.node2:
-                            computerHealth -= playerBonus;
+                            comBonus += 1;
                             break;
 
                         case computerNodeEnum.node3:
@@ -441,7 +444,7 @@ public class CombatManager_class : MonoBehaviour
                             break;
 
                         case computerNodeEnum.node4:
-                            comBonus += 1;
+                            computerHealth -= playerBonus + 1;
                             break;
                     }
                     singleLock = true;
@@ -452,14 +455,15 @@ public class CombatManager_class : MonoBehaviour
                     switch (computerNode)
                     {
                         case computerNodeEnum.node1:
-                            comBonus += 1;
+                            computerHealth -= playerBonus + 1;
                             break;
 
                         case computerNodeEnum.node2:
+                            computerHealth -= playerBonus;
                             break;
 
                         case computerNodeEnum.node3:
-                            computerHealth -= playerBonus;
+                            comBonus += 1;
                             break;
 
                         case computerNodeEnum.node4:
@@ -582,14 +586,15 @@ public class CombatManager_class : MonoBehaviour
                             break;
 
                         case computerNodeEnum.node2:
-                            computerHealth -= playerBonus;
+                            comBonus += 1;
                             break;
 
                         case computerNodeEnum.node3:
+                            computerHealth -= playerBonus;
                             break;
 
                         case computerNodeEnum.node4:
-                            comBonus += 1;
+                            computerHealth -= playerBonus + 1;
                             break;
                     }
                     singleLock = true;
@@ -600,7 +605,7 @@ public class CombatManager_class : MonoBehaviour
                     switch (computerNode)
                     {
                         case computerNodeEnum.node1:
-                            comBonus += 1;
+                            computerHealth -= playerBonus + 1;
                             break;
 
                         case computerNodeEnum.node2:
@@ -608,10 +613,11 @@ public class CombatManager_class : MonoBehaviour
                             break;
 
                         case computerNodeEnum.node3:
-                            computerHealth -= playerBonus;
+                            comBonus += 1;
                             break;
 
                         case computerNodeEnum.node4:
+                            computerHealth -= playerBonus;
                             break;
                     }
                     singleLock = true;
@@ -622,10 +628,11 @@ public class CombatManager_class : MonoBehaviour
                     switch (computerNode)
                     {
                         case computerNodeEnum.node1:
+                            computerHealth -= playerBonus;
                             break;
 
                         case computerNodeEnum.node2:
-                            comBonus += 1;
+                            computerHealth -= playerBonus + 1;
                             break;
 
                         case computerNodeEnum.node3:
@@ -633,7 +640,7 @@ public class CombatManager_class : MonoBehaviour
                             break;
 
                         case computerNodeEnum.node4:
-                            computerHealth -= playerBonus;
+                            comBonus += 1;
                             break;
                     }
                     singleLock = true;
@@ -644,14 +651,15 @@ public class CombatManager_class : MonoBehaviour
                     switch (computerNode)
                     {
                         case computerNodeEnum.node1:
-                            computerHealth -= playerBonus;
+                            comBonus += 1;
                             break;
 
                         case computerNodeEnum.node2:
+                            computerHealth -= playerBonus;
                             break;
 
                         case computerNodeEnum.node3:
-                            comBonus += 1;
+                            computerHealth -= playerBonus + 1;
                             break;
 
                         case computerNodeEnum.node4:
@@ -683,10 +691,11 @@ public class CombatManager_class : MonoBehaviour
                             break;
 
                         case computerNodeEnum.node3:
+                            playerHealth -= comBonus;
                             break;
 
                         case computerNodeEnum.node4:
-                            playerHealth -= comBonus;
+                            playerHealth -= comBonus + 1;
                             break;
                     }
                     singleLock = true;
@@ -698,7 +707,7 @@ public class CombatManager_class : MonoBehaviour
                     switch (computerNode)
                     {
                         case computerNodeEnum.node1:
-                            playerHealth -= comBonus;
+                            playerHealth -= comBonus + 1;
                             break;
 
                         case computerNodeEnum.node2:
@@ -710,6 +719,7 @@ public class CombatManager_class : MonoBehaviour
                             break;
 
                         case computerNodeEnum.node4:
+                            playerHealth -= comBonus;
                             break;
                     }
                     singleLock = true;
@@ -720,10 +730,11 @@ public class CombatManager_class : MonoBehaviour
                     switch (computerNode)
                     {
                         case computerNodeEnum.node1:
+                            playerHealth -= comBonus;
                             break;
 
                         case computerNodeEnum.node2:
-                            playerHealth -= comBonus;
+                            playerHealth -= comBonus + 1;
                             break;
 
                         case computerNodeEnum.node3:
@@ -746,10 +757,11 @@ public class CombatManager_class : MonoBehaviour
                             break;
 
                         case computerNodeEnum.node2:
+                            playerHealth -= comBonus;
                             break;
 
                         case computerNodeEnum.node3:
-                            playerHealth -= comBonus;
+                            playerHealth -= comBonus + 1;
                             break;
 
                         case computerNodeEnum.node4:
@@ -784,10 +796,11 @@ public class CombatManager_class : MonoBehaviour
                             break;
 
                         case computerNodeEnum.node2:
-                            playerHealth -= comBonus;
+                            playerHealth -= comBonus + 1;
                             break;
 
                         case computerNodeEnum.node3:
+                            playerHealth -= comBonus;
                             break;
 
                         case computerNodeEnum.node4:
@@ -811,10 +824,11 @@ public class CombatManager_class : MonoBehaviour
                             break;
 
                         case computerNodeEnum.node3:
-                            playerHealth -= comBonus;
+                            playerHealth -= comBonus + 1;
                             break;
 
                         case computerNodeEnum.node4:
+                            playerHealth -= comBonus;
                             break;
                     }
                     singleLock = true;
@@ -825,6 +839,7 @@ public class CombatManager_class : MonoBehaviour
                     switch (computerNode)
                     {
                         case computerNodeEnum.node1:
+                            playerHealth -= comBonus;
                             break;
 
                         case computerNodeEnum.node2:
@@ -836,7 +851,7 @@ public class CombatManager_class : MonoBehaviour
                             break;
 
                         case computerNodeEnum.node4:
-                            playerHealth -= comBonus;
+                            playerHealth -= comBonus + 1;
                             break;
                     }
                     singleLock = true;
@@ -847,10 +862,11 @@ public class CombatManager_class : MonoBehaviour
                     switch (computerNode)
                     {
                         case computerNodeEnum.node1:
-                            playerHealth -= comBonus;
+                            playerHealth -= comBonus + 1;
                             break;
 
                         case computerNodeEnum.node2:
+                            playerHealth -= comBonus;
                             break;
 
                         case computerNodeEnum.node3:
@@ -882,12 +898,12 @@ public class CombatManager_class : MonoBehaviour
 
             comDefDice = Random.Range(1, 10);
 
-            if (comDefDice < 3)
+            if (comDefDice > 3)
             {
                 comDef = false;
             }
 
-            else if (comDefDice >= 3)
+            else if (comDefDice <= 3)
             {
                 comDef = true;
             }
