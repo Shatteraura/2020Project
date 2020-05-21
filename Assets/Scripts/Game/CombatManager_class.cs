@@ -14,6 +14,7 @@ public class CombatManager_class : MonoBehaviour
     public buttonModeEnum buttonMode;
 
     public ComputerPlayer_class comRef;
+    public Player_class playerRef;
 
     public int playerHealth = 5;
     public int computerHealth = 5;
@@ -30,6 +31,8 @@ public class CombatManager_class : MonoBehaviour
 
     public int playerBonus = 0;
     public int comBonus = 0;
+    public int pBCount = 0;
+    public int cBCount = 0;
 
     public int endTurnTimer = 300;
 
@@ -69,11 +72,9 @@ public class CombatManager_class : MonoBehaviour
     {
         turnLogic();
         turnTimeout();
-        playerBonusLogic();
         nodeLogic();
         computerPlayerLogic();
         textDisplay();
-        
     }
 
     //Resets single values at the end of a turn
@@ -88,6 +89,9 @@ public class CombatManager_class : MonoBehaviour
             singleLock = false;
             singleLockCom = false;
             CNodeText.text = "";
+            comRef.damageRed = false;
+            playerRef.damageRed = false;
+            bonusReset();
         }
     }
 
@@ -121,12 +125,37 @@ public class CombatManager_class : MonoBehaviour
         }
     }
 
-    //The bonus number is generated on a successful defence, this prevents it from getting too high
-    void playerBonusLogic()
+    //Makes sure the bonus numbers reset
+    void bonusReset()
     {
-        if (playerBonus > 1)
+        switch (playerBonus)
         {
-            playerBonus = 0;
+            case 0:
+                pBCount = 0;
+                break;
+
+           case 1:
+                pBCount++;
+                if (pBCount == 2)
+                {
+                    playerBonus = 0;
+                }
+                break;
+        }
+
+        switch (comBonus)
+        {
+            case 0:
+                cBCount = 0;
+                break;
+
+            case 1:
+                cBCount++;
+                if (pBCount == 2)
+                {
+                    comBonus = 0;
+                }
+                break;
         }
     }
 
@@ -294,14 +323,17 @@ public class CombatManager_class : MonoBehaviour
 
                         case computerNodeEnum.node2:
                             computerHealth -= 1 + playerBonus;
+                            comRef.damageRed = true;
                             break;
 
                         case computerNodeEnum.node3:
                             computerHealth -= 1 + playerBonus;
+                            comRef.damageRed = true;
                             break;
 
                         case computerNodeEnum.node4:
                             playerHealth -= 1 + comBonus;
+                            playerRef.damageRed = true;
                             break;
                     }
                     singleLock = true;
@@ -313,6 +345,7 @@ public class CombatManager_class : MonoBehaviour
                     {
                         case computerNodeEnum.node1:
                             playerHealth -= 1 + comBonus;
+                            playerRef.damageRed = true;
                             break;
 
                         case computerNodeEnum.node2:
@@ -321,10 +354,12 @@ public class CombatManager_class : MonoBehaviour
 
                         case computerNodeEnum.node3:
                             computerHealth -= 1 + playerBonus;
+                            comRef.damageRed = true;
                             break;
 
                         case computerNodeEnum.node4:
                             playerHealth -= 1 + comBonus;
+                            playerRef.damageRed = true;
                             break;
                     }
                     singleLock = true;
@@ -336,10 +371,12 @@ public class CombatManager_class : MonoBehaviour
                     {
                         case computerNodeEnum.node1:
                             playerHealth -= 1 + comBonus;
+                            playerRef.damageRed = true;
                             break;
 
                         case computerNodeEnum.node2:
                             playerHealth -= 1 + comBonus;
+                            playerRef.damageRed = true;
                             break;
 
                         case computerNodeEnum.node3:
@@ -348,6 +385,7 @@ public class CombatManager_class : MonoBehaviour
 
                         case computerNodeEnum.node4:
                             computerHealth -= 1 + playerBonus;
+                            comRef.damageRed = true;
                             break;
                     }
                     singleLock = true;
@@ -360,14 +398,17 @@ public class CombatManager_class : MonoBehaviour
                     {
                         case computerNodeEnum.node1:
                             computerHealth -= 1 + playerBonus;
+                            comRef.damageRed = true;
                             break;
 
                         case computerNodeEnum.node2:
                             computerHealth -= 1 + playerBonus;
+                            comRef.damageRed = true;
                             break;
 
                         case computerNodeEnum.node3:
                             playerHealth -= 1 + comBonus;
+                            playerRef.damageRed = true;
                             break;
 
                         case computerNodeEnum.node4:
@@ -386,14 +427,18 @@ public class CombatManager_class : MonoBehaviour
                     {
                         case computerNodeEnum.node1:
                             reverseState = true;
+                            computerHealth -= playerBonus + 1;
+                            comRef.damageRed = true;
                             break;
 
                         case computerNodeEnum.node2:
                             computerHealth -= playerBonus + 1;
+                            comRef.damageRed = true;
                             break;
 
                         case computerNodeEnum.node3:
                             computerHealth -= playerBonus;
+                            comRef.damageRed = true;
                             break;
 
                         case computerNodeEnum.node4:
@@ -414,14 +459,18 @@ public class CombatManager_class : MonoBehaviour
 
                         case computerNodeEnum.node2:
                             reverseState = true;
+                            computerHealth -= playerBonus + 1;
+                            comRef.damageRed = true;
                             break;
 
                         case computerNodeEnum.node3:
                             computerHealth -= playerBonus + 1;
+                            comRef.damageRed = true;
                             break;
 
                         case computerNodeEnum.node4:
                             computerHealth -= playerBonus;
+                            comRef.damageRed = true;
                             break;
                     }
                     singleLock = true;
@@ -433,6 +482,7 @@ public class CombatManager_class : MonoBehaviour
                     {
                         case computerNodeEnum.node1:
                             computerHealth -= playerBonus;
+                            comRef.damageRed = true;
                             break;
 
                         case computerNodeEnum.node2:
@@ -441,10 +491,13 @@ public class CombatManager_class : MonoBehaviour
 
                         case computerNodeEnum.node3:
                             reverseState = true;
+                            computerHealth -= playerBonus + 1;
+                            comRef.damageRed = true;
                             break;
 
                         case computerNodeEnum.node4:
                             computerHealth -= playerBonus + 1;
+                            comRef.damageRed = true;
                             break;
                     }
                     singleLock = true;
@@ -456,10 +509,12 @@ public class CombatManager_class : MonoBehaviour
                     {
                         case computerNodeEnum.node1:
                             computerHealth -= playerBonus + 1;
+                            comRef.damageRed = true;
                             break;
 
                         case computerNodeEnum.node2:
                             computerHealth -= playerBonus;
+                            comRef.damageRed = true;
                             break;
 
                         case computerNodeEnum.node3:
@@ -468,6 +523,8 @@ public class CombatManager_class : MonoBehaviour
 
                         case computerNodeEnum.node4:
                             reverseState = true;
+                            computerHealth -= playerBonus + 1;
+                            comRef.damageRed = true;
                             break;
                     }
                     singleLock = true;
@@ -492,14 +549,17 @@ public class CombatManager_class : MonoBehaviour
 
                         case computerNodeEnum.node2:
                             playerHealth -= 1 + comBonus;
+                            playerRef.damageRed = true;
                             break;
 
                         case computerNodeEnum.node3:
                             playerHealth -= 1 + comBonus;
+                            playerRef.damageRed = true;
                             break;
 
                         case computerNodeEnum.node4:
                             computerHealth -= 1 + playerBonus;
+                            comRef.damageRed = true;
                             break;
                     }
                     singleLock = true;
@@ -511,6 +571,7 @@ public class CombatManager_class : MonoBehaviour
                     {
                         case computerNodeEnum.node1:
                             computerHealth -= 1 + playerBonus;
+                            comRef.damageRed = true;
                             break;
 
                         case computerNodeEnum.node2:
@@ -519,10 +580,12 @@ public class CombatManager_class : MonoBehaviour
 
                         case computerNodeEnum.node3:
                             playerHealth -= 1 + comBonus;
+                            playerRef.damageRed = true;
                             break;
 
                         case computerNodeEnum.node4:
                             computerHealth -= 1 + playerBonus;
+                            comRef.damageRed = true;
                             break;
                     }
                     singleLock = true;
@@ -534,10 +597,12 @@ public class CombatManager_class : MonoBehaviour
                     {
                         case computerNodeEnum.node1:
                             computerHealth -= 1 + playerBonus;
+                            comRef.damageRed = true;
                             break;
 
                         case computerNodeEnum.node2:
                             computerHealth -= 1 + playerBonus;
+                            comRef.damageRed = true;
                             break;
 
                         case computerNodeEnum.node3:
@@ -546,6 +611,7 @@ public class CombatManager_class : MonoBehaviour
 
                         case computerNodeEnum.node4:
                             playerHealth -= 1 + comBonus;
+                            playerRef.damageRed = true;
                             break;
                     }
                     singleLock = true;
@@ -557,14 +623,17 @@ public class CombatManager_class : MonoBehaviour
                     {
                         case computerNodeEnum.node1:
                             playerHealth -= 1 + comBonus;
+                            playerRef.damageRed = true;
                             break;
 
                         case computerNodeEnum.node2:
                             playerHealth -= 1 + comBonus;
+                            playerRef.damageRed = true;
                             break;
 
                         case computerNodeEnum.node3:
                             computerHealth -= 1 + playerBonus;
+                            comRef.damageRed = true;
                             break;
 
                         case computerNodeEnum.node4:
@@ -583,6 +652,8 @@ public class CombatManager_class : MonoBehaviour
                     {
                         case computerNodeEnum.node1:
                             reverseState = true;
+                            computerHealth -= playerBonus + 1;
+                            comRef.damageRed = true;
                             break;
 
                         case computerNodeEnum.node2:
@@ -591,10 +662,12 @@ public class CombatManager_class : MonoBehaviour
 
                         case computerNodeEnum.node3:
                             computerHealth -= playerBonus;
+                            comRef.damageRed = true;
                             break;
 
                         case computerNodeEnum.node4:
                             computerHealth -= playerBonus + 1;
+                            comRef.damageRed = true;
                             break;
                     }
                     singleLock = true;
@@ -606,10 +679,13 @@ public class CombatManager_class : MonoBehaviour
                     {
                         case computerNodeEnum.node1:
                             computerHealth -= playerBonus + 1;
+                            comRef.damageRed = true;
                             break;
 
                         case computerNodeEnum.node2:
                             reverseState = true;
+                            computerHealth -= playerBonus + 1;
+                            comRef.damageRed = true;
                             break;
 
                         case computerNodeEnum.node3:
@@ -618,6 +694,7 @@ public class CombatManager_class : MonoBehaviour
 
                         case computerNodeEnum.node4:
                             computerHealth -= playerBonus;
+                            comRef.damageRed = true;
                             break;
                     }
                     singleLock = true;
@@ -629,14 +706,18 @@ public class CombatManager_class : MonoBehaviour
                     {
                         case computerNodeEnum.node1:
                             computerHealth -= playerBonus;
+                            comRef.damageRed = true;
                             break;
 
                         case computerNodeEnum.node2:
                             computerHealth -= playerBonus + 1;
+                            comRef.damageRed = true;
                             break;
 
                         case computerNodeEnum.node3:
                             reverseState = true;
+                            computerHealth -= playerBonus + 1;
+                            comRef.damageRed = true;
                             break;
 
                         case computerNodeEnum.node4:
@@ -656,14 +737,18 @@ public class CombatManager_class : MonoBehaviour
 
                         case computerNodeEnum.node2:
                             computerHealth -= playerBonus;
+                            comRef.damageRed = true;
                             break;
 
                         case computerNodeEnum.node3:
                             computerHealth -= playerBonus + 1;
+                            comRef.damageRed = true;
                             break;
 
                         case computerNodeEnum.node4:
                             reverseState = true;
+                            computerHealth -= playerBonus + 1;
+                            comRef.damageRed = true;
                             break;
                     }
                     singleLock = true;
@@ -684,6 +769,8 @@ public class CombatManager_class : MonoBehaviour
                     {
                         case computerNodeEnum.node1:
                             reverseState = true;
+                            playerHealth -= comBonus + 1;
+                            playerRef.damageRed = true;
                             break;
 
                         case computerNodeEnum.node2:
@@ -692,10 +779,12 @@ public class CombatManager_class : MonoBehaviour
 
                         case computerNodeEnum.node3:
                             playerHealth -= comBonus;
+                            playerRef.damageRed = true;
                             break;
 
                         case computerNodeEnum.node4:
                             playerHealth -= comBonus + 1;
+                            playerRef.damageRed = true;
                             break;
                     }
                     singleLock = true;
@@ -708,10 +797,13 @@ public class CombatManager_class : MonoBehaviour
                     {
                         case computerNodeEnum.node1:
                             playerHealth -= comBonus + 1;
+                            playerRef.damageRed = true;
                             break;
 
                         case computerNodeEnum.node2:
                             reverseState = true;
+                            playerHealth -= comBonus + 1;
+                            playerRef.damageRed = true;
                             break;
 
                         case computerNodeEnum.node3:
@@ -720,6 +812,7 @@ public class CombatManager_class : MonoBehaviour
 
                         case computerNodeEnum.node4:
                             playerHealth -= comBonus;
+                            playerRef.damageRed = true;
                             break;
                     }
                     singleLock = true;
@@ -731,14 +824,18 @@ public class CombatManager_class : MonoBehaviour
                     {
                         case computerNodeEnum.node1:
                             playerHealth -= comBonus;
+                            playerRef.damageRed = true;
                             break;
 
                         case computerNodeEnum.node2:
                             playerHealth -= comBonus + 1;
+                            playerRef.damageRed = true;
                             break;
 
                         case computerNodeEnum.node3:
                             reverseState = true;
+                            playerHealth -= comBonus + 1;
+                            playerRef.damageRed = true;
                             break;
 
                         case computerNodeEnum.node4:
@@ -758,14 +855,18 @@ public class CombatManager_class : MonoBehaviour
 
                         case computerNodeEnum.node2:
                             playerHealth -= comBonus;
+                            playerRef.damageRed = true;
                             break;
 
                         case computerNodeEnum.node3:
                             playerHealth -= comBonus + 1;
+                            playerRef.damageRed = true;
                             break;
 
                         case computerNodeEnum.node4:
                             reverseState = true;
+                            playerHealth -= comBonus + 1;
+                            playerRef.damageRed = true;
                             break;
                     }
                     singleLock = true;
@@ -793,14 +894,18 @@ public class CombatManager_class : MonoBehaviour
                     {
                         case computerNodeEnum.node1:
                             reverseState = true;
+                            playerHealth -= comBonus + 1;
+                            playerRef.damageRed = true;
                             break;
 
                         case computerNodeEnum.node2:
                             playerHealth -= comBonus + 1;
+                            playerRef.damageRed = true;
                             break;
 
                         case computerNodeEnum.node3:
                             playerHealth -= comBonus;
+                            playerRef.damageRed = true;
                             break;
 
                         case computerNodeEnum.node4:
@@ -821,14 +926,18 @@ public class CombatManager_class : MonoBehaviour
 
                         case computerNodeEnum.node2:
                             reverseState = true;
+                            playerHealth -= comBonus + 1;
+                            playerRef.damageRed = true;
                             break;
 
                         case computerNodeEnum.node3:
                             playerHealth -= comBonus + 1;
+                            playerRef.damageRed = true;
                             break;
 
                         case computerNodeEnum.node4:
                             playerHealth -= comBonus;
+                            playerRef.damageRed = true;
                             break;
                     }
                     singleLock = true;
@@ -840,6 +949,7 @@ public class CombatManager_class : MonoBehaviour
                     {
                         case computerNodeEnum.node1:
                             playerHealth -= comBonus;
+                            playerRef.damageRed = true;
                             break;
 
                         case computerNodeEnum.node2:
@@ -848,10 +958,13 @@ public class CombatManager_class : MonoBehaviour
 
                         case computerNodeEnum.node3:
                             reverseState = true;
+                            playerHealth -= comBonus + 1;
+                            playerRef.damageRed = true;
                             break;
 
                         case computerNodeEnum.node4:
                             playerHealth -= comBonus + 1;
+                            playerRef.damageRed = true;
                             break;
                     }
                     singleLock = true;
@@ -863,10 +976,12 @@ public class CombatManager_class : MonoBehaviour
                     {
                         case computerNodeEnum.node1:
                             playerHealth -= comBonus + 1;
+                            playerRef.damageRed = true;
                             break;
 
                         case computerNodeEnum.node2:
                             playerHealth -= comBonus;
+                            playerRef.damageRed = true;
                             break;
 
                         case computerNodeEnum.node3:
@@ -875,6 +990,8 @@ public class CombatManager_class : MonoBehaviour
 
                         case computerNodeEnum.node4:
                             reverseState = true;
+                            playerHealth -= comBonus + 1;
+                            playerRef.damageRed = true;
                             break;
                     }
                     singleLock = true;
@@ -903,9 +1020,14 @@ public class CombatManager_class : MonoBehaviour
                 comDef = false;
             }
 
-            else if (comDefDice <= 3)
+            else if (comDefDice <= 3 && comBonus == 0)
             {
                 comDef = true;
+            }
+
+            else if (comDefDice <= 3 && comBonus == 1)
+            {
+                comDef = false;
             }
 
             switch (computerNode)

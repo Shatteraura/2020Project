@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LifeScript_class : MonoBehaviour
+public class ComLife_class : MonoBehaviour
 {
     public GameObject combatManagerRef;
-    public int lifeNumPlayer;
+    public int lifeNumCom;
 
     Vector3 hiddenPos = new Vector3(100, 0, 0);
 
@@ -18,17 +18,14 @@ public class LifeScript_class : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        playerLives();
+        comLives();
     }
 
-
-    //Governs Hiding The Lives When They Are Lost
-    void playerLives()
+    void comLives()
     {
-        if (combatManagerRef.GetComponent<CombatManager_class>().playerHealth < lifeNumPlayer)
+        if (combatManagerRef.GetComponent<CombatManager_class>().computerHealth < lifeNumCom)
         {
             this.transform.position = hiddenPos;
         }
-
     }
 }

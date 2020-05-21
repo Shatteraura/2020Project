@@ -144,7 +144,14 @@ public class ButtonScript_class : MonoBehaviour
                 case buttonTypeEnum.high:
                     if (mRef.GetComponent<CombatManager_class>().playerNodeLock != 1)
                     {
-                        playerRef.playerUpdateSprite(0);
+                        if (mRef.GetComponent<CombatManager_class>().playerBonus == 0)
+                        {
+                            playerRef.playerUpdateSprite(0);
+                        }
+                        else
+                        {
+                            playerRef.playerUpdateSprite(4);
+                        }
                         mRef.GetComponent<CombatManager_class>().currentButton = 1;
                         selectRef.buttonPos = new Vector3(this.transform.position.x, this.transform.position.y, 1);
                     }
@@ -153,7 +160,14 @@ public class ButtonScript_class : MonoBehaviour
                 case buttonTypeEnum.low:
                     if (mRef.GetComponent<CombatManager_class>().playerNodeLock != 2)
                     {
-                        playerRef.playerUpdateSprite(1);
+                        if (mRef.GetComponent<CombatManager_class>().playerBonus == 0)
+                        {
+                            playerRef.playerUpdateSprite(1);
+                        }
+                        else
+                        {
+                            playerRef.playerUpdateSprite(5);
+                        }
                         mRef.GetComponent<CombatManager_class>().currentButton = 2;
                         selectRef.buttonPos = new Vector3(this.transform.position.x, this.transform.position.y, 1);
                     }
@@ -162,7 +176,14 @@ public class ButtonScript_class : MonoBehaviour
                 case buttonTypeEnum.side:
                     if (mRef.GetComponent<CombatManager_class>().playerNodeLock != 3)
                     {
-                        playerRef.playerUpdateSprite(2);
+                        if (mRef.GetComponent<CombatManager_class>().playerBonus == 0)
+                        {
+                            playerRef.playerUpdateSprite(2);
+                        }
+                        else
+                        {
+                            playerRef.playerUpdateSprite(6);
+                        }
                         mRef.GetComponent<CombatManager_class>().currentButton = 3;
                         selectRef.buttonPos = new Vector3(this.transform.position.x, this.transform.position.y, 1);
                     }
@@ -171,7 +192,14 @@ public class ButtonScript_class : MonoBehaviour
                 case buttonTypeEnum.mid:
                     if (mRef.GetComponent<CombatManager_class>().playerNodeLock != 4)
                     {
-                        playerRef.playerUpdateSprite(3);
+                        if (mRef.GetComponent<CombatManager_class>().playerBonus == 0)
+                        {
+                            playerRef.playerUpdateSprite(3);
+                        }
+                        else
+                        {
+                            playerRef.playerUpdateSprite(7);
+                        }
                         mRef.GetComponent<CombatManager_class>().currentButton = 4;
                         selectRef.buttonPos = new Vector3(this.transform.position.x, this.transform.position.y, 1);
                     }

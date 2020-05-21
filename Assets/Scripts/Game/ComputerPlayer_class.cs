@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum comSpriteEnum { High, Low, Side, Mid, EnumEnd }
+public enum comSpriteEnum { High, Low, Side, Mid }
 
 public class ComputerPlayer_class : MonoBehaviour
 {
     public comSpriteEnum SetSprite;
     public Sprite[] comSprites;
-    //public Sprite[] comSprites = new Sprite[(int)SpriteEnum.EnumEnd];
+    public bool damageRed = false;
 
     // Start is called before the first frame update
     void Start()
@@ -19,10 +19,24 @@ public class ComputerPlayer_class : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        flashRed();
     }
 
-    //Called From Combat Manager
+    void flashRed()
+    {
+        switch (damageRed)
+        {
+            case true:
+                this.GetComponent<SpriteRenderer>().color = Color.red;
+                break;
+
+            case false:
+                this.GetComponent<SpriteRenderer>().color = Color.white;
+                break;
+        }
+    }
+
+    //Called From Button Script
     public void comUpdateSprite(int spriteNum)
     {
         this.GetComponent<SpriteRenderer>().sprite = comSprites[spriteNum];
