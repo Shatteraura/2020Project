@@ -16,8 +16,8 @@ public class CombatManager_class : MonoBehaviour
     public ComputerPlayer_class comRef;
     public Player_class playerRef;
 
-    public int playerHealth = 5;
-    public int computerHealth = 5;
+    public int playerHealth = 10;
+    public int computerHealth = 10;
 
     public int currentButton;
 
@@ -47,6 +47,8 @@ public class CombatManager_class : MonoBehaviour
     public Text CNodeText;
     public Text modeButtonText;
     public Text cLockText;
+    public Text reverseText;
+    public Text actionText;
 
     public Vector3 button1Pos;
     public Vector3 button2Pos;
@@ -83,6 +85,7 @@ public class CombatManager_class : MonoBehaviour
         if (singleLock == true && singleLockCom == true && endTurnTimer <= 0)
         {
             playerNode = playerNodeEnum.noNode;
+            bonusReset();
             endTurnTimer = 300;
             currentButton = 0;
             comDef = false;
@@ -91,7 +94,8 @@ public class CombatManager_class : MonoBehaviour
             CNodeText.text = "";
             comRef.damageRed = false;
             playerRef.damageRed = false;
-            bonusReset();
+            actionText.color = Color.white;
+            actionText.text = "";
         }
     }
 
@@ -151,7 +155,7 @@ public class CombatManager_class : MonoBehaviour
 
             case 1:
                 cBCount++;
-                if (pBCount == 2)
+                if (cBCount == 2)
                 {
                     comBonus = 0;
                 }
@@ -215,13 +219,21 @@ public class CombatManager_class : MonoBehaviour
 
     }
 
+    //Node in use by the computer --- During turn timer --- Governs Sprites and text
     void comTextDisplay ()
     {
-        //Node in use by the computer --- During turn timer
         switch (comPrev)
         {
             case 1:
-                comRef.comUpdateSprite(0);
+                if (comBonus == 0)
+                {
+                    comRef.comUpdateSprite(0);
+                }
+                else
+                {
+                    comRef.comUpdateSprite(4);
+                }
+                
                 if (comDef == false)
                 {
                     CNodeText.text = "High Attack";
@@ -234,7 +246,15 @@ public class CombatManager_class : MonoBehaviour
                 break;
 
             case 2:
-                comRef.comUpdateSprite(1);
+                if (comBonus == 0)
+                {
+                    comRef.comUpdateSprite(1);
+                }
+                else
+                {
+                    comRef.comUpdateSprite(5);
+                }
+
                 if (comDef == false)
                 {
                     CNodeText.text = "Low Attack";
@@ -247,7 +267,15 @@ public class CombatManager_class : MonoBehaviour
                 break;
 
             case 3:
-                comRef.comUpdateSprite(2);
+                if (comBonus == 0)
+                {
+                    comRef.comUpdateSprite(2);
+                }
+                else
+                {
+                    comRef.comUpdateSprite(6);
+                }
+
                 if (comDef == false)
                 {
                     CNodeText.text = "Side Attack";
@@ -260,7 +288,15 @@ public class CombatManager_class : MonoBehaviour
                 break;
 
             case 4:
-                comRef.comUpdateSprite(3);
+                if (comBonus == 0)
+                {
+                    comRef.comUpdateSprite(3);
+                }
+                else
+                {
+                    comRef.comUpdateSprite(7);
+                }
+
                 if (comDef == false)
                 {
                     CNodeText.text = "Mid Attack";
@@ -277,6 +313,15 @@ public class CombatManager_class : MonoBehaviour
     //The logic that activates when a Node is clicked
     void nodeLogic()
     {
+        if (reverseState == false)
+        {
+            reverseText.text = "Normal";
+        }
+        else
+        {
+            reverseText.text = "Reverse";
+        }
+
         if (reverseState == false && singleLock == false)
             {
                 switch (buttonMode)
@@ -319,21 +364,28 @@ public class CombatManager_class : MonoBehaviour
                     {
                         case computerNodeEnum.node1:
                             reverseState = true;
+                            actionText.text = "BLOCK!";
                             break;
 
                         case computerNodeEnum.node2:
                             computerHealth -= 1 + playerBonus;
                             comRef.damageRed = true;
+                            actionText.text = "HIT!";
+                            actionText.color = Color.green;
                             break;
 
                         case computerNodeEnum.node3:
                             computerHealth -= 1 + playerBonus;
                             comRef.damageRed = true;
+                            actionText.text = "HIT!";
+                            actionText.color = Color.green;
                             break;
 
                         case computerNodeEnum.node4:
                             playerHealth -= 1 + comBonus;
                             playerRef.damageRed = true;
+                            actionText.text = "HIT!";
+                            actionText.color = Color.red;
                             break;
                     }
                     singleLock = true;
@@ -346,20 +398,27 @@ public class CombatManager_class : MonoBehaviour
                         case computerNodeEnum.node1:
                             playerHealth -= 1 + comBonus;
                             playerRef.damageRed = true;
+                            actionText.text = "HIT!";
+                            actionText.color = Color.red;
                             break;
 
                         case computerNodeEnum.node2:
                             reverseState = true;
+                            actionText.text = "BLOCK!";
                             break;
 
                         case computerNodeEnum.node3:
                             computerHealth -= 1 + playerBonus;
                             comRef.damageRed = true;
+                            actionText.text = "HIT!";
+                            actionText.color = Color.green;
                             break;
 
                         case computerNodeEnum.node4:
                             playerHealth -= 1 + comBonus;
                             playerRef.damageRed = true;
+                            actionText.text = "HIT!";
+                            actionText.color = Color.red;
                             break;
                     }
                     singleLock = true;
@@ -372,20 +431,27 @@ public class CombatManager_class : MonoBehaviour
                         case computerNodeEnum.node1:
                             playerHealth -= 1 + comBonus;
                             playerRef.damageRed = true;
+                            actionText.text = "HIT!";
+                            actionText.color = Color.red;
                             break;
 
                         case computerNodeEnum.node2:
                             playerHealth -= 1 + comBonus;
                             playerRef.damageRed = true;
+                            actionText.text = "HIT!";
+                            actionText.color = Color.red;
                             break;
 
                         case computerNodeEnum.node3:
                             reverseState = true;
+                            actionText.text = "BLOCK!";
                             break;
 
                         case computerNodeEnum.node4:
                             computerHealth -= 1 + playerBonus;
                             comRef.damageRed = true;
+                            actionText.text = "HIT!";
+                            actionText.color = Color.green;
                             break;
                     }
                     singleLock = true;
@@ -399,20 +465,27 @@ public class CombatManager_class : MonoBehaviour
                         case computerNodeEnum.node1:
                             computerHealth -= 1 + playerBonus;
                             comRef.damageRed = true;
+                            actionText.text = "HIT!";
+                            actionText.color = Color.green;
                             break;
 
                         case computerNodeEnum.node2:
                             computerHealth -= 1 + playerBonus;
                             comRef.damageRed = true;
+                            actionText.text = "HIT!";
+                            actionText.color = Color.green;
                             break;
 
                         case computerNodeEnum.node3:
                             playerHealth -= 1 + comBonus;
                             playerRef.damageRed = true;
+                            actionText.text = "HIT!";
+                            actionText.color = Color.red;
                             break;
 
                         case computerNodeEnum.node4:
                             reverseState = true;
+                            actionText.text = "BLOCK!";
                             break;
                     }
                     singleLock = true;
@@ -429,20 +502,36 @@ public class CombatManager_class : MonoBehaviour
                             reverseState = true;
                             computerHealth -= playerBonus + 1;
                             comRef.damageRed = true;
+                            actionText.text = "HIT";
+                            actionText.color = Color.green;
                             break;
 
                         case computerNodeEnum.node2:
                             computerHealth -= playerBonus + 1;
                             comRef.damageRed = true;
+                            actionText.text = "HIT!";
+                            actionText.color = Color.green;
                             break;
 
                         case computerNodeEnum.node3:
                             computerHealth -= playerBonus;
-                            comRef.damageRed = true;
+                            if (playerBonus == 0)
+                            {
+                                actionText.color = Color.white;
+                                actionText.text = "BLOCK!";
+                            }
+                            else
+                            {
+                                actionText.color = Color.blue;
+                                actionText.text = "GRAZE!";
+                                comRef.damageRed = true;
+                            }
                             break;
 
                         case computerNodeEnum.node4:
                             comBonus += 1;
+                            actionText.text = "PARRY!";
+                            actionText.color = Color.blue;
                             break;
                     }
                     singleLock = true;
@@ -455,22 +544,38 @@ public class CombatManager_class : MonoBehaviour
                     {
                         case computerNodeEnum.node1:
                             comBonus += 1;
+                            actionText.text = "PARRY!";
+                            actionText.color = Color.blue;
                             break;
 
                         case computerNodeEnum.node2:
                             reverseState = true;
                             computerHealth -= playerBonus + 1;
                             comRef.damageRed = true;
+                            actionText.text = "HIT";
+                            actionText.color = Color.green;
                             break;
 
                         case computerNodeEnum.node3:
                             computerHealth -= playerBonus + 1;
                             comRef.damageRed = true;
+                            actionText.text = "HIT!";
+                            actionText.color = Color.green;
                             break;
 
                         case computerNodeEnum.node4:
                             computerHealth -= playerBonus;
-                            comRef.damageRed = true;
+                            if (playerBonus == 0)
+                            {
+                                actionText.color = Color.white;
+                                actionText.text = "BLOCK!";
+                            }
+                            else
+                            {
+                                actionText.color = Color.blue;
+                                actionText.text = "GRAZE!";
+                                comRef.damageRed = true;
+                            }
                             break;
                     }
                     singleLock = true;
@@ -482,22 +587,38 @@ public class CombatManager_class : MonoBehaviour
                     {
                         case computerNodeEnum.node1:
                             computerHealth -= playerBonus;
-                            comRef.damageRed = true;
+                            if (playerBonus == 0)
+                            {
+                                actionText.color = Color.white;
+                                actionText.text = "BLOCK!";
+                            }
+                            else
+                            {
+                                actionText.color = Color.blue;
+                                actionText.text = "GRAZE!";
+                                comRef.damageRed = true;
+                            }
                             break;
 
                         case computerNodeEnum.node2:
                             comBonus += 1;
+                            actionText.text = "PARRY!";
+                            actionText.color = Color.blue;
                             break;
 
                         case computerNodeEnum.node3:
                             reverseState = true;
                             computerHealth -= playerBonus + 1;
                             comRef.damageRed = true;
+                            actionText.text = "HIT!";
+                            actionText.color = Color.green;
                             break;
 
                         case computerNodeEnum.node4:
                             computerHealth -= playerBonus + 1;
                             comRef.damageRed = true;
+                            actionText.text = "HIT!";
+                            actionText.color = Color.green;
                             break;
                     }
                     singleLock = true;
@@ -510,21 +631,37 @@ public class CombatManager_class : MonoBehaviour
                         case computerNodeEnum.node1:
                             computerHealth -= playerBonus + 1;
                             comRef.damageRed = true;
+                            actionText.text = "HIT!";
+                            actionText.color = Color.green;
                             break;
 
                         case computerNodeEnum.node2:
                             computerHealth -= playerBonus;
-                            comRef.damageRed = true;
+                            if (playerBonus == 0)
+                            {
+                                actionText.color = Color.white;
+                                actionText.text = "BLOCK!";
+                            }
+                            else
+                            {
+                                actionText.color = Color.blue;
+                                actionText.text = "GRAZE!";
+                                comRef.damageRed = true;
+                            }
                             break;
 
                         case computerNodeEnum.node3:
                             comBonus += 1;
+                            actionText.text = "PARRY!";
+                            actionText.color = Color.blue;
                             break;
 
                         case computerNodeEnum.node4:
                             reverseState = true;
                             computerHealth -= playerBonus + 1;
                             comRef.damageRed = true;
+                            actionText.text = "HIT!";
+                            actionText.color = Color.green;
                             break;
                     }
                     singleLock = true;
@@ -545,21 +682,28 @@ public class CombatManager_class : MonoBehaviour
                     {
                         case computerNodeEnum.node1:
                             reverseState = false;
+                            actionText.text = "BLOCK!";
                             break;
 
                         case computerNodeEnum.node2:
                             playerHealth -= 1 + comBonus;
                             playerRef.damageRed = true;
+                            actionText.text = "HIT!";
+                            actionText.color = Color.red;
                             break;
 
                         case computerNodeEnum.node3:
                             playerHealth -= 1 + comBonus;
                             playerRef.damageRed = true;
+                            actionText.text = "HIT!";
+                            actionText.color = Color.red;
                             break;
 
                         case computerNodeEnum.node4:
                             computerHealth -= 1 + playerBonus;
                             comRef.damageRed = true;
+                            actionText.text = "HIT!";
+                            actionText.color = Color.green;
                             break;
                     }
                     singleLock = true;
@@ -572,15 +716,20 @@ public class CombatManager_class : MonoBehaviour
                         case computerNodeEnum.node1:
                             computerHealth -= 1 + playerBonus;
                             comRef.damageRed = true;
+                            actionText.text = "HIT!";
+                            actionText.color = Color.green;
                             break;
 
                         case computerNodeEnum.node2:
                             reverseState = false;
+                            actionText.text = "BLOCK!";
                             break;
 
                         case computerNodeEnum.node3:
                             playerHealth -= 1 + comBonus;
                             playerRef.damageRed = true;
+                            actionText.text = "HIT!";
+                            actionText.color = Color.red;
                             break;
 
                         case computerNodeEnum.node4:
@@ -598,20 +747,27 @@ public class CombatManager_class : MonoBehaviour
                         case computerNodeEnum.node1:
                             computerHealth -= 1 + playerBonus;
                             comRef.damageRed = true;
+                            actionText.text = "HIT!";
+                            actionText.color = Color.green;
                             break;
 
                         case computerNodeEnum.node2:
                             computerHealth -= 1 + playerBonus;
                             comRef.damageRed = true;
+                            actionText.text = "HIT!";
+                            actionText.color = Color.green;
                             break;
 
                         case computerNodeEnum.node3:
                             reverseState = false;
+                            actionText.text = "BLOCK!";
                             break;
 
                         case computerNodeEnum.node4:
                             playerHealth -= 1 + comBonus;
                             playerRef.damageRed = true;
+                            actionText.text = "HIT!";
+                            actionText.color = Color.red;
                             break;
                     }
                     singleLock = true;
@@ -624,20 +780,27 @@ public class CombatManager_class : MonoBehaviour
                         case computerNodeEnum.node1:
                             playerHealth -= 1 + comBonus;
                             playerRef.damageRed = true;
+                            actionText.text = "HIT!";
+                            actionText.color = Color.red;
                             break;
 
                         case computerNodeEnum.node2:
                             playerHealth -= 1 + comBonus;
                             playerRef.damageRed = true;
+                            actionText.text = "HIT!";
+                            actionText.color = Color.red;
                             break;
 
                         case computerNodeEnum.node3:
                             computerHealth -= 1 + playerBonus;
                             comRef.damageRed = true;
+                            actionText.text = "HIT!";
+                            actionText.color = Color.green;
                             break;
 
                         case computerNodeEnum.node4:
                             reverseState = false;
+                            actionText.text = "BLOCK!";
                             break;
                     }
                     singleLock = true;
@@ -654,20 +817,36 @@ public class CombatManager_class : MonoBehaviour
                             reverseState = true;
                             computerHealth -= playerBonus + 1;
                             comRef.damageRed = true;
+                            actionText.text = "HIT!";
+                            actionText.color = Color.green;
                             break;
 
                         case computerNodeEnum.node2:
                             comBonus += 1;
+                            actionText.text = "PARRY!";
+                            actionText.color = Color.blue;
                             break;
 
                         case computerNodeEnum.node3:
                             computerHealth -= playerBonus;
-                            comRef.damageRed = true;
+                            if (playerBonus == 0)
+                            {
+                                actionText.color = Color.white;
+                                actionText.text = "BLOCK!";
+                            }
+                            else
+                            {
+                                actionText.color = Color.blue;
+                                actionText.text = "GRAZE!";
+                                comRef.damageRed = true;
+                            }
                             break;
 
                         case computerNodeEnum.node4:
                             computerHealth -= playerBonus + 1;
                             comRef.damageRed = true;
+                            actionText.text = "HIT!";
+                            actionText.color = Color.green;
                             break;
                     }
                     singleLock = true;
@@ -680,21 +859,37 @@ public class CombatManager_class : MonoBehaviour
                         case computerNodeEnum.node1:
                             computerHealth -= playerBonus + 1;
                             comRef.damageRed = true;
+                            actionText.text = "HIT!";
+                            actionText.color = Color.green;
                             break;
 
                         case computerNodeEnum.node2:
                             reverseState = true;
                             computerHealth -= playerBonus + 1;
                             comRef.damageRed = true;
+                            actionText.text = "HIT!";
+                            actionText.color = Color.green;
                             break;
 
                         case computerNodeEnum.node3:
                             comBonus += 1;
+                            actionText.text = "PARRY!";
+                            actionText.color = Color.blue;
                             break;
 
                         case computerNodeEnum.node4:
                             computerHealth -= playerBonus;
-                            comRef.damageRed = true;
+                            if (playerBonus == 0)
+                            {
+                                actionText.color = Color.white;
+                                actionText.text = "BLOCK!";
+                            }
+                            else
+                            {
+                                actionText.color = Color.blue;
+                                actionText.text = "GRAZE!";
+                                comRef.damageRed = true;
+                            }
                             break;
                     }
                     singleLock = true;
@@ -706,22 +901,38 @@ public class CombatManager_class : MonoBehaviour
                     {
                         case computerNodeEnum.node1:
                             computerHealth -= playerBonus;
-                            comRef.damageRed = true;
+                            if (playerBonus == 0)
+                            {
+                                actionText.color = Color.white;
+                                actionText.text = "BLOCK!";
+                            }
+                            else
+                            {
+                                actionText.color = Color.blue;
+                                actionText.text = "GRAZE!";
+                                comRef.damageRed = true;
+                            }
                             break;
 
                         case computerNodeEnum.node2:
                             computerHealth -= playerBonus + 1;
                             comRef.damageRed = true;
+                            actionText.text = "HIT!";
+                            actionText.color = Color.green;
                             break;
 
                         case computerNodeEnum.node3:
                             reverseState = true;
                             computerHealth -= playerBonus + 1;
                             comRef.damageRed = true;
+                            actionText.text = "HIT!";
+                            actionText.color = Color.green;
                             break;
 
                         case computerNodeEnum.node4:
                             comBonus += 1;
+                            actionText.text = "PARRY!";
+                            actionText.color = Color.blue;
                             break;
                     }
                     singleLock = true;
@@ -733,22 +944,38 @@ public class CombatManager_class : MonoBehaviour
                     {
                         case computerNodeEnum.node1:
                             comBonus += 1;
+                            actionText.text = "PARRY!";
+                            actionText.color = Color.blue;
                             break;
 
                         case computerNodeEnum.node2:
                             computerHealth -= playerBonus;
-                            comRef.damageRed = true;
+                            if (playerBonus == 0)
+                            {
+                                actionText.color = Color.white;
+                                actionText.text = "BLOCK!";
+                            }
+                            else
+                            {
+                                actionText.color = Color.blue;
+                                actionText.text = "GRAZE!";
+                                comRef.damageRed = true;
+                            }
                             break;
 
                         case computerNodeEnum.node3:
                             computerHealth -= playerBonus + 1;
                             comRef.damageRed = true;
+                            actionText.text = "HIT!";
+                            actionText.color = Color.green;
                             break;
 
                         case computerNodeEnum.node4:
                             reverseState = true;
                             computerHealth -= playerBonus + 1;
                             comRef.damageRed = true;
+                            actionText.text = "HIT!";
+                            actionText.color = Color.green;
                             break;
                     }
                     singleLock = true;
@@ -771,20 +998,36 @@ public class CombatManager_class : MonoBehaviour
                             reverseState = true;
                             playerHealth -= comBonus + 1;
                             playerRef.damageRed = true;
+                            actionText.text = "HIT!";
+                            actionText.color = Color.red;
                             break;
 
                         case computerNodeEnum.node2:
                             playerBonus += 1;
+                            actionText.text = "PARRY!";
+                            actionText.color = Color.blue;
                             break;
 
                         case computerNodeEnum.node3:
                             playerHealth -= comBonus;
-                            playerRef.damageRed = true;
+                            if (playerBonus == 0)
+                            {
+                                actionText.color = Color.white;
+                                actionText.text = "BLOCK!";
+                            }
+                            else
+                            {
+                                actionText.color = Color.blue;
+                                actionText.text = "GRAZE!";
+                                playerRef.damageRed = true;
+                            }
                             break;
 
                         case computerNodeEnum.node4:
                             playerHealth -= comBonus + 1;
                             playerRef.damageRed = true;
+                            actionText.text = "HIT!";
+                            actionText.color = Color.red;
                             break;
                     }
                     singleLock = true;
@@ -798,21 +1041,37 @@ public class CombatManager_class : MonoBehaviour
                         case computerNodeEnum.node1:
                             playerHealth -= comBonus + 1;
                             playerRef.damageRed = true;
+                            actionText.text = "HIT!";
+                            actionText.color = Color.red;
                             break;
 
                         case computerNodeEnum.node2:
                             reverseState = true;
                             playerHealth -= comBonus + 1;
                             playerRef.damageRed = true;
+                            actionText.text = "HIT!";
+                            actionText.color = Color.red;
                             break;
 
                         case computerNodeEnum.node3:
                             playerBonus += 1;
+                            actionText.text = "PARRY!";
+                            actionText.color = Color.blue;
                             break;
 
                         case computerNodeEnum.node4:
                             playerHealth -= comBonus;
-                            playerRef.damageRed = true;
+                            if (playerBonus == 0)
+                            {
+                                actionText.color = Color.white;
+                                actionText.text = "BLOCK!";
+                            }
+                            else
+                            {
+                                actionText.color = Color.blue;
+                                actionText.text = "GRAZE!";
+                                playerRef.damageRed = true;
+                            }
                             break;
                     }
                     singleLock = true;
@@ -824,22 +1083,38 @@ public class CombatManager_class : MonoBehaviour
                     {
                         case computerNodeEnum.node1:
                             playerHealth -= comBonus;
-                            playerRef.damageRed = true;
+                            if (playerBonus == 0)
+                            {
+                                actionText.color = Color.white;
+                                actionText.text = "BLOCK!";
+                            }
+                            else
+                            {
+                                actionText.color = Color.blue;
+                                actionText.text = "GRAZE!";
+                                playerRef.damageRed = true;
+                            }
                             break;
 
                         case computerNodeEnum.node2:
                             playerHealth -= comBonus + 1;
                             playerRef.damageRed = true;
+                            actionText.text = "HIT!";
+                            actionText.color = Color.red;
                             break;
 
                         case computerNodeEnum.node3:
                             reverseState = true;
                             playerHealth -= comBonus + 1;
                             playerRef.damageRed = true;
+                            actionText.text = "HIT!";
+                            actionText.color = Color.red;
                             break;
 
                         case computerNodeEnum.node4:
                             playerBonus += 1;
+                            actionText.text = "PARRY!";
+                            actionText.color = Color.blue;
                             break;
                     }
                     singleLock = true;
@@ -851,22 +1126,38 @@ public class CombatManager_class : MonoBehaviour
                     {
                         case computerNodeEnum.node1:
                             playerBonus += 1;
+                            actionText.text = "PARRY!";
+                            actionText.color = Color.blue;
                             break;
 
                         case computerNodeEnum.node2:
                             playerHealth -= comBonus;
-                            playerRef.damageRed = true;
+                            if (playerBonus == 0)
+                            {
+                                actionText.color = Color.white;
+                                actionText.text = "BLOCK!";
+                            }
+                            else
+                            {
+                                actionText.color = Color.blue;
+                                actionText.text = "GRAZE!";
+                                playerRef.damageRed = true;
+                            }
                             break;
 
                         case computerNodeEnum.node3:
                             playerHealth -= comBonus + 1;
                             playerRef.damageRed = true;
+                            actionText.text = "HIT!";
+                            actionText.color = Color.red;
                             break;
 
                         case computerNodeEnum.node4:
                             reverseState = true;
                             playerHealth -= comBonus + 1;
                             playerRef.damageRed = true;
+                            actionText.text = "HIT!";
+                            actionText.color = Color.red;
                             break;
                     }
                     singleLock = true;
@@ -896,20 +1187,36 @@ public class CombatManager_class : MonoBehaviour
                             reverseState = true;
                             playerHealth -= comBonus + 1;
                             playerRef.damageRed = true;
+                            actionText.text = "HIT!";
+                            actionText.color = Color.red;
                             break;
 
                         case computerNodeEnum.node2:
                             playerHealth -= comBonus + 1;
                             playerRef.damageRed = true;
+                            actionText.text = "HIT!";
+                            actionText.color = Color.red;
                             break;
 
                         case computerNodeEnum.node3:
                             playerHealth -= comBonus;
-                            playerRef.damageRed = true;
+                            if (playerBonus == 0)
+                            {
+                                actionText.color = Color.white;
+                                actionText.text = "BLOCK!";
+                            }
+                            else
+                            {
+                                actionText.color = Color.blue;
+                                actionText.text = "GRAZE!";
+                                playerRef.damageRed = true;
+                            }
                             break;
 
                         case computerNodeEnum.node4:
                             playerBonus += 1;
+                            actionText.text = "PARRY!";
+                            actionText.color = Color.blue;
                             break;
                     }
                     singleLock = true;
@@ -922,22 +1229,38 @@ public class CombatManager_class : MonoBehaviour
                     {
                         case computerNodeEnum.node1:
                             playerBonus += 1;
+                            actionText.text = "PARRY!";
+                            actionText.color = Color.blue;
                             break;
 
                         case computerNodeEnum.node2:
                             reverseState = true;
                             playerHealth -= comBonus + 1;
                             playerRef.damageRed = true;
+                            actionText.text = "HIT!";
+                            actionText.color = Color.red;
                             break;
 
                         case computerNodeEnum.node3:
                             playerHealth -= comBonus + 1;
                             playerRef.damageRed = true;
+                            actionText.text = "HIT!";
+                            actionText.color = Color.red;
                             break;
 
                         case computerNodeEnum.node4:
                             playerHealth -= comBonus;
-                            playerRef.damageRed = true;
+                            if (playerBonus == 0)
+                            {
+                                actionText.color = Color.white;
+                                actionText.text = "BLOCK!";
+                            }
+                            else
+                            {
+                                actionText.color = Color.blue;
+                                actionText.text = "GRAZE!";
+                                playerRef.damageRed = true;
+                            }
                             break;
                     }
                     singleLock = true;
@@ -949,22 +1272,38 @@ public class CombatManager_class : MonoBehaviour
                     {
                         case computerNodeEnum.node1:
                             playerHealth -= comBonus;
-                            playerRef.damageRed = true;
+                            if (playerBonus == 0)
+                            {
+                                actionText.color = Color.white;
+                                actionText.text = "BLOCK!";
+                            }
+                            else
+                            {
+                                actionText.color = Color.blue;
+                                actionText.text = "GRAZE!";
+                                playerRef.damageRed = true;
+                            }
                             break;
 
                         case computerNodeEnum.node2:
                             playerBonus += 1;
+                            actionText.text = "PARRY!";
+                            actionText.color = Color.blue;
                             break;
 
                         case computerNodeEnum.node3:
                             reverseState = true;
                             playerHealth -= comBonus + 1;
                             playerRef.damageRed = true;
+                            actionText.text = "HIT!";
+                            actionText.color = Color.red;
                             break;
 
                         case computerNodeEnum.node4:
                             playerHealth -= comBonus + 1;
                             playerRef.damageRed = true;
+                            actionText.text = "HIT!";
+                            actionText.color = Color.red;
                             break;
                     }
                     singleLock = true;
@@ -977,21 +1316,37 @@ public class CombatManager_class : MonoBehaviour
                         case computerNodeEnum.node1:
                             playerHealth -= comBonus + 1;
                             playerRef.damageRed = true;
+                            actionText.text = "HIT!";
+                            actionText.color = Color.red;
                             break;
 
                         case computerNodeEnum.node2:
                             playerHealth -= comBonus;
-                            playerRef.damageRed = true;
+                            if (playerBonus == 0)
+                            {
+                                actionText.color = Color.white;
+                                actionText.text = "BLOCK!";
+                            }
+                            else
+                            {
+                                actionText.color = Color.blue;
+                                actionText.text = "GRAZE!";
+                                playerRef.damageRed = true;
+                            }
                             break;
 
                         case computerNodeEnum.node3:
                             playerBonus += 1;
+                            actionText.text = "PARRY!";
+                            actionText.color = Color.blue;
                             break;
 
                         case computerNodeEnum.node4:
                             reverseState = true;
                             playerHealth -= comBonus + 1;
                             playerRef.damageRed = true;
+                            actionText.text = "HIT!";
+                            actionText.color = Color.red;
                             break;
                     }
                     singleLock = true;
@@ -1013,19 +1368,20 @@ public class CombatManager_class : MonoBehaviour
         if (singleLockCom == false)
         {
 
+            //This Governs how likely the computer is to defend! --- Current about 66% Chance to Attack
             comDefDice = Random.Range(1, 10);
 
-            if (comDefDice > 3)
+            if (comDefDice > 4)
             {
                 comDef = false;
             }
 
-            else if (comDefDice <= 3 && comBonus == 0)
+            else if (comDefDice <= 4 && comBonus == 0)
             {
                 comDef = true;
             }
 
-            else if (comDefDice <= 3 && comBonus == 1)
+            else if (comDefDice <= 4 && comBonus == 1)
             {
                 comDef = false;
             }

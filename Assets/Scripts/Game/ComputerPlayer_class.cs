@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum comSpriteEnum { High, Low, Side, Mid }
+public enum comSpriteEnum { High, Low, Side, Mid, HighP, LowP, SideP, MidP }
 
 public class ComputerPlayer_class : MonoBehaviour
 {
@@ -36,7 +36,7 @@ public class ComputerPlayer_class : MonoBehaviour
         }
     }
 
-    //Called From Button Script
+    //Called From Combat Manager
     public void comUpdateSprite(int spriteNum)
     {
         this.GetComponent<SpriteRenderer>().sprite = comSprites[spriteNum];

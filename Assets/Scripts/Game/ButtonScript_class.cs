@@ -42,6 +42,23 @@ public class ButtonScript_class : MonoBehaviour
     void Update()
     {
         enemyReactions();
+        spriteUpdate(); 
+    }
+
+    //In between turns sprite update
+    void spriteUpdate()
+    {
+        if (mRef.singleLock == true)
+        {
+            if (mRef.endTurnTimer > 0 && mRef.playerBonus == 0)
+            {
+                playerRef.playerUpdateSprite(mRef.playerNodeLock - 1);
+            }
+            else if (mRef.endTurnTimer > 0 && mRef.playerBonus == 1)
+            {
+                playerRef.playerUpdateSprite(mRef.playerNodeLock + 3);
+            }
+        }
     }
 
     //Changes the buttons to display the enemy reactions
