@@ -11,12 +11,15 @@ public class EnemyLock_class : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        this.GetComponent<SpriteRenderer>().sprite = lockSprites[0];
     }
 
     // Update is called once per frame
     void Update()
     {
-        this.GetComponent<SpriteRenderer>().sprite = lockSprites[mRef.comNodeLock];
+        if (mRef.singleLock == true)
+        {
+            this.GetComponent<SpriteRenderer>().sprite = lockSprites[mRef.comPrev];
+        }
     }
 }

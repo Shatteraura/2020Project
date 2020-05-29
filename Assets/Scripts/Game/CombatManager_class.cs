@@ -24,10 +24,10 @@ public class CombatManager_class : MonoBehaviour
     public int comPrev;
 
     public int playerNodeLock = 0;
-    public int comNodeLock = 0;
 
     public int comDice;
     public int comDefDice;
+    public int cNodePick;
 
     public int playerBonus = 0;
     public int comBonus = 0;
@@ -87,7 +87,6 @@ public class CombatManager_class : MonoBehaviour
             playerNode = playerNodeEnum.noNode;
             bonusReset();
             endTurnTimer = 300;
-            currentButton = 0;
             comDef = false;
             singleLock = false;
             singleLockCom = false;
@@ -106,9 +105,9 @@ public class CombatManager_class : MonoBehaviour
         {
             endTurnTimer--;
             comTextDisplay();
-            comNodeLock = comPrev;
+            currentButton = 0;
 
-            switch (comNodeLock)
+            switch (comPrev)
             {
                 case 1:
                     cLockText.text = "High";
@@ -1365,88 +1364,420 @@ public class CombatManager_class : MonoBehaviour
     //Picks a Node for the Computer Player and Governs Swtiching to Defence Mode
     void computerPlayerLogic()
     {
-        if (singleLockCom == false)
+        //At the beginning of the game the computer selects a node at random
+        if (singleLockCom == false && computerNode == computerNodeEnum.noNode)
         {
+                comDice = Random.Range(1, 5);
 
-            //This Governs how likely the computer is to defend! --- Current about 66% Chance to Attack
-            comDefDice = Random.Range(1, 10);
-
-            if (comDefDice > 4)
-            {
-                comDef = false;
-            }
-
-            else if (comDefDice <= 4 && comBonus == 0)
-            {
-                comDef = true;
-            }
-
-            else if (comDefDice <= 4 && comBonus == 1)
-            {
-                comDef = false;
-            }
-
-            switch (computerNode)
-            {
-                case computerNodeEnum.noNode:
-                    comDice = Random.Range(1, 5);
-                    break;
-
-                case computerNodeEnum.node1:
-                    comDice = Random.Range(1, 4);
-
-                    if (comDice == 1)
-                    {
-                        comDice++;
-                    }
-                    break;
-
-                case computerNodeEnum.node2:
-                    comDice = Random.Range(1, 4);
-
-                    if (comDice == 2)
-                    {
-                        comDice++;
-                    }
-                    break;
-
-                case computerNodeEnum.node3:
-                    comDice = Random.Range(1, 4);
-
-                    if (comDice == 3)
-                    {
-                        comDice++;
-                    }
-                    break;
-
-                case computerNodeEnum.node4:
-                    comDice = Random.Range(1, 4);
-                    break;
-            }
-            singleLockCom = true;
-
-            //Once the computer makes a desision this sets the choice
-            switch (comDice)
-            {
-                case 1:
+                if (comDice == 1)
+                {
                     computerNode = computerNodeEnum.node1;
                     comPrev = 1;
-                    break;
-
-                case 2:
+                }
+                if (comDice == 2)
+                {
                     computerNode = computerNodeEnum.node2;
                     comPrev = 2;
-                    break;
-
-                case 3:
+                }
+                if (comDice == 3)
+                {
                     computerNode = computerNodeEnum.node3;
                     comPrev = 3;
-                    break;
-
-                case 4:
+                }
+                if (comDice == 4)
+                {
                     computerNode = computerNodeEnum.node4;
                     comPrev = 4;
-                    break;
+                }
+                singleLockCom = true;
+        }
+
+
+
+        if (singleLockCom == false && computerNode != computerNodeEnum.noNode)
+        {
+            //Rolls the Node Dice
+            comDice = Random.Range(1, 10);
+
+            //Rolls the defense dice
+            comDefDice = Random.Range(1, 11);
+
+            if (reverseState == false)
+            {
+                switch(comPrev)
+                {
+                    case 1:
+
+                        if (comDice >= 3)
+                        {
+                            if (comDefDice >= 5)
+                            {
+                                comDef = false; 
+                            }
+                            else
+                            {
+                                comDef = true;
+                            }
+                            computerNode = computerNodeEnum.node2;
+                            comPrev = 2;
+                        }
+
+                        else if (comDice >= 6)
+                        {
+                            if (comDefDice >= 5)
+                            {
+                                comDef = false;
+                            }
+                            else
+                            {
+                                comDef = true;
+                            }
+                            computerNode = computerNodeEnum.node3;
+                            comPrev = 3;
+                        }
+
+                        else if (comDice >= 9)
+                        {
+                            if (comDefDice >= 5)
+                            {
+                                comDef = false;
+                            }
+                            else
+                            {
+                                comDef = true;
+                            }
+                            computerNode = computerNodeEnum.node4;
+                            comPrev = 4;
+                        }
+                        break;
+
+                    case 2:
+
+                        if (comDice >= 3)
+                        {
+                            if (comDefDice >= 5)
+                            {
+                                comDef = false;
+                            }
+                            else
+                            {
+                                comDef = true;
+                            }
+                            computerNode = computerNodeEnum.node1;
+                            comPrev = 1;
+                        }
+
+                        else if (comDice >= 6)
+                        {
+                            if (comDefDice >= 5)
+                            {
+                                comDef = false;
+                            }
+                            else
+                            {
+                                comDef = true;
+                            }
+                            computerNode = computerNodeEnum.node3;
+                            comPrev = 3;
+                        }
+
+                        else if (comDice >= 9)
+                        {
+                            if (comDefDice >= 5)
+                            {
+                                comDef = false;
+                            }
+                            else
+                            {
+                                comDef = true;
+                            }
+                            computerNode = computerNodeEnum.node4;
+                            comPrev = 4;
+                        }
+                        break;
+
+                    case 3:
+
+                        if (comDice >= 3)
+                        {
+                            if (comDefDice >= 5)
+                            {
+                                comDef = false;
+                            }
+                            else
+                            {
+                                comDef = true;
+                            }
+                            computerNode = computerNodeEnum.node1;
+                            comPrev = 1;
+                        }
+
+                        else if (comDice >= 6)
+                        {
+                            if (comDefDice >= 5)
+                            {
+                                comDef = false;
+                            }
+                            else
+                            {
+                                comDef = true;
+                            }
+                            computerNode = computerNodeEnum.node2;
+                            comPrev = 2;
+                        }
+
+                        else if (comDice >= 9)
+                        {
+                            if (comDefDice >= 5)
+                            {
+                                comDef = false;
+                            }
+                            else
+                            {
+                                comDef = true;
+                            }
+                            computerNode = computerNodeEnum.node4;
+                            comPrev = 4;
+                        }
+                        break;
+
+                    case 4:
+
+                        if (comDice >= 3)
+                        {
+                            if (comDefDice >= 5)
+                            {
+                                comDef = false;
+                            }
+                            else
+                            {
+                                comDef = true;
+                            }
+                            computerNode = computerNodeEnum.node1;
+                            comPrev = 1;
+                        }
+
+                        else if (comDice >= 6)
+                        {
+                            if (comDefDice >= 5)
+                            {
+                                comDef = false;
+                            }
+                            else
+                            {
+                                comDef = true;
+                            }
+                            computerNode = computerNodeEnum.node2;
+                            comPrev = 2;
+                        }
+
+                        else if (comDice >= 9)
+                        {
+                            if (comDefDice >= 5)
+                            {
+                                comDef = false;
+                            }
+                            else
+                            {
+                                comDef = true;
+                            }
+                            computerNode = computerNodeEnum.node3;
+                            comPrev = 3;
+                        }
+                        break;
+                }
+
+                singleLockCom = true;
+
+            }
+
+            if (reverseState == true)
+            {
+                switch (comPrev)
+                {
+                    case 1:
+
+                        if (comDice >= 3)
+                        {
+                            if (comDefDice >= 5)
+                            {
+                                comDef = false;
+                            }
+                            else
+                            {
+                                comDef = true;
+                            }
+                            computerNode = computerNodeEnum.node2;
+                            comPrev = 2;
+                        }
+
+                        else if (comDice >= 6)
+                        {
+                            if (comDefDice >= 5)
+                            {
+                                comDef = false;
+                            }
+                            else
+                            {
+                                comDef = true;
+                            }
+                            computerNode = computerNodeEnum.node3;
+                            comPrev = 3;
+                        }
+
+                        else if (comDice >= 9)
+                        {
+                            if (comDefDice >= 5)
+                            {
+                                comDef = false;
+                            }
+                            else
+                            {
+                                comDef = true;
+                            }
+                            computerNode = computerNodeEnum.node4;
+                            comPrev = 4;
+                        }
+                        break;
+
+                    case 2:
+
+                        if (comDice >= 3)
+                        {
+                            if (comDefDice >= 5)
+                            {
+                                comDef = false;
+                            }
+                            else
+                            {
+                                comDef = true;
+                            }
+                            computerNode = computerNodeEnum.node1;
+                            comPrev = 1;
+                        }
+
+                        else if (comDice >= 6)
+                        {
+                            if (comDefDice >= 5)
+                            {
+                                comDef = false;
+                            }
+                            else
+                            {
+                                comDef = true;
+                            }
+                            computerNode = computerNodeEnum.node3;
+                            comPrev = 3;
+                        }
+
+                        else if (comDice >= 9)
+                        {
+                            if (comDefDice >= 5)
+                            {
+                                comDef = false;
+                            }
+                            else
+                            {
+                                comDef = true;
+                            }
+                            computerNode = computerNodeEnum.node4;
+                            comPrev = 4;
+                        }
+                        break;
+
+                    case 3:
+
+                        if (comDice >= 3)
+                        {
+                            if (comDefDice >= 5)
+                            {
+                                comDef = false;
+                            }
+                            else
+                            {
+                                comDef = true;
+                            }
+                            computerNode = computerNodeEnum.node1;
+                            comPrev = 1;
+                        }
+
+                        else if (comDice >= 6)
+                        {
+                            if (comDefDice >= 5)
+                            {
+                                comDef = false;
+                            }
+                            else
+                            {
+                                comDef = true;
+                            }
+                            computerNode = computerNodeEnum.node2;
+                            comPrev = 2;
+                        }
+
+                        else if (comDice >= 9)
+                        {
+                            if (comDefDice >= 5)
+                            {
+                                comDef = false;
+                            }
+                            else
+                            {
+                                comDef = true;
+                            }
+                            computerNode = computerNodeEnum.node4;
+                            comPrev = 4;
+                        }
+                        break;
+
+                    case 4:
+
+                        if (comDice >= 3)
+                        {
+                            if (comDefDice >= 5)
+                            {
+                                comDef = false;
+                            }
+                            else
+                            {
+                                comDef = true;
+                            }
+                            computerNode = computerNodeEnum.node1;
+                            comPrev = 1;
+                        }
+
+                        else if (comDice >= 6)
+                        {
+                            if (comDefDice >= 5)
+                            {
+                                comDef = false;
+                            }
+                            else
+                            {
+                                comDef = true;
+                            }
+                            computerNode = computerNodeEnum.node2;
+                            comPrev = 2;
+                        }
+
+                        else if (comDice >= 9)
+                        {
+                            if (comDefDice >= 5)
+                            {
+                                comDef = false;
+                            }
+                            else
+                            {
+                                comDef = true;
+                            }
+                            computerNode = computerNodeEnum.node3;
+                            comPrev = 3;
+                        }
+                        break;
+                }
+
+                singleLockCom = true;
+
             }
 
         }
