@@ -6,6 +6,7 @@ public enum playerSpriteEnum { High, Low, Side, Mid, HighP, LowP, SideP, MidP }
 
 public class Player_class : MonoBehaviour
 {
+    public CombatManager_class mRef;
     public playerSpriteEnum SetSprite;
     public Sprite[] playerSprites;
     public bool damageRed = false;
@@ -27,7 +28,10 @@ public class Player_class : MonoBehaviour
         switch (damageRed)
         {
             case true:
-                this.GetComponent<SpriteRenderer>().color = Color.red;
+                if (mRef.endTurnTimer < 100)
+                {
+                    this.GetComponent<SpriteRenderer>().color = Color.red;
+                }
                 break;
 
             case false:
@@ -39,6 +43,17 @@ public class Player_class : MonoBehaviour
     //Called From Button Script
     public void playerUpdateSprite(int spriteNum)
     {
-        this.GetComponent<SpriteRenderer>().sprite = playerSprites[spriteNum];
+        if (mRef.endTurnTimer > 200)
+        {
+            this.GetComponent<SpriteRenderer>().sprite = playerSprites[spriteNum];
+        }
+        else if (mRef.endTurnTimer <= 200 && mRef.playerBonus == 0 && mRef.buttonMode == buttonModeEnum.attackMode)
+        {
+            this.GetComponent<SpriteRenderer>().sprite = playerSprites[spriteNum + 8];
+        }
+        else if (mRef.endTurnTimer <= 200 && mRef.playerBonus == 1 && mRef.buttonMode == buttonModeEnum.attackMode)
+        {
+            this.GetComponent<SpriteRenderer>().sprite = playerSprites[spriteNum + 4];
+        }
     }
 }

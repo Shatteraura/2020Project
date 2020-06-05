@@ -41,24 +41,31 @@ public class ButtonScript_class : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        enemyReactions();
-        spriteUpdate(); 
+        switch (mRef.singleLock)
+        {
+            case false:
+                enemyReactions();
+                this.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 1);
+                break;
+
+            case true:
+                buttonHide();
+                spriteUpdate();
+                break;
+        }    
     }
 
     //In between turns sprite update
     void spriteUpdate()
     {
-        if (mRef.singleLock == true)
-        {
-            if (mRef.endTurnTimer > 0 && mRef.playerBonus == 0)
+        if (mRef.endTurnTimer > 0 && mRef.playerBonus == 0)
             {
-                playerRef.playerUpdateSprite(mRef.playerNodeLock - 1);
+            playerRef.playerUpdateSprite(mRef.playerNodeLock - 1);
             }
-            else if (mRef.endTurnTimer > 0 && mRef.playerBonus == 1)
+        else if (mRef.endTurnTimer > 0 && mRef.playerBonus == 1)
             {
-                playerRef.playerUpdateSprite(mRef.playerNodeLock + 3);
+            playerRef.playerUpdateSprite(mRef.playerNodeLock + 3);
             }
-        }
     }
 
     //Changes the buttons to display the enemy reactions
@@ -107,6 +114,14 @@ public class ButtonScript_class : MonoBehaviour
         }
     }
 
+    void buttonHide()
+    {
+        if ((int)buttonType != mRef.playerNodeLock && (int)buttonType != mRef.comPrev)
+        {
+            this.GetComponent<SpriteRenderer>().color = new Color (1, 1, 1, 0.2f);
+        }
+    }
+
 
     //When a button is pressed, the combat manager takes note of which one it is, the selection boxes vanish and the button greys out
     private void OnMouseDown()
@@ -115,7 +130,6 @@ public class ButtonScript_class : MonoBehaviour
         {
             mRef.GetComponent<CombatManager_class>().playerNode = (playerNodeEnum)mRef.GetComponent<CombatManager_class>().currentButton;
             mRef.GetComponent<CombatManager_class>().playerNodeLock = (int)mRef.GetComponent<CombatManager_class>().playerNode;
-            selectRef.buttonPos = new Vector3(100, 100, 1);
 
             switch (buttonType)
             {

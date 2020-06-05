@@ -31,8 +31,6 @@ public class CombatManager_class : MonoBehaviour
 
     public int playerBonus = 0;
     public int comBonus = 0;
-    public int pBCount = 0;
-    public int cBCount = 0;
 
     public int endTurnTimer = 300;
 
@@ -85,7 +83,6 @@ public class CombatManager_class : MonoBehaviour
         if (singleLock == true && singleLockCom == true && endTurnTimer <= 0)
         {
             playerNode = playerNodeEnum.noNode;
-            bonusReset();
             endTurnTimer = 300;
             comDef = false;
             singleLock = false;
@@ -95,6 +92,24 @@ public class CombatManager_class : MonoBehaviour
             playerRef.damageRed = false;
             actionText.color = Color.white;
             actionText.text = "";
+
+            if (comBonus == 0)
+            {
+                comRef.comUpdateSprite(comPrev - 1);
+            }
+            if (comBonus == 1)
+            {
+                comRef.comUpdateSprite(comPrev + 3);
+            }
+            
+            if (playerBonus == 0)
+            {
+                playerRef.playerUpdateSprite(playerNodeLock - 1);
+            }
+            if (playerBonus == 1)
+            {
+                playerRef.playerUpdateSprite(playerNodeLock + 3);
+            }
         }
     }
 
@@ -125,40 +140,6 @@ public class CombatManager_class : MonoBehaviour
                     cLockText.text = "Mid";
                     break;
             }            
-        }
-    }
-
-    //Makes sure the bonus numbers reset
-    void bonusReset()
-    {
-        switch (playerBonus)
-        {
-            case 0:
-                pBCount = 0;
-                break;
-
-           case 1:
-                pBCount++;
-                if (pBCount == 2)
-                {
-                    playerBonus = 0;
-                }
-                break;
-        }
-
-        switch (comBonus)
-        {
-            case 0:
-                cBCount = 0;
-                break;
-
-            case 1:
-                cBCount++;
-                if (cBCount == 2)
-                {
-                    comBonus = 0;
-                }
-                break;
         }
     }
 
@@ -226,11 +207,11 @@ public class CombatManager_class : MonoBehaviour
             case 1:
                 if (comBonus == 0)
                 {
-                    comRef.comUpdateSprite(0);
+                    comRef.comUpdateSprite(comPrev - 1);
                 }
                 else
                 {
-                    comRef.comUpdateSprite(4);
+                    comRef.comUpdateSprite(comPrev + 3);
                 }
                 
                 if (comDef == false)
@@ -247,11 +228,11 @@ public class CombatManager_class : MonoBehaviour
             case 2:
                 if (comBonus == 0)
                 {
-                    comRef.comUpdateSprite(1);
+                    comRef.comUpdateSprite(comPrev - 1);
                 }
                 else
                 {
-                    comRef.comUpdateSprite(5);
+                    comRef.comUpdateSprite(comPrev + 3);
                 }
 
                 if (comDef == false)
@@ -268,11 +249,11 @@ public class CombatManager_class : MonoBehaviour
             case 3:
                 if (comBonus == 0)
                 {
-                    comRef.comUpdateSprite(2);
+                    comRef.comUpdateSprite(comPrev - 1);
                 }
                 else
                 {
-                    comRef.comUpdateSprite(6);
+                    comRef.comUpdateSprite(comPrev + 3);
                 }
 
                 if (comDef == false)
@@ -289,11 +270,11 @@ public class CombatManager_class : MonoBehaviour
             case 4:
                 if (comBonus == 0)
                 {
-                    comRef.comUpdateSprite(3);
+                    comRef.comUpdateSprite(comPrev - 1);
                 }
                 else
                 {
-                    comRef.comUpdateSprite(7);
+                    comRef.comUpdateSprite(comPrev + 3);
                 }
 
                 if (comDef == false)
@@ -358,11 +339,18 @@ public class CombatManager_class : MonoBehaviour
         {
             case false:
                 if (playerNode == playerNodeEnum.node1)
-                {
+                {                  
                     switch (computerNode)
                     {
                         case computerNodeEnum.node1:
-                            reverseState = true;
+                            if (reverseState == true)
+                            {
+                                reverseState = false;
+                            }
+                            else
+                            {
+                                reverseState = true;
+                            }
                             actionText.text = "BLOCK!";
                             break;
 
@@ -387,6 +375,14 @@ public class CombatManager_class : MonoBehaviour
                             actionText.color = Color.red;
                             break;
                     }
+                    if (playerBonus == 1)
+                    {
+                        playerBonus = 0;
+                    }
+                    if (comBonus == 1)
+                    {
+                        comBonus = 0;
+                    }
                     singleLock = true;
                 }
 
@@ -402,7 +398,14 @@ public class CombatManager_class : MonoBehaviour
                             break;
 
                         case computerNodeEnum.node2:
-                            reverseState = true;
+                            if (reverseState == true)
+                            {
+                                reverseState = false;
+                            }
+                            else
+                            {
+                                reverseState = true;
+                            }
                             actionText.text = "BLOCK!";
                             break;
 
@@ -419,6 +422,14 @@ public class CombatManager_class : MonoBehaviour
                             actionText.text = "HIT!";
                             actionText.color = Color.red;
                             break;
+                    }
+                    if (playerBonus == 1)
+                    {
+                        playerBonus = 0;
+                    }
+                    if (comBonus == 1)
+                    {
+                        comBonus = 0;
                     }
                     singleLock = true;
                 }
@@ -442,7 +453,14 @@ public class CombatManager_class : MonoBehaviour
                             break;
 
                         case computerNodeEnum.node3:
-                            reverseState = true;
+                            if (reverseState == true)
+                            {
+                                reverseState = false;
+                            }
+                            else
+                            {
+                                reverseState = true;
+                            }
                             actionText.text = "BLOCK!";
                             break;
 
@@ -452,6 +470,14 @@ public class CombatManager_class : MonoBehaviour
                             actionText.text = "HIT!";
                             actionText.color = Color.green;
                             break;
+                    }
+                    if (playerBonus == 1)
+                    {
+                        playerBonus = 0;
+                    }
+                    if (comBonus == 1)
+                    {
+                        comBonus = 0;
                     }
                     singleLock = true;
                 }
@@ -483,9 +509,24 @@ public class CombatManager_class : MonoBehaviour
                             break;
 
                         case computerNodeEnum.node4:
-                            reverseState = true;
+                            if (reverseState == true)
+                            {
+                                reverseState = false;
+                            }
+                            else
+                            {
+                                reverseState = true;
+                            }
                             actionText.text = "BLOCK!";
                             break;
+                    }
+                    if (playerBonus == 1)
+                    {
+                        playerBonus = 0;
+                    }
+                    if (comBonus == 1)
+                    {
+                        comBonus = 0;
                     }
                     singleLock = true;
                 }
@@ -498,7 +539,15 @@ public class CombatManager_class : MonoBehaviour
                     switch (computerNode)
                     {
                         case computerNodeEnum.node1:
-                            reverseState = true;
+                            comBonus = 0;
+                            if (reverseState == true)
+                            {
+                                reverseState = false;
+                            }
+                            else
+                            {
+                                reverseState = true;
+                            }
                             computerHealth -= playerBonus + 1;
                             comRef.damageRed = true;
                             actionText.text = "HIT";
@@ -506,6 +555,7 @@ public class CombatManager_class : MonoBehaviour
                             break;
 
                         case computerNodeEnum.node2:
+                            comBonus = 0;
                             computerHealth -= playerBonus + 1;
                             comRef.damageRed = true;
                             actionText.text = "HIT!";
@@ -513,6 +563,7 @@ public class CombatManager_class : MonoBehaviour
                             break;
 
                         case computerNodeEnum.node3:
+                            comBonus = 0;
                             computerHealth -= playerBonus;
                             if (playerBonus == 0)
                             {
@@ -528,10 +579,14 @@ public class CombatManager_class : MonoBehaviour
                             break;
 
                         case computerNodeEnum.node4:
-                            comBonus += 1;
+                            comBonus = 1;
                             actionText.text = "PARRY!";
                             actionText.color = Color.blue;
                             break;
+                    }
+                    if (playerBonus == 1)
+                    {
+                        playerBonus = 0;
                     }
                     singleLock = true;
                 }
@@ -542,13 +597,21 @@ public class CombatManager_class : MonoBehaviour
                     switch (computerNode)
                     {
                         case computerNodeEnum.node1:
-                            comBonus += 1;
+                            comBonus = 1;
                             actionText.text = "PARRY!";
                             actionText.color = Color.blue;
                             break;
 
                         case computerNodeEnum.node2:
-                            reverseState = true;
+                            comBonus = 0;
+                            if (reverseState == true)
+                            {
+                                reverseState = false;
+                            }
+                            else
+                            {
+                                reverseState = true;
+                            }
                             computerHealth -= playerBonus + 1;
                             comRef.damageRed = true;
                             actionText.text = "HIT";
@@ -556,6 +619,7 @@ public class CombatManager_class : MonoBehaviour
                             break;
 
                         case computerNodeEnum.node3:
+                            comBonus = 0;
                             computerHealth -= playerBonus + 1;
                             comRef.damageRed = true;
                             actionText.text = "HIT!";
@@ -563,6 +627,7 @@ public class CombatManager_class : MonoBehaviour
                             break;
 
                         case computerNodeEnum.node4:
+                            comBonus = 0;
                             computerHealth -= playerBonus;
                             if (playerBonus == 0)
                             {
@@ -576,6 +641,10 @@ public class CombatManager_class : MonoBehaviour
                                 comRef.damageRed = true;
                             }
                             break;
+                    }
+                    if (playerBonus == 1)
+                    {
+                        playerBonus = 0;
                     }
                     singleLock = true;
                 }
@@ -585,6 +654,7 @@ public class CombatManager_class : MonoBehaviour
                     switch (computerNode)
                     {
                         case computerNodeEnum.node1:
+                            comBonus = 0;
                             computerHealth -= playerBonus;
                             if (playerBonus == 0)
                             {
@@ -600,13 +670,21 @@ public class CombatManager_class : MonoBehaviour
                             break;
 
                         case computerNodeEnum.node2:
-                            comBonus += 1;
+                            comBonus = 1;
                             actionText.text = "PARRY!";
                             actionText.color = Color.blue;
                             break;
 
                         case computerNodeEnum.node3:
-                            reverseState = true;
+                            comBonus = 0;
+                            if (reverseState == true)
+                            {
+                                reverseState = false;
+                            }
+                            else
+                            {
+                                reverseState = true;
+                            }
                             computerHealth -= playerBonus + 1;
                             comRef.damageRed = true;
                             actionText.text = "HIT!";
@@ -614,11 +692,16 @@ public class CombatManager_class : MonoBehaviour
                             break;
 
                         case computerNodeEnum.node4:
+                            comBonus = 0;
                             computerHealth -= playerBonus + 1;
                             comRef.damageRed = true;
                             actionText.text = "HIT!";
                             actionText.color = Color.green;
                             break;
+                    }
+                    if (playerBonus == 1)
+                    {
+                        playerBonus = 0;
                     }
                     singleLock = true;
                 }
@@ -628,6 +711,7 @@ public class CombatManager_class : MonoBehaviour
                     switch (computerNode)
                     {
                         case computerNodeEnum.node1:
+                            comBonus = 0;
                             computerHealth -= playerBonus + 1;
                             comRef.damageRed = true;
                             actionText.text = "HIT!";
@@ -635,6 +719,7 @@ public class CombatManager_class : MonoBehaviour
                             break;
 
                         case computerNodeEnum.node2:
+                            comBonus = 0;
                             computerHealth -= playerBonus;
                             if (playerBonus == 0)
                             {
@@ -650,18 +735,30 @@ public class CombatManager_class : MonoBehaviour
                             break;
 
                         case computerNodeEnum.node3:
-                            comBonus += 1;
+                            comBonus = 1;
                             actionText.text = "PARRY!";
                             actionText.color = Color.blue;
                             break;
 
                         case computerNodeEnum.node4:
-                            reverseState = true;
+                            comBonus = 0;
+                            if (reverseState == true)
+                            {
+                                reverseState = false;
+                            }
+                            else
+                            {
+                                reverseState = true;
+                            }
                             computerHealth -= playerBonus + 1;
                             comRef.damageRed = true;
                             actionText.text = "HIT!";
                             actionText.color = Color.green;
                             break;
+                    }
+                    if (playerBonus == 1)
+                    {
+                        playerBonus = 0;
                     }
                     singleLock = true;
                 }
@@ -680,7 +777,14 @@ public class CombatManager_class : MonoBehaviour
                     switch (computerNode)
                     {
                         case computerNodeEnum.node1:
-                            reverseState = false;
+                            if (reverseState == true)
+                            {
+                                reverseState = false;
+                            }
+                            else
+                            {
+                                reverseState = true;
+                            }
                             actionText.text = "BLOCK!";
                             break;
 
@@ -705,6 +809,14 @@ public class CombatManager_class : MonoBehaviour
                             actionText.color = Color.green;
                             break;
                     }
+                    if (playerBonus == 1)
+                    {
+                        playerBonus = 0;
+                    }
+                    if (comBonus == 1)
+                    {
+                        comBonus = 0;
+                    }
                     singleLock = true;
                 }
 
@@ -720,7 +832,14 @@ public class CombatManager_class : MonoBehaviour
                             break;
 
                         case computerNodeEnum.node2:
-                            reverseState = false;
+                            if (reverseState == true)
+                            {
+                                reverseState = false;
+                            }
+                            else
+                            {
+                                reverseState = true;
+                            }
                             actionText.text = "BLOCK!";
                             break;
 
@@ -735,6 +854,10 @@ public class CombatManager_class : MonoBehaviour
                             computerHealth -= 1 + playerBonus;
                             comRef.damageRed = true;
                             break;
+                    }
+                    if (playerBonus == 1)
+                    {
+                        playerBonus = 0;
                     }
                     singleLock = true;
                 }
@@ -758,7 +881,14 @@ public class CombatManager_class : MonoBehaviour
                             break;
 
                         case computerNodeEnum.node3:
-                            reverseState = false;
+                            if (reverseState == true)
+                            {
+                                reverseState = false;
+                            }
+                            else
+                            {
+                                reverseState = true;
+                            }
                             actionText.text = "BLOCK!";
                             break;
 
@@ -768,6 +898,14 @@ public class CombatManager_class : MonoBehaviour
                             actionText.text = "HIT!";
                             actionText.color = Color.red;
                             break;
+                    }
+                    if (playerBonus == 1)
+                    {
+                        playerBonus = 0;
+                    }
+                    if (comBonus == 1)
+                    {
+                        comBonus = 0;
                     }
                     singleLock = true;
                 }
@@ -798,9 +936,24 @@ public class CombatManager_class : MonoBehaviour
                             break;
 
                         case computerNodeEnum.node4:
-                            reverseState = false;
+                            if (reverseState == true)
+                            {
+                                reverseState = false;
+                            }
+                            else
+                            {
+                                reverseState = true;
+                            }
                             actionText.text = "BLOCK!";
                             break;
+                    }
+                    if (playerBonus == 1)
+                    {
+                        playerBonus = 0;
+                    }
+                    if (comBonus == 1)
+                    {
+                        comBonus = 0;
                     }
                     singleLock = true;
                 }
@@ -813,7 +966,15 @@ public class CombatManager_class : MonoBehaviour
                     switch (computerNode)
                     {
                         case computerNodeEnum.node1:
-                            reverseState = true;
+                            comBonus = 0;
+                            if (reverseState == true)
+                            {
+                                reverseState = false;
+                            }
+                            else
+                            {
+                                reverseState = true;
+                            }
                             computerHealth -= playerBonus + 1;
                             comRef.damageRed = true;
                             actionText.text = "HIT!";
@@ -821,12 +982,13 @@ public class CombatManager_class : MonoBehaviour
                             break;
 
                         case computerNodeEnum.node2:
-                            comBonus += 1;
+                            comBonus = 1;
                             actionText.text = "PARRY!";
                             actionText.color = Color.blue;
                             break;
 
                         case computerNodeEnum.node3:
+                            comBonus = 0;
                             computerHealth -= playerBonus;
                             if (playerBonus == 0)
                             {
@@ -842,11 +1004,16 @@ public class CombatManager_class : MonoBehaviour
                             break;
 
                         case computerNodeEnum.node4:
+                            comBonus = 0;
                             computerHealth -= playerBonus + 1;
                             comRef.damageRed = true;
                             actionText.text = "HIT!";
                             actionText.color = Color.green;
                             break;
+                    }
+                    if (playerBonus == 1)
+                    {
+                        playerBonus = 0;
                     }
                     singleLock = true;
                 }
@@ -856,6 +1023,7 @@ public class CombatManager_class : MonoBehaviour
                     switch (computerNode)
                     {
                         case computerNodeEnum.node1:
+                            comBonus = 0;
                             computerHealth -= playerBonus + 1;
                             comRef.damageRed = true;
                             actionText.text = "HIT!";
@@ -863,7 +1031,15 @@ public class CombatManager_class : MonoBehaviour
                             break;
 
                         case computerNodeEnum.node2:
-                            reverseState = true;
+                            comBonus = 0;
+                            if (reverseState == true)
+                            {
+                                reverseState = false;
+                            }
+                            else
+                            {
+                                reverseState = true;
+                            }
                             computerHealth -= playerBonus + 1;
                             comRef.damageRed = true;
                             actionText.text = "HIT!";
@@ -871,12 +1047,13 @@ public class CombatManager_class : MonoBehaviour
                             break;
 
                         case computerNodeEnum.node3:
-                            comBonus += 1;
+                            comBonus = 1;
                             actionText.text = "PARRY!";
                             actionText.color = Color.blue;
                             break;
 
                         case computerNodeEnum.node4:
+                            comBonus = 0;
                             computerHealth -= playerBonus;
                             if (playerBonus == 0)
                             {
@@ -890,6 +1067,10 @@ public class CombatManager_class : MonoBehaviour
                                 comRef.damageRed = true;
                             }
                             break;
+                    }
+                    if (playerBonus == 1)
+                    {
+                        playerBonus = 0;
                     }
                     singleLock = true;
                 }
@@ -899,6 +1080,7 @@ public class CombatManager_class : MonoBehaviour
                     switch (computerNode)
                     {
                         case computerNodeEnum.node1:
+                            comBonus = 0;
                             computerHealth -= playerBonus;
                             if (playerBonus == 0)
                             {
@@ -914,6 +1096,7 @@ public class CombatManager_class : MonoBehaviour
                             break;
 
                         case computerNodeEnum.node2:
+                            comBonus = 0;
                             computerHealth -= playerBonus + 1;
                             comRef.damageRed = true;
                             actionText.text = "HIT!";
@@ -921,7 +1104,15 @@ public class CombatManager_class : MonoBehaviour
                             break;
 
                         case computerNodeEnum.node3:
-                            reverseState = true;
+                            comBonus = 0;
+                            if (reverseState == true)
+                            {
+                                reverseState = false;
+                            }
+                            else
+                            {
+                                reverseState = true;
+                            }
                             computerHealth -= playerBonus + 1;
                             comRef.damageRed = true;
                             actionText.text = "HIT!";
@@ -929,10 +1120,14 @@ public class CombatManager_class : MonoBehaviour
                             break;
 
                         case computerNodeEnum.node4:
-                            comBonus += 1;
+                            comBonus = 1;
                             actionText.text = "PARRY!";
                             actionText.color = Color.blue;
                             break;
+                    }
+                    if (playerBonus == 1)
+                    {
+                        playerBonus = 0;
                     }
                     singleLock = true;
                 }
@@ -942,12 +1137,13 @@ public class CombatManager_class : MonoBehaviour
                     switch (computerNode)
                     {
                         case computerNodeEnum.node1:
-                            comBonus += 1;
+                            comBonus = 1;
                             actionText.text = "PARRY!";
                             actionText.color = Color.blue;
                             break;
 
                         case computerNodeEnum.node2:
+                            comBonus = 0;
                             computerHealth -= playerBonus;
                             if (playerBonus == 0)
                             {
@@ -963,6 +1159,7 @@ public class CombatManager_class : MonoBehaviour
                             break;
 
                         case computerNodeEnum.node3:
+                            comBonus = 0;
                             computerHealth -= playerBonus + 1;
                             comRef.damageRed = true;
                             actionText.text = "HIT!";
@@ -970,12 +1167,24 @@ public class CombatManager_class : MonoBehaviour
                             break;
 
                         case computerNodeEnum.node4:
-                            reverseState = true;
+                            comBonus = 0;
+                            if (reverseState == true)
+                            {
+                                reverseState = false;
+                            }
+                            else
+                            {
+                                reverseState = true;
+                            }
                             computerHealth -= playerBonus + 1;
                             comRef.damageRed = true;
                             actionText.text = "HIT!";
                             actionText.color = Color.green;
                             break;
+                    }
+                    if (playerBonus == 1)
+                    {
+                        playerBonus = 0;
                     }
                     singleLock = true;
                 }
@@ -994,7 +1203,15 @@ public class CombatManager_class : MonoBehaviour
                     switch (computerNode)
                     {
                         case computerNodeEnum.node1:
-                            reverseState = true;
+                            playerBonus = 0;
+                            if (reverseState == true)
+                            {
+                                reverseState = false;
+                            }
+                            else
+                            {
+                                reverseState = true;
+                            }
                             playerHealth -= comBonus + 1;
                             playerRef.damageRed = true;
                             actionText.text = "HIT!";
@@ -1002,12 +1219,13 @@ public class CombatManager_class : MonoBehaviour
                             break;
 
                         case computerNodeEnum.node2:
-                            playerBonus += 1;
+                            playerBonus = 1;
                             actionText.text = "PARRY!";
                             actionText.color = Color.blue;
                             break;
 
                         case computerNodeEnum.node3:
+                            playerBonus = 0;
                             playerHealth -= comBonus;
                             if (playerBonus == 0)
                             {
@@ -1023,11 +1241,16 @@ public class CombatManager_class : MonoBehaviour
                             break;
 
                         case computerNodeEnum.node4:
+                            playerBonus = 0;
                             playerHealth -= comBonus + 1;
                             playerRef.damageRed = true;
                             actionText.text = "HIT!";
                             actionText.color = Color.red;
                             break;
+                    }
+                    if (comBonus == 1)
+                    {
+                        comBonus = 0;
                     }
                     singleLock = true;
                 }
@@ -1038,6 +1261,7 @@ public class CombatManager_class : MonoBehaviour
                     switch (computerNode)
                     {
                         case computerNodeEnum.node1:
+                            playerBonus = 0;
                             playerHealth -= comBonus + 1;
                             playerRef.damageRed = true;
                             actionText.text = "HIT!";
@@ -1045,7 +1269,15 @@ public class CombatManager_class : MonoBehaviour
                             break;
 
                         case computerNodeEnum.node2:
-                            reverseState = true;
+                            playerBonus = 0;
+                            if (reverseState == true)
+                            {
+                                reverseState = false;
+                            }
+                            else
+                            {
+                                reverseState = true;
+                            }
                             playerHealth -= comBonus + 1;
                             playerRef.damageRed = true;
                             actionText.text = "HIT!";
@@ -1053,12 +1285,13 @@ public class CombatManager_class : MonoBehaviour
                             break;
 
                         case computerNodeEnum.node3:
-                            playerBonus += 1;
+                            playerBonus = 1;
                             actionText.text = "PARRY!";
                             actionText.color = Color.blue;
                             break;
 
                         case computerNodeEnum.node4:
+                            playerBonus = 0;
                             playerHealth -= comBonus;
                             if (playerBonus == 0)
                             {
@@ -1072,6 +1305,10 @@ public class CombatManager_class : MonoBehaviour
                                 playerRef.damageRed = true;
                             }
                             break;
+                    }
+                    if (comBonus == 1)
+                    {
+                        comBonus = 0;
                     }
                     singleLock = true;
                 }
@@ -1081,6 +1318,7 @@ public class CombatManager_class : MonoBehaviour
                     switch (computerNode)
                     {
                         case computerNodeEnum.node1:
+                            playerBonus = 0;
                             playerHealth -= comBonus;
                             if (playerBonus == 0)
                             {
@@ -1096,6 +1334,7 @@ public class CombatManager_class : MonoBehaviour
                             break;
 
                         case computerNodeEnum.node2:
+                            playerBonus = 0;
                             playerHealth -= comBonus + 1;
                             playerRef.damageRed = true;
                             actionText.text = "HIT!";
@@ -1103,7 +1342,15 @@ public class CombatManager_class : MonoBehaviour
                             break;
 
                         case computerNodeEnum.node3:
-                            reverseState = true;
+                            playerBonus = 0;
+                            if (reverseState == true)
+                            {
+                                reverseState = false;
+                            }
+                            else
+                            {
+                                reverseState = true;
+                            }
                             playerHealth -= comBonus + 1;
                             playerRef.damageRed = true;
                             actionText.text = "HIT!";
@@ -1111,10 +1358,14 @@ public class CombatManager_class : MonoBehaviour
                             break;
 
                         case computerNodeEnum.node4:
-                            playerBonus += 1;
+                            playerBonus = 1;
                             actionText.text = "PARRY!";
                             actionText.color = Color.blue;
                             break;
+                    }
+                    if (comBonus == 1)
+                    {
+                        comBonus = 0;
                     }
                     singleLock = true;
                 }
@@ -1124,12 +1375,13 @@ public class CombatManager_class : MonoBehaviour
                     switch (computerNode)
                     {
                         case computerNodeEnum.node1:
-                            playerBonus += 1;
+                            playerBonus = 1;
                             actionText.text = "PARRY!";
                             actionText.color = Color.blue;
                             break;
 
                         case computerNodeEnum.node2:
+                            playerBonus = 0;
                             playerHealth -= comBonus;
                             if (playerBonus == 0)
                             {
@@ -1145,6 +1397,7 @@ public class CombatManager_class : MonoBehaviour
                             break;
 
                         case computerNodeEnum.node3:
+                            playerBonus = 0;
                             playerHealth -= comBonus + 1;
                             playerRef.damageRed = true;
                             actionText.text = "HIT!";
@@ -1152,12 +1405,24 @@ public class CombatManager_class : MonoBehaviour
                             break;
 
                         case computerNodeEnum.node4:
-                            reverseState = true;
+                            playerBonus = 0;
+                            if (reverseState == true)
+                            {
+                                reverseState = false;
+                            }
+                            else
+                            {
+                                reverseState = true;
+                            }
                             playerHealth -= comBonus + 1;
                             playerRef.damageRed = true;
                             actionText.text = "HIT!";
                             actionText.color = Color.red;
                             break;
+                    }
+                    if (comBonus == 1)
+                    {
+                        comBonus = 0;
                     }
                     singleLock = true;
                 }
@@ -1166,6 +1431,14 @@ public class CombatManager_class : MonoBehaviour
             case true:
                 if (playerNode != playerNodeEnum.noNode)
                 {
+                    if (playerBonus == 1)
+                    {
+                        playerBonus = 0;
+                    }
+                    if (comBonus == 1)
+                    {
+                        comBonus = 0;
+                    }
                     singleLock = true;
                 }
                 break;
@@ -1183,7 +1456,15 @@ public class CombatManager_class : MonoBehaviour
                     switch (computerNode)
                     {
                         case computerNodeEnum.node1:
-                            reverseState = true;
+                            playerBonus = 0;
+                            if (reverseState == true)
+                            {
+                                reverseState = false;
+                            }
+                            else
+                            {
+                                reverseState = true;
+                            }
                             playerHealth -= comBonus + 1;
                             playerRef.damageRed = true;
                             actionText.text = "HIT!";
@@ -1191,6 +1472,7 @@ public class CombatManager_class : MonoBehaviour
                             break;
 
                         case computerNodeEnum.node2:
+                            playerBonus = 0;
                             playerHealth -= comBonus + 1;
                             playerRef.damageRed = true;
                             actionText.text = "HIT!";
@@ -1198,6 +1480,7 @@ public class CombatManager_class : MonoBehaviour
                             break;
 
                         case computerNodeEnum.node3:
+                            playerBonus = 0;
                             playerHealth -= comBonus;
                             if (playerBonus == 0)
                             {
@@ -1213,10 +1496,14 @@ public class CombatManager_class : MonoBehaviour
                             break;
 
                         case computerNodeEnum.node4:
-                            playerBonus += 1;
+                            playerBonus = 1;
                             actionText.text = "PARRY!";
                             actionText.color = Color.blue;
                             break;
+                    }
+                    if (comBonus == 1)
+                    {
+                        comBonus = 0;
                     }
                     singleLock = true;
                 }
@@ -1227,13 +1514,21 @@ public class CombatManager_class : MonoBehaviour
                     switch (computerNode)
                     {
                         case computerNodeEnum.node1:
-                            playerBonus += 1;
+                            playerBonus = 1;
                             actionText.text = "PARRY!";
                             actionText.color = Color.blue;
                             break;
 
                         case computerNodeEnum.node2:
-                            reverseState = true;
+                            playerBonus = 0;
+                            if (reverseState == true)
+                            {
+                                reverseState = false;
+                            }
+                            else
+                            {
+                                reverseState = true;
+                            }
                             playerHealth -= comBonus + 1;
                             playerRef.damageRed = true;
                             actionText.text = "HIT!";
@@ -1241,6 +1536,7 @@ public class CombatManager_class : MonoBehaviour
                             break;
 
                         case computerNodeEnum.node3:
+                            playerBonus = 0;
                             playerHealth -= comBonus + 1;
                             playerRef.damageRed = true;
                             actionText.text = "HIT!";
@@ -1248,6 +1544,7 @@ public class CombatManager_class : MonoBehaviour
                             break;
 
                         case computerNodeEnum.node4:
+                            playerBonus = 0;
                             playerHealth -= comBonus;
                             if (playerBonus == 0)
                             {
@@ -1261,6 +1558,10 @@ public class CombatManager_class : MonoBehaviour
                                 playerRef.damageRed = true;
                             }
                             break;
+                    }
+                    if (comBonus == 1)
+                    {
+                        comBonus = 0;
                     }
                     singleLock = true;
                 }
@@ -1270,6 +1571,7 @@ public class CombatManager_class : MonoBehaviour
                     switch (computerNode)
                     {
                         case computerNodeEnum.node1:
+                            playerBonus = 0;
                             playerHealth -= comBonus;
                             if (playerBonus == 0)
                             {
@@ -1285,13 +1587,21 @@ public class CombatManager_class : MonoBehaviour
                             break;
 
                         case computerNodeEnum.node2:
-                            playerBonus += 1;
+                            playerBonus = 1;
                             actionText.text = "PARRY!";
                             actionText.color = Color.blue;
                             break;
 
                         case computerNodeEnum.node3:
-                            reverseState = true;
+                            playerBonus = 0;
+                            if (reverseState == true)
+                            {
+                                reverseState = false;
+                            }
+                            else
+                            {
+                                reverseState = true;
+                            }
                             playerHealth -= comBonus + 1;
                             playerRef.damageRed = true;
                             actionText.text = "HIT!";
@@ -1299,11 +1609,16 @@ public class CombatManager_class : MonoBehaviour
                             break;
 
                         case computerNodeEnum.node4:
+                            playerBonus = 0;
                             playerHealth -= comBonus + 1;
                             playerRef.damageRed = true;
                             actionText.text = "HIT!";
                             actionText.color = Color.red;
                             break;
+                    }
+                    if (comBonus == 1)
+                    {
+                        comBonus = 0;
                     }
                     singleLock = true;
                 }
@@ -1313,6 +1628,7 @@ public class CombatManager_class : MonoBehaviour
                     switch (computerNode)
                     {
                         case computerNodeEnum.node1:
+                            playerBonus = 0;
                             playerHealth -= comBonus + 1;
                             playerRef.damageRed = true;
                             actionText.text = "HIT!";
@@ -1320,6 +1636,7 @@ public class CombatManager_class : MonoBehaviour
                             break;
 
                         case computerNodeEnum.node2:
+                            playerBonus = 0;
                             playerHealth -= comBonus;
                             if (playerBonus == 0)
                             {
@@ -1335,18 +1652,30 @@ public class CombatManager_class : MonoBehaviour
                             break;
 
                         case computerNodeEnum.node3:
-                            playerBonus += 1;
+                            playerBonus = 1;
                             actionText.text = "PARRY!";
                             actionText.color = Color.blue;
                             break;
 
                         case computerNodeEnum.node4:
-                            reverseState = true;
+                            playerBonus = 0;
+                            if (reverseState == true)
+                            {
+                                reverseState = false;
+                            }
+                            else
+                            {
+                                reverseState = true;
+                            }
                             playerHealth -= comBonus + 1;
                             playerRef.damageRed = true;
                             actionText.text = "HIT!";
                             actionText.color = Color.red;
                             break;
+                    }
+                    if (comBonus == 1)
+                    {
+                        comBonus = 0;
                     }
                     singleLock = true;
                 }
@@ -1355,6 +1684,14 @@ public class CombatManager_class : MonoBehaviour
             case true:
                 if (playerNode != playerNodeEnum.noNode)
                 {
+                    if (playerBonus == 1)
+                    {
+                        playerBonus = 0;
+                    }
+                    if (comBonus == 1)
+                    {
+                        comBonus = 0;
+                    }
                     singleLock = true;
                 }
                 break;
@@ -1407,44 +1744,44 @@ public class CombatManager_class : MonoBehaviour
                 switch(comPrev)
                 {
                     case 1:
-
-                        if (comDice >= 3)
+                        //range 1 - 3
+                        if (comDice <= 3)
                         {
-                            if (comDefDice >= 5)
-                            {
-                                comDef = false; 
-                            }
-                            else
+                            if (comDefDice >= 5 && comBonus == 0)
                             {
                                 comDef = true;
+                            }
+                            else if (comDefDice < 5 || comBonus == 1)
+                            {
+                                comDef = false;
                             }
                             computerNode = computerNodeEnum.node2;
                             comPrev = 2;
                         }
-
-                        else if (comDice >= 6)
+                        //range 4 - 6
+                        else if (comDice <= 6)
                         {
-                            if (comDefDice >= 5)
-                            {
-                                comDef = false;
-                            }
-                            else
+                            if (comDefDice >= 5 && comBonus == 0)
                             {
                                 comDef = true;
+                            }
+                            else if (comDefDice < 5 || comBonus == 1)
+                            {
+                                comDef = false;
                             }
                             computerNode = computerNodeEnum.node3;
                             comPrev = 3;
                         }
-
-                        else if (comDice >= 9)
+                        //range 7 - 9
+                        else if (comDice <= 9)
                         {
-                            if (comDefDice >= 5)
-                            {
-                                comDef = false;
-                            }
-                            else
+                            if (comDefDice >= 5 && comBonus == 0)
                             {
                                 comDef = true;
+                            }
+                            else if (comDefDice < 5 || comBonus == 1)
+                            {
+                                comDef = false;
                             }
                             computerNode = computerNodeEnum.node4;
                             comPrev = 4;
@@ -1453,43 +1790,43 @@ public class CombatManager_class : MonoBehaviour
 
                     case 2:
 
-                        if (comDice >= 3)
+                        if (comDice <= 3)
                         {
-                            if (comDefDice >= 5)
-                            {
-                                comDef = false;
-                            }
-                            else
+                            if (comDefDice >= 5 && comBonus == 0)
                             {
                                 comDef = true;
+                            }
+                            else if (comDefDice < 5 || comBonus == 1)
+                            {
+                                comDef = false;
                             }
                             computerNode = computerNodeEnum.node1;
                             comPrev = 1;
                         }
 
-                        else if (comDice >= 6)
+                        else if (comDice <= 6)
                         {
-                            if (comDefDice >= 5)
-                            {
-                                comDef = false;
-                            }
-                            else
+                            if (comDefDice >= 5 && comBonus == 0)
                             {
                                 comDef = true;
+                            }
+                            else if (comDefDice < 5 || comBonus == 1)
+                            {
+                                comDef = false;
                             }
                             computerNode = computerNodeEnum.node3;
                             comPrev = 3;
                         }
 
-                        else if (comDice >= 9)
+                        else if (comDice <= 9)
                         {
-                            if (comDefDice >= 5)
-                            {
-                                comDef = false;
-                            }
-                            else
+                            if (comDefDice >= 5 && comBonus == 0)
                             {
                                 comDef = true;
+                            }
+                            else if (comDefDice < 5 || comBonus == 1)
+                            {
+                                comDef = false;
                             }
                             computerNode = computerNodeEnum.node4;
                             comPrev = 4;
@@ -1498,43 +1835,43 @@ public class CombatManager_class : MonoBehaviour
 
                     case 3:
 
-                        if (comDice >= 3)
+                        if (comDice <= 3)
                         {
-                            if (comDefDice >= 5)
-                            {
-                                comDef = false;
-                            }
-                            else
+                            if (comDefDice >= 5 && comBonus == 0)
                             {
                                 comDef = true;
+                            }
+                            else if (comDefDice < 5 || comBonus == 1)
+                            {
+                                comDef = false;
                             }
                             computerNode = computerNodeEnum.node1;
                             comPrev = 1;
                         }
 
-                        else if (comDice >= 6)
+                        else if (comDice <= 6)
                         {
-                            if (comDefDice >= 5)
-                            {
-                                comDef = false;
-                            }
-                            else
+                            if (comDefDice >= 5 && comBonus == 0)
                             {
                                 comDef = true;
+                            }
+                            else if (comDefDice < 5 || comBonus == 1)
+                            {
+                                comDef = false;
                             }
                             computerNode = computerNodeEnum.node2;
                             comPrev = 2;
                         }
 
-                        else if (comDice >= 9)
+                        else if (comDice <= 9)
                         {
-                            if (comDefDice >= 5)
-                            {
-                                comDef = false;
-                            }
-                            else
+                            if (comDefDice >= 5 && comBonus == 0)
                             {
                                 comDef = true;
+                            }
+                            else if (comDefDice < 5 || comBonus == 1)
+                            {
+                                comDef = false;
                             }
                             computerNode = computerNodeEnum.node4;
                             comPrev = 4;
@@ -1543,43 +1880,43 @@ public class CombatManager_class : MonoBehaviour
 
                     case 4:
 
-                        if (comDice >= 3)
+                        if (comDice <= 3)
                         {
-                            if (comDefDice >= 5)
-                            {
-                                comDef = false;
-                            }
-                            else
+                            if (comDefDice >= 5 && comBonus == 0)
                             {
                                 comDef = true;
+                            }
+                            else if (comDefDice < 5 || comBonus == 1)
+                            {
+                                comDef = false;
                             }
                             computerNode = computerNodeEnum.node1;
                             comPrev = 1;
                         }
 
-                        else if (comDice >= 6)
+                        else if (comDice <= 6)
                         {
-                            if (comDefDice >= 5)
-                            {
-                                comDef = false;
-                            }
-                            else
+                            if (comDefDice >= 5 && comBonus == 0)
                             {
                                 comDef = true;
+                            }
+                            else if (comDefDice < 5 || comBonus == 1)
+                            {
+                                comDef = false;
                             }
                             computerNode = computerNodeEnum.node2;
                             comPrev = 2;
                         }
 
-                        else if (comDice >= 9)
+                        else if (comDice <= 9)
                         {
-                            if (comDefDice >= 5)
-                            {
-                                comDef = false;
-                            }
-                            else
+                            if (comDefDice >= 5 && comBonus == 0)
                             {
                                 comDef = true;
+                            }
+                            else if (comDefDice < 5 || comBonus == 1)
+                            {
+                                comDef = false;
                             }
                             computerNode = computerNodeEnum.node3;
                             comPrev = 3;
@@ -1597,43 +1934,43 @@ public class CombatManager_class : MonoBehaviour
                 {
                     case 1:
 
-                        if (comDice >= 3)
+                        if (comDice <= 3)
                         {
-                            if (comDefDice >= 5)
-                            {
-                                comDef = false;
-                            }
-                            else
+                            if (comDefDice >= 5 && comBonus == 0)
                             {
                                 comDef = true;
+                            }
+                            else if (comDefDice < 5 || comBonus == 1)
+                            {
+                                comDef = false;
                             }
                             computerNode = computerNodeEnum.node2;
                             comPrev = 2;
                         }
 
-                        else if (comDice >= 6)
+                        else if (comDice <= 6)
                         {
-                            if (comDefDice >= 5)
-                            {
-                                comDef = false;
-                            }
-                            else
+                            if (comDefDice >= 5 && comBonus == 0)
                             {
                                 comDef = true;
+                            }
+                            else if (comDefDice < 5 || comBonus == 1)
+                            {
+                                comDef = false;
                             }
                             computerNode = computerNodeEnum.node3;
                             comPrev = 3;
                         }
 
-                        else if (comDice >= 9)
+                        else if (comDice <= 9)
                         {
-                            if (comDefDice >= 5)
-                            {
-                                comDef = false;
-                            }
-                            else
+                            if (comDefDice >= 5 && comBonus == 0)
                             {
                                 comDef = true;
+                            }
+                            else if (comDefDice < 5 || comBonus == 1)
+                            {
+                                comDef = false;
                             }
                             computerNode = computerNodeEnum.node4;
                             comPrev = 4;
@@ -1644,41 +1981,41 @@ public class CombatManager_class : MonoBehaviour
 
                         if (comDice >= 3)
                         {
-                            if (comDefDice >= 5)
-                            {
-                                comDef = false;
-                            }
-                            else
+                            if (comDefDice >= 5 && comBonus == 0)
                             {
                                 comDef = true;
+                            }
+                            else if (comDefDice < 5 || comBonus == 1)
+                            {
+                                comDef = false;
                             }
                             computerNode = computerNodeEnum.node1;
                             comPrev = 1;
                         }
 
-                        else if (comDice >= 6)
+                        else if (comDice <= 6)
                         {
-                            if (comDefDice >= 5)
-                            {
-                                comDef = false;
-                            }
-                            else
+                            if (comDefDice >= 5 && comBonus == 0)
                             {
                                 comDef = true;
+                            }
+                            else if (comDefDice < 5 || comBonus == 1)
+                            {
+                                comDef = false;
                             }
                             computerNode = computerNodeEnum.node3;
                             comPrev = 3;
                         }
 
-                        else if (comDice >= 9)
+                        else if (comDice <= 9)
                         {
-                            if (comDefDice >= 5)
-                            {
-                                comDef = false;
-                            }
-                            else
+                            if (comDefDice >= 5 && comBonus == 0)
                             {
                                 comDef = true;
+                            }
+                            else if (comDefDice < 5 || comBonus == 1)
+                            {
+                                comDef = false;
                             }
                             computerNode = computerNodeEnum.node4;
                             comPrev = 4;
@@ -1687,43 +2024,43 @@ public class CombatManager_class : MonoBehaviour
 
                     case 3:
 
-                        if (comDice >= 3)
+                        if (comDice <= 3)
                         {
-                            if (comDefDice >= 5)
-                            {
-                                comDef = false;
-                            }
-                            else
+                            if (comDefDice >= 5 && comBonus == 0)
                             {
                                 comDef = true;
+                            }
+                            else if (comDefDice < 5 || comBonus == 1)
+                            {
+                                comDef = false;
                             }
                             computerNode = computerNodeEnum.node1;
                             comPrev = 1;
                         }
 
-                        else if (comDice >= 6)
+                        else if (comDice <= 6)
                         {
-                            if (comDefDice >= 5)
-                            {
-                                comDef = false;
-                            }
-                            else
+                            if (comDefDice >= 5 && comBonus == 0)
                             {
                                 comDef = true;
+                            }
+                            else if (comDefDice < 5 || comBonus == 1)
+                            {
+                                comDef = false;
                             }
                             computerNode = computerNodeEnum.node2;
                             comPrev = 2;
                         }
 
-                        else if (comDice >= 9)
+                        else if (comDice <= 9)
                         {
-                            if (comDefDice >= 5)
-                            {
-                                comDef = false;
-                            }
-                            else
+                            if (comDefDice >= 5 && comBonus == 0)
                             {
                                 comDef = true;
+                            }
+                            else if (comDefDice < 5 || comBonus == 1)
+                            {
+                                comDef = false;
                             }
                             computerNode = computerNodeEnum.node4;
                             comPrev = 4;
@@ -1732,43 +2069,43 @@ public class CombatManager_class : MonoBehaviour
 
                     case 4:
 
-                        if (comDice >= 3)
+                        if (comDice <= 3)
                         {
-                            if (comDefDice >= 5)
-                            {
-                                comDef = false;
-                            }
-                            else
+                            if (comDefDice >= 5 && comBonus == 0)
                             {
                                 comDef = true;
+                            }
+                            else if (comDefDice < 5 || comBonus == 1)
+                            {
+                                comDef = false;
                             }
                             computerNode = computerNodeEnum.node1;
                             comPrev = 1;
                         }
 
-                        else if (comDice >= 6)
+                        else if (comDice <= 6)
                         {
-                            if (comDefDice >= 5)
-                            {
-                                comDef = false;
-                            }
-                            else
+                            if (comDefDice >= 5 && comBonus == 0)
                             {
                                 comDef = true;
+                            }
+                            else if (comDefDice < 5 || comBonus == 1)
+                            {
+                                comDef = false;
                             }
                             computerNode = computerNodeEnum.node2;
                             comPrev = 2;
                         }
 
-                        else if (comDice >= 9)
+                        else if (comDice <= 9)
                         {
-                            if (comDefDice >= 5)
-                            {
-                                comDef = false;
-                            }
-                            else
+                            if (comDefDice >= 5 && comBonus == 0)
                             {
                                 comDef = true;
+                            }
+                            else if (comDefDice < 5 || comBonus == 1)
+                            {
+                                comDef = false;
                             }
                             computerNode = computerNodeEnum.node3;
                             comPrev = 3;

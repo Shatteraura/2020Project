@@ -6,6 +6,7 @@ public enum comSpriteEnum { High, Low, Side, Mid, HighP, LowP, SideP, MidP }
 
 public class ComputerPlayer_class : MonoBehaviour
 {
+    public CombatManager_class mRef;
     public comSpriteEnum SetSprite;
     public Sprite[] comSprites;
     public bool damageRed = false;
@@ -27,7 +28,10 @@ public class ComputerPlayer_class : MonoBehaviour
         switch (damageRed)
         {
             case true:
-                this.GetComponent<SpriteRenderer>().color = Color.red;
+                if (mRef.endTurnTimer < 100)
+                {
+                    this.GetComponent<SpriteRenderer>().color = Color.red;
+                }
                 break;
 
             case false:
@@ -39,6 +43,17 @@ public class ComputerPlayer_class : MonoBehaviour
     //Called From Combat Manager
     public void comUpdateSprite(int spriteNum)
     {
-        this.GetComponent<SpriteRenderer>().sprite = comSprites[spriteNum];
+        if (mRef.endTurnTimer > 200)
+        {
+            this.GetComponent<SpriteRenderer>().sprite = comSprites[spriteNum];
+        }
+        else if (mRef.endTurnTimer <= 200 && mRef.comBonus == 0 && mRef.comDef == false)
+        {
+            this.GetComponent<SpriteRenderer>().sprite = comSprites[spriteNum + 8];
+        }
+        else if (mRef.endTurnTimer <= 200 && mRef.comBonus == 1 && mRef.comDef == false)
+        {
+            this.GetComponent<SpriteRenderer>().sprite = comSprites[spriteNum + 4];
+        }
     }
 }

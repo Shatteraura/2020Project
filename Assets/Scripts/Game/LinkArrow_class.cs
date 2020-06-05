@@ -47,7 +47,16 @@ public class LinkArrow_class : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        vsArrowPos();
+        switch (mRef.singleLock)
+        {
+            case false:
+                vsArrowPos();
+                break;
+
+            case true:
+                hideArrows();
+                break;
+        }
     }
 
     //Governs the arrows position and colour
@@ -381,5 +390,360 @@ public class LinkArrow_class : MonoBehaviour
                     break;
             }
         }
+    }
+
+    //Hides the arrows that arent in the current interaction
+    void hideArrows()
+    {
+        switch (mRef.reverseState)
+        {
+            case false:
+                switch (mRef.playerNodeLock)
+                {
+                    case 1:
+                        switch(mRef.comPrev)
+                        {
+                            case 1:
+                                this.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0);
+                                break;
+
+                            case 2:
+                                if (arrowType == arrowEnum.cross)
+                                {
+                                    this.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0);
+                                }
+                                if (arrowType == arrowEnum.up)
+                                {
+                                    this.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0);
+                                }
+                                break;
+
+                            case 3:
+                                if (arrowType == arrowEnum.right)
+                                {
+                                    this.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0);
+                                }
+                                if (arrowType == arrowEnum.up)
+                                {
+                                    this.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0);
+                                }
+                                break;
+
+                            case 4:
+                                if (arrowType == arrowEnum.right)
+                                {
+                                    this.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0);
+                                }
+                                if (arrowType == arrowEnum.cross)
+                                {
+                                    this.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0);
+                                }
+                                break;
+                        }
+                        break;
+
+                    case 2:
+                        switch (mRef.comPrev)
+                        {
+                            case 1:
+                                if (arrowType == arrowEnum.cross)
+                                {
+                                    this.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0);
+                                }
+                                if (arrowType == arrowEnum.down)
+                                {
+                                    this.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0);
+                                }
+                                break;
+
+                            case 2:
+                                this.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0);
+                                break;
+
+                            case 3:
+                                if (arrowType == arrowEnum.cross)
+                                {
+                                    this.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0);
+                                }
+                                if (arrowType == arrowEnum.right)
+                                {
+                                    this.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0);
+                                }
+                                break;
+
+                            case 4:
+                                if (arrowType == arrowEnum.right)
+                                {
+                                    this.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0);
+                                }
+                                if (arrowType == arrowEnum.down)
+                                {
+                                    this.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0);
+                                }
+                                break;
+                        }
+                        break;
+
+                    case 3:
+                        switch (mRef.comPrev)
+                        {
+                            case 1:
+                                if (arrowType == arrowEnum.down)
+                                {
+                                    this.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0);
+                                }
+                                if (arrowType == arrowEnum.left)
+                                {
+                                    this.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0);
+                                }
+                                break;
+
+                            case 2:
+                                if (arrowType == arrowEnum.cross)
+                                {
+                                    this.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0);
+                                }
+                                if (arrowType == arrowEnum.left)
+                                {
+                                    this.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0);
+                                }
+                                break;
+
+                            case 3:
+                                this.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0);
+                                break;
+
+                            case 4:
+                                if (arrowType == arrowEnum.cross)
+                                {
+                                    this.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0);
+                                }
+                                if (arrowType == arrowEnum.down)
+                                {
+                                    this.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0);
+                                }
+                                break;
+                        }
+                        break;
+
+                    case 4:
+                        switch (mRef.comPrev)
+                        {
+                            case 1:
+                                if (arrowType == arrowEnum.cross)
+                                {
+                                    this.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0);
+                                }
+                                if (arrowType == arrowEnum.left)
+                                {
+                                    this.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0);
+                                }
+                                break;
+
+                            case 2:
+                                if (arrowType == arrowEnum.up)
+                                {
+                                    this.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0);
+                                }
+                                if (arrowType == arrowEnum.left)
+                                {
+                                    this.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0);
+                                }
+                                break;
+
+                            case 3:
+                                if (arrowType == arrowEnum.cross)
+                                {
+                                    this.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0);
+                                }
+                                if (arrowType == arrowEnum.up)
+                                {
+                                    this.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0);
+                                }
+                                break;
+
+                            case 4:
+                                this.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0);
+                                break;
+                        }
+                        break;
+                }
+                break;
+
+            case true:
+                switch (mRef.playerNodeLock)
+                {
+                    case 1:
+                        switch (mRef.comPrev)
+                        {
+                            case 1:
+                                this.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0);
+                                break;
+
+                            case 2:
+                                if (arrowType == arrowEnum.cross)
+                                {
+                                    this.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0);
+                                }
+                                if (arrowType == arrowEnum.down)
+                                {
+                                    this.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0);
+                                }
+                                break;
+
+                            case 3:
+                                if (arrowType == arrowEnum.left)
+                                {
+                                    this.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0);
+                                }
+                                if (arrowType == arrowEnum.down)
+                                {
+                                    this.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0);
+                                }
+                                break;
+
+                            case 4:
+                                if (arrowType == arrowEnum.left)
+                                {
+                                    this.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0);
+                                }
+                                if (arrowType == arrowEnum.cross)
+                                {
+                                    this.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0);
+                                }
+                                break;
+                        }
+                        break;
+
+                    case 2:
+                        switch (mRef.comPrev)
+                        {
+                            case 1:
+                                if (arrowType == arrowEnum.cross)
+                                {
+                                    this.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0);
+                                }
+                                if (arrowType == arrowEnum.up)
+                                {
+                                    this.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0);
+                                }
+                                break;
+
+                            case 2:
+                                this.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0);
+                                break;
+
+                            case 3:
+                                if (arrowType == arrowEnum.cross)
+                                {
+                                    this.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0);
+                                }
+                                if (arrowType == arrowEnum.left)
+                                {
+                                    this.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0);
+                                }
+                                break;
+
+                            case 4:
+                                if (arrowType == arrowEnum.left)
+                                {
+                                    this.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0);
+                                }
+                                if (arrowType == arrowEnum.up)
+                                {
+                                    this.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0);
+                                }
+                                break;
+                        }
+                        break;
+
+                    case 3:
+                        switch (mRef.comPrev)
+                        {
+                            case 1:
+                                if (arrowType == arrowEnum.up)
+                                {
+                                    this.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0);
+                                }
+                                if (arrowType == arrowEnum.right)
+                                {
+                                    this.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0);
+                                }
+                                break;
+
+                            case 2:
+                                if (arrowType == arrowEnum.cross)
+                                {
+                                    this.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0);
+                                }
+                                if (arrowType == arrowEnum.right)
+                                {
+                                    this.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0);
+                                }
+                                break;
+
+                            case 3:
+                                this.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0);
+                                break;
+
+                            case 4:
+                                if (arrowType == arrowEnum.cross)
+                                {
+                                    this.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0);
+                                }
+                                if (arrowType == arrowEnum.up)
+                                {
+                                    this.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0);
+                                }
+                                break;
+                        }
+                        break;
+
+                    case 4:
+                        switch (mRef.comPrev)
+                        {
+                            case 1:
+                                if (arrowType == arrowEnum.cross)
+                                {
+                                    this.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0);
+                                }
+                                if (arrowType == arrowEnum.right)
+                                {
+                                    this.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0);
+                                }
+                                break;
+
+                            case 2:
+                                if (arrowType == arrowEnum.down)
+                                {
+                                    this.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0);
+                                }
+                                if (arrowType == arrowEnum.right)
+                                {
+                                    this.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0);
+                                }
+                                break;
+
+                            case 3:
+                                if (arrowType == arrowEnum.cross)
+                                {
+                                    this.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0);
+                                }
+                                if (arrowType == arrowEnum.down)
+                                {
+                                    this.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0);
+                                }
+                                break;
+
+                            case 4:
+                                this.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0);
+                                break;
+                        }
+                        break;
+                }
+                break;
+        }
+
+        
     }
 }
