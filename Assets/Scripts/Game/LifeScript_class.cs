@@ -25,7 +25,7 @@ public class LifeScript_class : MonoBehaviour
     //Governs Hiding The Lives When They Are Lost
     void playerLives()
     {
-        if (combatManagerRef.GetComponent<CombatManager_class>().playerHealth < lifeNumPlayer)
+        if (combatManagerRef.GetComponent<CombatManagerV2_class>().playerHealth < lifeNumPlayer)
         {
             this.transform.position = hiddenPos;
         }

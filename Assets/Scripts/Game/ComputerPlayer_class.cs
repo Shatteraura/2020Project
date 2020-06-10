@@ -6,7 +6,7 @@ public enum comSpriteEnum { High, Low, Side, Mid, HighP, LowP, SideP, MidP }
 
 public class ComputerPlayer_class : MonoBehaviour
 {
-    public CombatManager_class mRef;
+    public CombatManagerV2_class mRef;
     public comSpriteEnum SetSprite;
     public Sprite[] comSprites;
     public bool damageRed = false;

@@ -5,11 +5,9 @@ using UnityEngine;
 public class SelectBoxScript_class : MonoBehaviour
 {
     public Vector3 buttonPos;
-    public CombatManager_class mRef;
+    public CombatManagerV2_class mRef;
 
     public Color normalColor = new Color(1, 1, 0, 1);
-    public Color defColor = new Color(0, 0, 0, 1);
-    public Color breakColour = new Color(1, 0, 0, 1);
 
     // Start is called before the first frame update
     void Start()
@@ -29,22 +27,7 @@ public class SelectBoxScript_class : MonoBehaviour
                 break;
 
             case true:
-                reColour();
                 break;
         } 
-    }
-
-    void reColour()
-    {
-        switch (mRef.reverseState)
-        {
-            case false:
-
-                break;
-
-            case true:
-
-                break;
-        }
     }
 }

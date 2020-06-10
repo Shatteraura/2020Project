@@ -23,7 +23,7 @@ public class ComLife_class : MonoBehaviour
 
     void comLives()
     {
-        if (combatManagerRef.GetComponent<CombatManager_class>().computerHealth < lifeNumCom)
+        if (combatManagerRef.GetComponent<CombatManagerV2_class>().computerHealth < lifeNumCom)
         {
             this.transform.position = hiddenPos;
         }

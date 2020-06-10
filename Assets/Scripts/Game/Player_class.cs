@@ -6,7 +6,7 @@ public enum playerSpriteEnum { High, Low, Side, Mid, HighP, LowP, SideP, MidP }
 
 public class Player_class : MonoBehaviour
 {
-    public CombatManager_class mRef;
+    public CombatManagerV2_class mRef;
     public playerSpriteEnum SetSprite;
     public Sprite[] playerSprites;
     public bool damageRed = false;

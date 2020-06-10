@@ -2,22 +2,22 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum arrowEnum { left, right, up, down, cross }
+public enum arrowEnum { none, left, right, up, down }
 
 public class LinkArrow_class : MonoBehaviour
 {
     public arrowEnum arrowType;
-    public CombatManager_class mRef;
-
-    SpriteRenderer colourChange;
+    public CombatManagerV2_class mRef;
+    public Color keepArrowColor;
+    public Vector3 changePos;
 
     // Start is called before the first frame update
     void Start()
     {
-        colourChange = GetComponent<SpriteRenderer>();
         arrowVector();
     }
 
+    //Sets global position variables for the arrows
     void arrowVector()
     {
         switch (arrowType)
@@ -37,713 +37,408 @@ public class LinkArrow_class : MonoBehaviour
             case arrowEnum.down:
                 mRef.right = this.transform.position;
                 break;
-
-            case arrowEnum.cross:
-                mRef.middle = this.transform.position;
-                break;
         }
     }
 
     // Update is called once per frame
     void Update()
     {
-        switch (mRef.singleLock)
-        {
-            case false:
-                vsArrowPos();
-                break;
+        buttonCheck();
+        turnArrows();
+        colourManager();
+        positionManager();
+    }
 
-            case true:
-                hideArrows();
-                break;
+
+    void colourManager()
+    {
+        if (mRef.arrowRecolour == arrowRecolourEnum.red)
+        {
+            keepArrowColor = Color.red;
+        }
+        if (mRef.arrowRecolour == arrowRecolourEnum.blue)
+        {
+            keepArrowColor = Color.blue;
+        }
+        if (mRef.arrowRecolour == arrowRecolourEnum.green)
+        {
+            keepArrowColor = Color.green;
+        }
+        if (mRef.arrowRecolour == arrowRecolourEnum.grey)
+        {
+            keepArrowColor = Color.grey;
         }
     }
 
-    //Governs the arrows position and colour
-    void vsArrowPos()
+    void positionManager()
+    {
+        if (mRef.arrowChangePos == arrowChangePosEnum.none)
+        {
+            changePos = new Vector3(100, 100, 0);
+        }
+
+        if (mRef.arrowChangePos == arrowChangePosEnum.right)
+        {
+            changePos = mRef.right;
+        }
+        if (mRef.arrowChangePos == arrowChangePosEnum.left)
+        {
+            changePos = mRef.left;
+        }
+        if (mRef.arrowChangePos == arrowChangePosEnum.top)
+        {
+            changePos = mRef.top;
+        }
+        if (mRef.arrowChangePos == arrowChangePosEnum.bottom)
+        {
+            changePos = mRef.bottom;
+        }
+    }
+
+    void buttonCheck()
+    {
+        if (mRef.singleLock == false)
+        {
+            if (mRef.currentButton == 0)
+            {
+                hideArrows();
+            }
+
+            if (mRef.currentButton == 1)
+            {
+                highOver();
+            }
+            if (mRef.currentButton == 2)
+            {
+                lowOver();
+            }
+            if (mRef.currentButton == 3)
+            {
+                sideOver();
+            }
+            if (mRef.currentButton == 4)
+            {
+                midOver();
+            }
+        }
+    }
+
+    //Governs displaying the arrows when mousing over the buttons
+    void highOver()
+    {
+        if (mRef.buttonMode == buttonModeEnum.attackMode)
+        {
+            highAtt();
+        }
+        else
+        {
+            highDef();
+        }
+    }
+
+    void highAtt()
     {
         if (mRef.reverseState == false)
         {
-
-            switch (mRef.currentButton)
+            if (arrowType == arrowEnum.right)
             {
-                case 0:
-                    this.transform.position = new Vector3(100, 100, 0);
-                    this.transform.rotation = this.transform.rotation = new Quaternion(0, 0, 0, 0);
-                    colourChange.color = Color.white;
-                    break;
-
-                case 1:
-                    switch (arrowType)
-                    {
-                        case arrowEnum.right:
-                            this.transform.position = mRef.top;
-                            if (mRef.buttonMode == buttonModeEnum.attackMode)
-                            {
-                                colourChange.color = Color.green;
-                                this.transform.rotation = this.transform.rotation = new Quaternion(0, 0, 0, 0);
-                            }
-                            else
-                            {
-                                colourChange.color = Color.blue;
-                                this.transform.rotation = this.transform.rotation = new Quaternion(0, 0, 180, 0);
-                            }
-                            break;
-
-                        case arrowEnum.cross:
-                            this.transform.position = mRef.middle;                            
-                            if (mRef.buttonMode == buttonModeEnum.attackMode)
-                            {
-                                colourChange.color = Color.green;
-                                this.transform.rotation = new Quaternion(0, 0, 0, 0);
-                            }
-                            else
-                            {
-                                colourChange.color = Color.grey;
-                                this.transform.rotation = new Quaternion(0, 0, 90, 0);
-                            }
-                            break;
-
-                        case arrowEnum.up:
-                            this.transform.position = mRef.left;
-                            colourChange.color = Color.red;
-                            break;
-                    }
-                    break;
-
-                case 2:
-                    switch (arrowType)
-                    {
-                        case arrowEnum.right:
-                            this.transform.position = mRef.top;
-                            colourChange.color = Color.red;
-                            break;
-
-                        case arrowEnum.cross:
-                            this.transform.position = mRef.middle;
-                            this.transform.rotation = new Quaternion(90,0,0,0);
-                            if (mRef.buttonMode == buttonModeEnum.attackMode)
-                            {
-                                colourChange.color = Color.red;
-                            }
-                            else
-                            {
-                                colourChange.color = Color.grey;
-                            }
-                            break;
-
-                        case arrowEnum.down:
-                            this.transform.position = mRef.right;
-                            if (mRef.buttonMode == buttonModeEnum.attackMode)
-                            {
-                                colourChange.color = Color.green;
-                                this.transform.rotation = this.transform.rotation = new Quaternion(0, 0, 0, 0);
-                            }
-                            else
-                            {
-                                colourChange.color = Color.blue;
-                                this.transform.rotation = this.transform.rotation = new Quaternion(0, 0, 180, 0);
-                            }
-                            break;
-
-                    }
-                    break;
-
-                case 3:
-                    switch (arrowType)
-                    {
-                        case arrowEnum.left:
-                            this.transform.position = mRef.bottom;
-                            if (mRef.buttonMode == buttonModeEnum.attackMode)
-                            {
-                                colourChange.color = Color.green;
-                                this.transform.rotation = this.transform.rotation = new Quaternion(0, 0, 0, 0);
-                            }
-                            else
-                            {
-                                colourChange.color = Color.blue;
-                                this.transform.rotation = this.transform.rotation = new Quaternion(0, 0, 180, 0);
-                            }
-                            break;
-
-                        case arrowEnum.cross:
-                            this.transform.position = mRef.middle;
-                            this.transform.rotation = new Quaternion(0, 0, 0, 0);
-                            if (mRef.buttonMode == buttonModeEnum.attackMode)
-                            {
-                                colourChange.color = Color.red;
-                            }
-                            else
-                            {
-                                colourChange.color = Color.grey;
-                            }
-                            break;
-
-                        case arrowEnum.down:
-                            this.transform.position = mRef.right;
-                            colourChange.color = Color.red;
-                            break;
-
-                    }
-                    break;
-
-                case 4:
-                    switch (arrowType)
-                    {
-                        case arrowEnum.left:
-                            this.transform.position = mRef.bottom;
-                            colourChange.color = Color.red;
-                            break;
-
-                        case arrowEnum.cross:
-                            this.transform.position = mRef.middle;
-                            if (mRef.buttonMode == buttonModeEnum.attackMode)
-                            {
-                                colourChange.color = Color.green;
-                                this.transform.rotation = new Quaternion(90, 0, 0, 0);
-                            }
-                            else
-                            {
-                                colourChange.color = Color.grey;
-                                this.transform.rotation = new Quaternion(0, 90, 0, 0);
-                            }
-                            break;
-
-                        case arrowEnum.up:
-                            this.transform.position = mRef.left;
-                            if (mRef.buttonMode == buttonModeEnum.attackMode)
-                            {
-                                colourChange.color = Color.green;
-                                this.transform.rotation = this.transform.rotation = new Quaternion(0, 0, 0, 0);
-                            }
-                            else
-                            {
-                                colourChange.color = Color.blue;
-                                this.transform.rotation = this.transform.rotation = new Quaternion(0, 0, 180, 0);
-                            }
-                            break;
-                    }
-                    break;
+                this.GetComponent<SpriteRenderer>().color = Color.green;
+                this.transform.position = mRef.top;
+            }
+            if (arrowType == arrowEnum.up)
+            {
+                this.GetComponent<SpriteRenderer>().color = Color.red;
+                this.transform.position = mRef.left;
             }
         }
-
-
-        if (mRef.reverseState == true)
+        else
         {
-
-            switch (mRef.currentButton)
+            if (arrowType == arrowEnum.left)
             {
-                case 0:
-                    this.transform.position = new Vector3(100, 100, 0);
-                    this.transform.rotation = this.transform.rotation = new Quaternion(0, 0, 0, 0);
-                    colourChange.color = Color.white;
-                    break;
-
-                case 1:
-                    switch (arrowType)
-                    {
-                        case arrowEnum.left:
-                            this.transform.position = mRef.top;
-                            colourChange.color = Color.red;
-                            break;
-
-                        case arrowEnum.cross:
-                            this.transform.position = mRef.middle;
-                            this.transform.rotation = new Quaternion(90, 90, 0, 0);
-                            if (mRef.buttonMode == buttonModeEnum.attackMode)
-                            {
-                                colourChange.color = Color.red;
-                            }
-                            else
-                            {
-                                colourChange.color = Color.grey;
-                            }
-                            break;
-
-                        case arrowEnum.down:
-                            this.transform.position = mRef.left;
-                            if (mRef.buttonMode == buttonModeEnum.attackMode)
-                            {
-                                colourChange.color = Color.green;
-                                this.transform.rotation = this.transform.rotation = new Quaternion(0, 0, 0, 0);
-                            }
-                            else
-                            {
-                                colourChange.color = Color.blue;
-                                this.transform.rotation = this.transform.rotation = new Quaternion(0, 0, 180, 0);
-                            }
-                            break;
-                    }
-                    break;
-
-                case 2:
-                    switch (arrowType)
-                    {
-                        case arrowEnum.left:
-                            this.transform.position = mRef.top;
-                            if (mRef.buttonMode == buttonModeEnum.attackMode)
-                            {
-                                colourChange.color = Color.green;
-                                this.transform.rotation = this.transform.rotation = new Quaternion(0, 0, 0, 0);
-                            }
-                            else
-                            {
-                                colourChange.color = Color.blue;
-                                this.transform.rotation = this.transform.rotation = new Quaternion(0, 0, 180, 0);
-                            }
-                            break;
-
-                        case arrowEnum.cross:
-                            this.transform.position = mRef.middle;  
-                            if (mRef.buttonMode == buttonModeEnum.attackMode)
-                            {
-                                colourChange.color = Color.green;
-                                this.transform.rotation = new Quaternion(0, 90, 0, 0);
-                            }
-                            else
-                            {
-                                colourChange.color = Color.grey;
-                                this.transform.rotation = new Quaternion(180, 0, 0, 0);
-                            }
-                            break;
-
-                        case arrowEnum.up:
-                            this.transform.position = mRef.right;
-                            colourChange.color = Color.red;
-                            break;
-                    }
-                    break;
-
-                case 3:
-                    switch (arrowType)
-                    {
-                        case arrowEnum.right:
-                            this.transform.position = mRef.bottom;
-                            colourChange.color = Color.red;
-                            break;
-
-                        case arrowEnum.cross:
-                            this.transform.position = mRef.middle;
-                            if (mRef.buttonMode == buttonModeEnum.attackMode)
-                            {
-                                colourChange.color = Color.green;
-                                this.transform.rotation = new Quaternion(90, 90, 0, 0);
-                            }
-                            else
-                            {
-                                colourChange.color = Color.grey;
-                                this.transform.rotation = new Quaternion(0, 0, 0, 90);
-                            }
-                            break;
-
-                        case arrowEnum.up:
-                            this.transform.position = mRef.right;
-                            if (mRef.buttonMode == buttonModeEnum.attackMode)
-                            {
-                                colourChange.color = Color.green;
-                                this.transform.rotation = this.transform.rotation = new Quaternion(0, 0, 0, 0);
-                            }
-                            else
-                            {
-                                colourChange.color = Color.blue;
-                                this.transform.rotation = this.transform.rotation = new Quaternion(0, 0, 180, 0);
-                            }
-                            break;
-                    }
-                    break;
-
-                case 4:
-                    switch (arrowType)
-                    {
-                        case arrowEnum.right:
-                            this.transform.position = mRef.bottom;
-                            if (mRef.buttonMode == buttonModeEnum.attackMode)
-                            {
-                                colourChange.color = Color.green;
-                                this.transform.rotation = this.transform.rotation = new Quaternion(0, 0, 0, 0);
-                            }
-                            else
-                            {
-                                colourChange.color = Color.blue;
-                                this.transform.rotation = this.transform.rotation = new Quaternion(0, 0, 180, 0);
-                            }
-                            break;
-
-                        case arrowEnum.cross:
-                            this.transform.position = mRef.middle;
-                            this.transform.rotation = new Quaternion(0, 90, 0, 0);
-                            if (mRef.buttonMode == buttonModeEnum.attackMode)
-                            {
-                                colourChange.color = Color.red;
-                            }
-                            else
-                            {
-                                colourChange.color = Color.grey;
-                            }
-                            break;
-
-                        case arrowEnum.down:
-                            this.transform.position = mRef.left;
-                            colourChange.color = Color.red;
-                            break;
-                    }
-                    break;
+                this.GetComponent<SpriteRenderer>().color = Color.red;
+                this.transform.position = mRef.top;
+            }
+            if (arrowType == arrowEnum.down)
+            {
+                this.GetComponent<SpriteRenderer>().color = Color.green;
+                this.transform.position = mRef.left;
             }
         }
     }
 
-    //Hides the arrows that arent in the current interaction
-    void hideArrows()
+    void highDef()
     {
-        switch (mRef.reverseState)
+        if (mRef.reverseState == false)
         {
-            case false:
-                switch (mRef.playerNodeLock)
-                {
-                    case 1:
-                        switch(mRef.comPrev)
-                        {
-                            case 1:
-                                this.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0);
-                                break;
+            if (arrowType == arrowEnum.left)
+            {
+                this.GetComponent<SpriteRenderer>().color = Color.blue;
+                this.transform.position = mRef.top;
+            }
+            if (arrowType == arrowEnum.up)
+            {
+                this.GetComponent<SpriteRenderer>().color = Color.red;
+                this.transform.position = mRef.left;
+            }
+        }
+        else
+        {
+            if (arrowType == arrowEnum.left)
+            {
+                this.GetComponent<SpriteRenderer>().color = Color.red;
+                this.transform.position = mRef.top;
+            }
+            if (arrowType == arrowEnum.up)
+            {
+                this.GetComponent<SpriteRenderer>().color = Color.blue;
+                this.transform.position = mRef.left;
+            }
+        }
+    }
 
-                            case 2:
-                                if (arrowType == arrowEnum.cross)
-                                {
-                                    this.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0);
-                                }
-                                if (arrowType == arrowEnum.up)
-                                {
-                                    this.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0);
-                                }
-                                break;
 
-                            case 3:
-                                if (arrowType == arrowEnum.right)
-                                {
-                                    this.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0);
-                                }
-                                if (arrowType == arrowEnum.up)
-                                {
-                                    this.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0);
-                                }
-                                break;
+    // LOW ----------------------
+    void lowOver()
+    {
+        if (mRef.buttonMode == buttonModeEnum.attackMode)
+        {
+            lowAtt();
+        }
+        else
+        {
+            lowDef();
+        }
+    }
 
-                            case 4:
-                                if (arrowType == arrowEnum.right)
-                                {
-                                    this.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0);
-                                }
-                                if (arrowType == arrowEnum.cross)
-                                {
-                                    this.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0);
-                                }
-                                break;
-                        }
-                        break;
+    void lowAtt()
+    {
+        if (mRef.reverseState == false)
+        {
+            if (arrowType == arrowEnum.right)
+            {
+                this.GetComponent<SpriteRenderer>().color = Color.red;
+                this.transform.position = mRef.top;
+            }
+            if (arrowType == arrowEnum.down)
+            {
+                this.GetComponent<SpriteRenderer>().color = Color.green;
+                this.transform.position = mRef.right;
+            }
+        }
+        else
+        {
+            if (arrowType == arrowEnum.left)
+            {
+                this.GetComponent<SpriteRenderer>().color = Color.green;
+                this.transform.position = mRef.top;
+            }
+            if (arrowType == arrowEnum.up)
+            {
+                this.GetComponent<SpriteRenderer>().color = Color.red;
+                this.transform.position = mRef.right;
+            }
+        }
+    }
 
-                    case 2:
-                        switch (mRef.comPrev)
-                        {
-                            case 1:
-                                if (arrowType == arrowEnum.cross)
-                                {
-                                    this.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0);
-                                }
-                                if (arrowType == arrowEnum.down)
-                                {
-                                    this.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0);
-                                }
-                                break;
+    void lowDef()
+    {
+        if (mRef.reverseState == false)
+        {
+            if (arrowType == arrowEnum.right)
+            {
+                this.GetComponent<SpriteRenderer>().color = Color.red;
+                this.transform.position = mRef.top;
+            }
+            if (arrowType == arrowEnum.up)
+            {
+                this.GetComponent<SpriteRenderer>().color = Color.blue;
+                this.transform.position = mRef.right;
+            }
+        }
+        else
+        {
+            if (arrowType == arrowEnum.right)
+            {
+                this.GetComponent<SpriteRenderer>().color = Color.blue;
+                this.transform.position = mRef.top;
+            }
+            if (arrowType == arrowEnum.up)
+            {
+                this.GetComponent<SpriteRenderer>().color = Color.red;
+                this.transform.position = mRef.right;
+            }
+        }
+    }
 
-                            case 2:
-                                this.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0);
-                                break;
 
-                            case 3:
-                                if (arrowType == arrowEnum.cross)
-                                {
-                                    this.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0);
-                                }
-                                if (arrowType == arrowEnum.right)
-                                {
-                                    this.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0);
-                                }
-                                break;
-
-                            case 4:
-                                if (arrowType == arrowEnum.right)
-                                {
-                                    this.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0);
-                                }
-                                if (arrowType == arrowEnum.down)
-                                {
-                                    this.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0);
-                                }
-                                break;
-                        }
-                        break;
-
-                    case 3:
-                        switch (mRef.comPrev)
-                        {
-                            case 1:
-                                if (arrowType == arrowEnum.down)
-                                {
-                                    this.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0);
-                                }
-                                if (arrowType == arrowEnum.left)
-                                {
-                                    this.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0);
-                                }
-                                break;
-
-                            case 2:
-                                if (arrowType == arrowEnum.cross)
-                                {
-                                    this.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0);
-                                }
-                                if (arrowType == arrowEnum.left)
-                                {
-                                    this.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0);
-                                }
-                                break;
-
-                            case 3:
-                                this.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0);
-                                break;
-
-                            case 4:
-                                if (arrowType == arrowEnum.cross)
-                                {
-                                    this.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0);
-                                }
-                                if (arrowType == arrowEnum.down)
-                                {
-                                    this.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0);
-                                }
-                                break;
-                        }
-                        break;
-
-                    case 4:
-                        switch (mRef.comPrev)
-                        {
-                            case 1:
-                                if (arrowType == arrowEnum.cross)
-                                {
-                                    this.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0);
-                                }
-                                if (arrowType == arrowEnum.left)
-                                {
-                                    this.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0);
-                                }
-                                break;
-
-                            case 2:
-                                if (arrowType == arrowEnum.up)
-                                {
-                                    this.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0);
-                                }
-                                if (arrowType == arrowEnum.left)
-                                {
-                                    this.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0);
-                                }
-                                break;
-
-                            case 3:
-                                if (arrowType == arrowEnum.cross)
-                                {
-                                    this.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0);
-                                }
-                                if (arrowType == arrowEnum.up)
-                                {
-                                    this.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0);
-                                }
-                                break;
-
-                            case 4:
-                                this.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0);
-                                break;
-                        }
-                        break;
-                }
-                break;
-
-            case true:
-                switch (mRef.playerNodeLock)
-                {
-                    case 1:
-                        switch (mRef.comPrev)
-                        {
-                            case 1:
-                                this.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0);
-                                break;
-
-                            case 2:
-                                if (arrowType == arrowEnum.cross)
-                                {
-                                    this.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0);
-                                }
-                                if (arrowType == arrowEnum.down)
-                                {
-                                    this.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0);
-                                }
-                                break;
-
-                            case 3:
-                                if (arrowType == arrowEnum.left)
-                                {
-                                    this.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0);
-                                }
-                                if (arrowType == arrowEnum.down)
-                                {
-                                    this.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0);
-                                }
-                                break;
-
-                            case 4:
-                                if (arrowType == arrowEnum.left)
-                                {
-                                    this.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0);
-                                }
-                                if (arrowType == arrowEnum.cross)
-                                {
-                                    this.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0);
-                                }
-                                break;
-                        }
-                        break;
-
-                    case 2:
-                        switch (mRef.comPrev)
-                        {
-                            case 1:
-                                if (arrowType == arrowEnum.cross)
-                                {
-                                    this.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0);
-                                }
-                                if (arrowType == arrowEnum.up)
-                                {
-                                    this.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0);
-                                }
-                                break;
-
-                            case 2:
-                                this.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0);
-                                break;
-
-                            case 3:
-                                if (arrowType == arrowEnum.cross)
-                                {
-                                    this.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0);
-                                }
-                                if (arrowType == arrowEnum.left)
-                                {
-                                    this.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0);
-                                }
-                                break;
-
-                            case 4:
-                                if (arrowType == arrowEnum.left)
-                                {
-                                    this.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0);
-                                }
-                                if (arrowType == arrowEnum.up)
-                                {
-                                    this.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0);
-                                }
-                                break;
-                        }
-                        break;
-
-                    case 3:
-                        switch (mRef.comPrev)
-                        {
-                            case 1:
-                                if (arrowType == arrowEnum.up)
-                                {
-                                    this.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0);
-                                }
-                                if (arrowType == arrowEnum.right)
-                                {
-                                    this.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0);
-                                }
-                                break;
-
-                            case 2:
-                                if (arrowType == arrowEnum.cross)
-                                {
-                                    this.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0);
-                                }
-                                if (arrowType == arrowEnum.right)
-                                {
-                                    this.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0);
-                                }
-                                break;
-
-                            case 3:
-                                this.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0);
-                                break;
-
-                            case 4:
-                                if (arrowType == arrowEnum.cross)
-                                {
-                                    this.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0);
-                                }
-                                if (arrowType == arrowEnum.up)
-                                {
-                                    this.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0);
-                                }
-                                break;
-                        }
-                        break;
-
-                    case 4:
-                        switch (mRef.comPrev)
-                        {
-                            case 1:
-                                if (arrowType == arrowEnum.cross)
-                                {
-                                    this.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0);
-                                }
-                                if (arrowType == arrowEnum.right)
-                                {
-                                    this.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0);
-                                }
-                                break;
-
-                            case 2:
-                                if (arrowType == arrowEnum.down)
-                                {
-                                    this.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0);
-                                }
-                                if (arrowType == arrowEnum.right)
-                                {
-                                    this.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0);
-                                }
-                                break;
-
-                            case 3:
-                                if (arrowType == arrowEnum.cross)
-                                {
-                                    this.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0);
-                                }
-                                if (arrowType == arrowEnum.down)
-                                {
-                                    this.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0);
-                                }
-                                break;
-
-                            case 4:
-                                this.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0);
-                                break;
-                        }
-                        break;
-                }
-                break;
+    //SIDE -----------------------------------------------
+    void sideOver()
+    {
+        if (mRef.buttonMode == buttonModeEnum.attackMode)
+        {
+            sideAtt();
+        }
+        else
+        {
+            sideDef();
         }
 
-        
+    }
+
+    void sideAtt()
+    {
+        if (mRef.reverseState == false)
+        {
+            if (arrowType == arrowEnum.down)
+            {
+                this.GetComponent<SpriteRenderer>().color = Color.red;
+                this.transform.position = mRef.right;
+            }
+            if (arrowType == arrowEnum.left)
+            {
+                this.GetComponent<SpriteRenderer>().color = Color.green;
+                this.transform.position = mRef.bottom;
+            }
+        }
+        else
+        {
+            if (arrowType == arrowEnum.up)
+            {
+                this.GetComponent<SpriteRenderer>().color = Color.green;
+                this.transform.position = mRef.right;
+            }
+            if (arrowType == arrowEnum.left)
+            {
+                this.GetComponent<SpriteRenderer>().color = Color.red;
+                this.transform.position = mRef.bottom;
+            }
+        }
+    }
+
+    void sideDef()
+    {
+        if (mRef.reverseState == false)
+        {
+            if (arrowType == arrowEnum.down)
+            {
+                this.GetComponent<SpriteRenderer>().color = Color.red;
+                this.transform.position = mRef.right;
+            }
+            if (arrowType == arrowEnum.right)
+            {
+                this.GetComponent<SpriteRenderer>().color = Color.blue;
+                this.transform.position = mRef.bottom;
+            }
+        }
+        else
+        {
+            if (arrowType == arrowEnum.down)
+            {
+                this.GetComponent<SpriteRenderer>().color = Color.blue;
+                this.transform.position = mRef.right;
+            }
+            if (arrowType == arrowEnum.right)
+            {
+                this.GetComponent<SpriteRenderer>().color = Color.red;
+                this.transform.position = mRef.bottom;
+            }
+        }
+    }
+
+
+
+    //MID -----------------------------------------------
+    void midOver()
+    {
+        if (mRef.buttonMode == buttonModeEnum.attackMode)
+        {
+            midAtt();
+        }
+        else
+        {
+            midDef();
+        }
+
+    }
+
+    void midAtt()
+    {
+        if (mRef.reverseState == false)
+        {
+            if (arrowType == arrowEnum.left)
+            {
+                this.GetComponent<SpriteRenderer>().color = Color.red;
+                this.transform.position = mRef.bottom;
+            }
+            if (arrowType == arrowEnum.up)
+            {
+                this.GetComponent<SpriteRenderer>().color = Color.green;
+                this.transform.position = mRef.left;
+            }
+        }
+        else
+        {
+            if (arrowType == arrowEnum.right)
+            {
+                this.GetComponent<SpriteRenderer>().color = Color.green;
+                this.transform.position = mRef.bottom;
+            }
+            if (arrowType == arrowEnum.down)
+            {
+                this.GetComponent<SpriteRenderer>().color = Color.red;
+                this.transform.position = mRef.left;
+            }
+        }
+    }
+
+    void midDef()
+    {
+        if (mRef.reverseState == false)
+        {
+            if (arrowType == arrowEnum.left)
+            {
+                this.GetComponent<SpriteRenderer>().color = Color.red;
+                this.transform.position = mRef.bottom;
+            }
+            if (arrowType == arrowEnum.down)
+            {
+                this.GetComponent<SpriteRenderer>().color = Color.blue;
+                this.transform.position = mRef.left;
+            }
+        }
+        else
+        {
+            if (arrowType == arrowEnum.left)
+            {
+                this.GetComponent<SpriteRenderer>().color = Color.blue;
+                this.transform.position = mRef.bottom;
+            }
+            if (arrowType == arrowEnum.down)
+            {
+                this.GetComponent<SpriteRenderer>().color = Color.red;
+                this.transform.position = mRef.left;
+            }
+        }
+    }
+
+    void hideArrows()
+    {
+        this.transform.position = new Vector3(100, 100, 0);
+    }
+
+    void turnArrows()
+    {
+       if (mRef.singleLock == true)
+        {
+            if ((int)arrowType != (int)mRef.arrowKeep)
+            {
+                this.transform.position = new Vector3(100, 100, 0);
+            }
+            else
+            {
+                this.GetComponent<SpriteRenderer>().color = keepArrowColor;
+                this.transform.position = changePos;
+            }
+        }
     }
 }

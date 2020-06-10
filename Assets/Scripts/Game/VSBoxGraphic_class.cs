@@ -7,7 +7,7 @@ public enum vsColourEnum { greenOne, greenTwo, redOne, redTwo, blueOne }
 public class VSBoxGraphic_class : MonoBehaviour
 {
     public vsColourEnum vsColour;
-    public CombatManager_class mRef;
+    public CombatManagerV2_class mRef;
 
     // Start is called before the first frame update
     void Start()
@@ -30,9 +30,13 @@ public class VSBoxGraphic_class : MonoBehaviour
                 {
                     boxHide();
                 }
-                if (mRef.buttonMode == buttonModeEnum.defenceMode)
+                if (mRef.buttonMode == buttonModeEnum.defenceMode && mRef.comDef == false)
                 {
                     boxHideDef();
+                }
+                else if (mRef.buttonMode == buttonModeEnum.defenceMode && mRef.comDef == true)
+                {
+                    doubleDef();
                 }
                 break;
         }  
@@ -927,5 +931,10 @@ public class VSBoxGraphic_class : MonoBehaviour
                 }
                 break;
         }
+    }
+
+    void doubleDef()
+    {
+        this.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0);
     }
 }

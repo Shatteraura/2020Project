@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class EnemyLock_class : MonoBehaviour
 {
-    public CombatManager_class mRef;
+    public CombatManagerV2_class mRef;
 
     public Sprite[] lockSprites;
 

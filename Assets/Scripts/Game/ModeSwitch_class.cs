@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ModeSwitch_class : MonoBehaviour
 {
-    public GameObject combatManagerRef;
+    public CombatManagerV2_class mRef;
     public SelectBoxScript_class selectRef;
 
     public Sprite attackSprite;
@@ -13,9 +13,9 @@ public class ModeSwitch_class : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        combatManagerRef.GetComponent<CombatManager_class>().button5Pos = new Vector3(this.transform.position.x, this.transform.position.y, 1);
+        mRef.button5Pos = new Vector3(this.transform.position.x, this.transform.position.y, 1);
         this.GetComponent<SpriteRenderer>().sprite = attackSprite;
-        combatManagerRef.GetComponent<CombatManager_class>().modeButtonText.text = "Attack Mode";
+        mRef.modeButtonText.text = "Attack Mode";
     }
 
     // Update is called once per frame
@@ -26,23 +26,29 @@ public class ModeSwitch_class : MonoBehaviour
 
     private void OnMouseOver()
     {
-        selectRef.buttonPos = new Vector3(this.transform.position.x, this.transform.position.y, 1);
+        if (mRef.playerLose == false && mRef.playerWin == false)
+        {
+            selectRef.buttonPos = new Vector3(this.transform.position.x, this.transform.position.y, 1);
+        }
     }
 
     private void OnMouseDown()
     {
-        if (combatManagerRef.GetComponent<CombatManager_class>().buttonMode == buttonModeEnum.attackMode)
+        if (mRef.playerLose == false && mRef.playerWin == false)
         {
-            combatManagerRef.GetComponent<CombatManager_class>().buttonMode = buttonModeEnum.defenceMode;
-            combatManagerRef.GetComponent<CombatManager_class>().modeButtonText.text = "Defence Mode";
-            this.GetComponent<SpriteRenderer>().sprite = defendSprite;
-        }
+            if (mRef.buttonMode == buttonModeEnum.attackMode)
+            {
+                mRef.buttonMode = buttonModeEnum.defenceMode;
+                mRef.modeButtonText.text = "Defence Mode";
+                this.GetComponent<SpriteRenderer>().sprite = defendSprite;
+            }
 
-        else if (combatManagerRef.GetComponent<CombatManager_class>().buttonMode == buttonModeEnum.defenceMode)
-        {
-            combatManagerRef.GetComponent<CombatManager_class>().buttonMode = buttonModeEnum.attackMode;
-            combatManagerRef.GetComponent<CombatManager_class>().modeButtonText.text = "Attack Mode";
-            this.GetComponent<SpriteRenderer>().sprite = attackSprite;
+            else if (mRef.buttonMode == buttonModeEnum.defenceMode)
+            {
+                mRef.buttonMode = buttonModeEnum.attackMode;
+                mRef.modeButtonText.text = "Attack Mode";
+                this.GetComponent<SpriteRenderer>().sprite = attackSprite;
+            }
         }
     }
 
