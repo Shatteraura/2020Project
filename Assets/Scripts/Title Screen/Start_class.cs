@@ -32,6 +32,6 @@ public class Start_class : MonoBehaviour
 
     private void OnMouseDown()
     {
-        SceneManager.LoadScene("Game", LoadSceneMode.Single);
+        SceneManager.LoadScene("Scripted Battles", LoadSceneMode.Single);
     }
 }

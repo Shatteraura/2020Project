@@ -46,7 +46,7 @@ public class ButtonScript_class : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (mRef.playerLose == false && mRef.playerWin == false)
+        if (mRef.playerLose == false && mRef.playerWin == false && mRef.dialogueLock == false)
         {
             turnArrow();
             switch (mRef.singleLock)
@@ -135,7 +135,7 @@ public class ButtonScript_class : MonoBehaviour
     //When a button is pressed, the combat manager takes note of which one it is, the selection boxes vanish and the button greys out
     private void OnMouseDown()
     {
-        if (mRef.singleLock == false && mRef.currentButton != 0 && mRef.playerLose == false && mRef.playerWin == false)
+        if (mRef.singleLock == false && mRef.currentButton != 0 && mRef.playerLose == false && mRef.playerWin == false && mRef.dialogueLock == false)
         {
             mRef.GetComponent<CombatManagerV2_class>().playerNode = (playerNodeEnum)mRef.GetComponent<CombatManagerV2_class>().currentButton;
             mRef.GetComponent<CombatManagerV2_class>().playerNodeLock = (int)mRef.GetComponent<CombatManagerV2_class>().playerNode;
@@ -177,7 +177,7 @@ public class ButtonScript_class : MonoBehaviour
     {
         //Mousing Over The Buttons
 
-        if (mRef.singleLock == false && mRef.playerLose == false && mRef.playerWin == false)
+        if (mRef.singleLock == false && mRef.playerLose == false && mRef.playerWin == false && mRef.dialogueLock == false)
         {
             switch (buttonType)
             {

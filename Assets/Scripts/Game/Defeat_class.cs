@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Defeat_class : MonoBehaviour
 {
-    Vector3 defPos = new Vector3(0, 2, 0);
+    Vector3 defPos = new Vector3(0, 1.5f, 0);
 
     // Start is called before the first frame update
     void Start()

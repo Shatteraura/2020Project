@@ -6,7 +6,7 @@ public class Reverse_class : MonoBehaviour
 {
     public bool visible = false;
     public Vector3 hiddenPos = new Vector3(100, 100, 0);
-    public Vector3 onScreen = new Vector3(0, 2, 0);
+    public Vector3 onScreen = new Vector3(0, 1.5f, 0);
 
     // Start is called before the first frame update
     void Start()

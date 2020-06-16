@@ -59,6 +59,8 @@ public class CombatManagerV2_class : MonoBehaviour
 
     public int endGameTimer = 150;
 
+    public int dialogueNum = 1;
+
     public bool comDef = false;
 
     public bool reverseState = false;
@@ -68,6 +70,8 @@ public class CombatManagerV2_class : MonoBehaviour
 
     public bool playerWin = false;
     public bool playerLose = false;
+
+    public bool dialogueLock = true;
 
     public Text PNodeTxt;
     public Text CNodeText;
@@ -81,13 +85,15 @@ public class CombatManagerV2_class : MonoBehaviour
     public Vector3 button2Pos;
     public Vector3 button3Pos;
     public Vector3 button4Pos;
-    public Vector3 button5Pos;
 
     public Vector3 left;
     public Vector3 right;
     public Vector3 bottom;
     public Vector3 top;
     public Vector3 middle;
+
+    public Vector3 playerDialogue = new Vector3(-3, 1.5f, 0);
+    public Vector3 comDialogue = new Vector3(3, 1.5f, 0);
 
     // Start is called before the first frame update
     void Start()
@@ -98,7 +104,7 @@ public class CombatManagerV2_class : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (playerWin == false && playerLose == false)
+        if (playerWin == false && playerLose == false && dialogueLock == false)
         {
             turnLogic();
             turnTimeout();
@@ -112,7 +118,19 @@ public class CombatManagerV2_class : MonoBehaviour
                 nodeComparison();
             }
         }
+        dialogueManager();
         returnToTitle();
+    }
+
+    void dialogueManager()
+    {
+        if (dialogueLock == true)
+        {
+            if (Input.GetMouseButtonDown(0))
+            {
+                dialogueNum++;
+            }
+        }
     }
 
     void returnToTitle()
@@ -130,6 +148,11 @@ public class CombatManagerV2_class : MonoBehaviour
             {
                 SceneManager.LoadScene("Title Screen", LoadSceneMode.Single);
             }
+        }
+
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            SceneManager.LoadScene("Title Screen", LoadSceneMode.Single);
         }
     }
 
